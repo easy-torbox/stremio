@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyTorbox for Stremio</title>
+
+    <meta property="og:title" content="EasyTorbox for Stremio">
+    <meta property="og:description" content="1-click Torbox + Stremio setup. Beginner-friendly, supports Torrentio, Comet, Torz, Meteor, and HdHub. Works 100% in your browser.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://easy-torbox.github.io/stremio">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="EasyTorbox for Stremio">
+    <meta name="twitter:description" content="1-click Torbox + Stremio setup. Beginner-friendly, supports Torrentio, Comet, Torz, Meteor, and HdHub. Works 100% in your browser.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #advancedSettings { transition: all 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800 font-sans p-4 md:p-12 min-h-screen flex items-center justify-center">
+    <div class="max-w-2xl w-full bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-gray-100">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">EasyTorbox for Stremio</h1>
+            <p class="text-gray-500 text-sm mb-4">The easiest, 1-click configuration tool.</p>
+            
+            <div class="flex flex-wrap justify-center gap-2">
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700 border border-green-100 text-[10px] uppercase font-bold tracking-wider">
+                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 4.925-3.467 9.057-8.124 10.04a1 1 0 01-.712 0C4.533 16.057 1.066 11.925 1.066 7.001c0-.68.057-1.35.166-2.001zm8.834 1.335a1 1 0 10-2 0V9H7a1 1 0 100 2h2v2.5a1 1 0 102 0V11h2a1 1 0 100-2h-2V6.334z"/></svg>
+                    100% Client-Side
+                </span>
+                <a href="https://github.com/easy-torbox/stremio" target="_blank" class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 border border-gray-200 text-[10px] uppercase font-bold tracking-wider hover:bg-gray-200 transition">
+                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    Open Source
+                </a>
+            </div>
+        </div>
+        
+        <!-- Step 1: API Key -->
+        <div class="mb-10">
+            <h2 class="flex items-center text-lg font-bold mb-3 text-gray-800">
+                <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                Step 1: Enter Your Torbox API Key
+            </h2>
+            <div class="mb-2">
+                <input type="text" id="apiKey" oninput="updateLink()" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow shadow-sm" placeholder="Paste your API key here...">
+            </div>
+            
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center ml-1 gap-2">
+                <p class="text-sm text-gray-600 font-medium">
+                    <a href="https://torbox.app/subscription?referral=32564992-6e50-40ae-85b3-612e83d57bf9" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline transition-colors">Sign up</a>
+                    <span class="mx-2 text-gray-300">|</span>
+                    <a href="https://torbox.app/settings" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline transition-colors">Get API key</a>
+                </p>
+                <p class="text-xs text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-md border border-green-100">(Key is processed locally)</p>
+            </div>
+        </div>
+
+        <!-- Step 2: Profiles -->
+        <div class="mb-8 border-t pt-8 border-gray-100">
+            <h2 class="flex items-center text-lg font-bold mb-2 text-gray-800">
+                <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                Step 2: Choose a Quick Profile
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <button id="btn-netflix" onclick="applyProfile('netflix', this)" class="profile-btn p-4 border rounded-xl transition text-left outline-none transform hover:-translate-y-0.5 shadow-sm">
+                    <div class="font-bold text-blue-600">"Netflix" Mode</div>
+                    <div class="text-xs text-gray-600 mt-1 leading-relaxed">Super clean. 1 link per quality, instant play only.</div>
+                </button>
+                <button id="btn-datasaver" onclick="applyProfile('datasaver', this)" class="profile-btn p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition text-left outline-none transform hover:-translate-y-0.5 shadow-sm">
+                    <div class="font-bold text-green-600">Data Saver</div>
+                    <div class="text-xs text-gray-600 mt-1 leading-relaxed">1080p max. Smallest file sizes, instant play only.</div>
+                </button>
+                <button id="btn-cinephile" onclick="applyProfile('cinephile', this)" class="profile-btn p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition text-left outline-none transform hover:-translate-y-0.5 shadow-sm">
+                    <div class="font-bold text-purple-600">Cinephile</div>
+                    <div class="text-xs text-gray-600 mt-1 leading-relaxed">Highest quality 4K files. Shows more options.</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 3: Advanced Settings -->
+        <div class="mb-10 p-5 border border-gray-200 rounded-xl bg-gray-50 shadow-inner">
+            <button onclick="toggleSettings()" class="w-full flex justify-between items-center text-left outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1 group">
+                <h2 class="flex items-center text-md font-bold text-gray-700 group-hover:text-blue-600 transition-colors">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                    Step 3: Fine-Tune Settings <span class="text-xs font-normal text-gray-500 ml-2">(Optional)</span>
+                </h2>
+                <span id="toggleIcon" class="text-gray-400 text-xs font-bold transition-transform transform">▼</span>
+            </button>
+            
+            <div id="advancedSettings" class="hidden mt-5 pt-5 border-t border-gray-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                    <div class="col-span-1 md:col-span-2">
+                        <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider text-blue-600">Target Add-on</label>
+                        <select id="addonChoice" onchange="updateLink()" class="w-full p-2.5 border border-blue-300 rounded-lg text-sm bg-blue-50 outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+                            <option value="torrentio">Torrentio (Recommended)</option>
+                            <option value="comet">Comet</option>
+                            <option value="torz">StremThru Torz</option>
+                            <option value="meteor">Meteor</option>
+                            <option value="hdhub">HdHub</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Max Resolution</label>
+                        <select id="maxRes" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="all">4K & Below</option>
+                            <option value="1080p">1080p & Below</option>
+                            <option value="720p">720p & Below</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Sort Links By</label>
+                        <select id="sort" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="quality">Quality (Highest first)</option>
+                            <option value="size">Size (Smallest first)</option>
+                            <option value="qualitysize">Quality, then Size</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Results Per Quality</label>
+                        <select id="limit" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="all">Show All</option>
+                            <option value="1">1 Link</option>
+                            <option value="3">3 Links</option>
+                            <option value="5">5 Links</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Language Priority</label>
+                        <select id="language" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="none">Default (English)</option>
+                            <option value="spanish">Spanish</option>
+                            <option value="french">French</option>
+                            <option value="italian">Italian</option>
+                            <option value="german">German</option>
+                            <option value="portuguese">Portuguese</option>
+                            <option value="hindi">Hindi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-3 bg-white p-4 rounded-lg border border-gray-200">
+                    <label class="flex items-start text-sm cursor-pointer group">
+                        <input type="checkbox" id="cachedOnly" onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <div>
+                            <span class="font-semibold text-gray-800 block">Only show instant-play links</span>
+                            <span class="text-xs text-gray-500">Highly recommended. Hides files that Torbox needs to download first.</span>
+                        </div>
+                    </label>
+                    <label class="flex items-start text-sm cursor-pointer group pt-2 border-t border-gray-100">
+                        <input type="checkbox" id="hideCams" onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <div>
+                            <span class="font-semibold text-gray-800 block">Hide theater recordings</span>
+                            <span class="text-xs text-gray-500">Filters out low-quality CAMs and Screeners.</span>
+                        </div>
+                    </label>
+                    <label class="flex items-start text-sm cursor-pointer group pt-2 border-t border-gray-100">
+                        <input type="checkbox" id="hide3D" onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <div>
+                            <span class="font-semibold text-gray-800 block">Hide 3D Movies</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultArea" class="mt-8 pt-8 border-t border-gray-200 text-center text-gray-800">
+            <h2 class="block text-lg font-bold mb-4">Step 4: Finish</h2>
+            <a id="installBtn" href="#" class="block w-full bg-gray-300 text-gray-500 font-bold py-4 px-4 rounded-xl cursor-not-allowed transition-all duration-300 text-lg flex justify-center items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Install to Stremio
+            </a>
+            
+            <div class="mt-4 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 gap-2">
+                <p>Make sure Stremio is installed before clicking.</p>
+                <button id="copyBtn" onclick="copyRawLink()" class="hidden text-blue-600 hover:text-blue-800 font-semibold transition">
+                    Button not working? Copy raw link.
+                </button>
+            </div>
+        </div>
+
+        <!-- Share Buttons -->
+        <div class="mt-8 text-center">
+            <p class="text-sm text-gray-500 mb-3 font-medium">Share EasyTorbox</p>
+
+            <div class="flex justify-center gap-3">
+                <button
+                    onclick="shareOnFacebook()"
+                    aria-label="Share EasyTorbox on Facebook"
+                    title="Facebook"
+                    class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition shadow-md transform hover:-translate-y-0.5"
+                >
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M22 12a10 10 0 10-11.5 9.9v-7h-2.5V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5v2h2.7l-.4 2.9h-2.3v7A10 10 0 0022 12z"/>
+                    </svg>
+                </button>
+
+                <button
+                    onclick="shareOnX()"
+                    aria-label="Share EasyTorbox on X"
+                    title="X"
+                    class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-900 text-white hover:bg-black transition shadow-md transform hover:-translate-y-0.5"
+                >
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18.244 2H21.5l-7.11 8.123L22.75 22h-6.56l-5.14-6.715L5.17 22H1.91l7.6-8.69L1.5 2h6.72l4.646 6.143L18.244 2zm-1.143 17.91h1.804L7.24 3.98H5.305l11.796 15.93z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-12 bg-blue-50 border border-blue-100 p-6 rounded-2xl text-center shadow-inner relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-100 rounded-full opacity-50 blur-2xl"></div>
+            <h3 class="text-xl font-extrabold text-blue-900 mb-2 relative z-10">🎁 Claim Your Bonus Days (Win-Win!)</h3>
+            <p class="text-sm text-blue-800 mb-5 relative z-10 max-w-md mx-auto">
+                If this tool saved you some time, using the link below to start your Torbox subscription or one-time purchase helps support this project—at zero cost to you.
+            </p>
+            <div class="bg-white/80 backdrop-blur-sm border border-blue-200 p-3 rounded-xl inline-block w-full mb-5 shadow-sm relative z-10">
+                <p class="text-sm font-bold text-blue-800 block">
+                    <strong>New users</strong> get an extra <span class="text-blue-600">7 days per month</span> or <span class="text-blue-600">84 days per year</span> added to your account!
+                </p>
+            </div>
+            <a href="https://torbox.app/subscription?referral=32564992-6e50-40ae-85b3-612e83d57bf9" target="_blank" class="relative z-10 inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-blue-700 transition shadow-lg transform hover:-translate-y-0.5 w-full sm:w-auto">
+                Subscribe & Claim Bonus
+            </a>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-gray-200 text-center text-xs text-gray-500">
+            <p class="mb-2"><strong>Privacy Policy:</strong> This tool is 100% client-side. No data, API keys, or IP addresses are collected, stored, or sent to any server.</p>
+            <p><strong>Open Source:</strong> Verify the code on <a href="https://github.com/easy-torbox/stremio" target="_blank" class="text-blue-600 hover:underline">GitHub</a>.</p>
+        </div>
+    </div>
+
+    <script>
+        const SHARE_URL = "https://easy-torbox.github.io/stremio";
+
+        const profiles = {
+            netflix: { maxRes: 'all', sort: 'quality', limit: '1', language: 'none', cachedOnly: true, hideCams: true, hide3D: true },
+            datasaver: { maxRes: '1080p', sort: 'size', limit: '3', language: 'none', cachedOnly: true, hideCams: true, hide3D: true },
+            cinephile: { maxRes: 'all', sort: 'quality', limit: 'all', language: 'none', cachedOnly: true, hideCams: true, hide3D: false }
+        };
+
+        let currentManifestUrl = "";
+
+        function generateBase64(jsonObj) {
+            return btoa(JSON.stringify(jsonObj));
+        }
+
+        function toggleSettings() {
+            const settingsDiv = document.getElementById('advancedSettings');
+            const icon = document.getElementById('toggleIcon');
+            if (settingsDiv.classList.contains('hidden')) {
+                settingsDiv.classList.remove('hidden');
+                icon.style.transform = 'rotate(-180deg)';
+            } else {
+                settingsDiv.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function applyProfile(profileKey, btnElement) {
+            document.querySelectorAll('.profile-btn').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-blue-500', 'ring-green-500', 'ring-purple-500', 'bg-blue-50', 'bg-green-50', 'bg-purple-50', 'border-transparent');
+                btn.classList.add('border-gray-200');
+            });
+            if(profileKey === 'netflix') { btnElement.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50', 'border-transparent'); btnElement.classList.remove('border-gray-200'); }
+            if(profileKey === 'datasaver') { btnElement.classList.add('ring-2', 'ring-green-500', 'bg-green-50', 'border-transparent'); btnElement.classList.remove('border-gray-200'); }
+            if(profileKey === 'cinephile') { btnElement.classList.add('ring-2', 'ring-purple-500', 'bg-purple-50', 'border-transparent'); btnElement.classList.remove('border-gray-200'); }
+            const profile = profiles[profileKey];
+            document.getElementById('maxRes').value = profile.maxRes;
+            document.getElementById('sort').value = profile.sort;
+            document.getElementById('limit').value = profile.limit;
+            document.getElementById('language').value = profile.language;
+            document.getElementById('cachedOnly').checked = profile.cachedOnly;
+            document.getElementById('hideCams').checked = profile.hideCams;
+            document.getElementById('hide3D').checked = profile.hide3D;
+            updateLink();
+        }
+
+        function updateLink() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const addonChoice = document.getElementById('addonChoice').value;
+            const installBtn = document.getElementById('installBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const maxRes = document.getElementById('maxRes').value;
+            const sort = document.getElementById('sort').value;
+            const limit = document.getElementById('limit').value;
+            const language = document.getElementById('language').value;
+            const cachedOnly = document.getElementById('cachedOnly').checked;
+            const hideCams = document.getElementById('hideCams').checked;
+            const hide3D = document.getElementById('hide3D').checked;
+
+            let manifestUrl = "";
+
+            if (addonChoice === 'torrentio') {
+                let configParts = [`sort=${sort}`];
+                if (limit !== 'all') configParts.push(`limit=${limit}`);
+                if (language !== 'none') configParts.push(`language=${language}`);
+                let excludedQualities = [];
+                if (hideCams) excludedQualities.push('cam', 'screener');
+                if (hide3D) excludedQualities.push('3d');
+                if (maxRes === '1080p') excludedQualities.push('4k');
+                if (maxRes === '720p') excludedQualities.push('4k', '1080p');
+                if (excludedQualities.length > 0) configParts.push(`qualityfilter=${excludedQualities.join(',')}`);
+                let debridOpts = ['nocatalog']; 
+                if (cachedOnly) debridOpts.push('nodownloadlinks'); 
+                configParts.push(`debridoptions=${debridOpts.join(',')}`);
+                if (apiKey) configParts.push(`torbox=${apiKey}`);
+                manifestUrl = `https://torrentio.strem.fun/${configParts.join('|')}/manifest.json`;
+
+            } else if (addonChoice === 'comet') {
+                // REVERTED: Using your exact working Comet JSON structure
+                const cometConfig = {
+                    "maxResultsPerResolution": 0,
+                    "maxSize": 0,
+                    "cachedOnly": false,
+                    "sortCachedUncachedTogether": false,
+                    "removeTrash": true,
+                    "resultFormat": ["all"],
+                    "debridServices": [{ "service": "torbox", "apiKey": apiKey || "" }],
+                    "enableTorrent": false,
+                    "deduplicateStreams": false,
+                    "scrapeDebridAccountTorrents": false,
+                    "debridStreamProxyPassword": "",
+                    "languages": { "required": [], "allowed": [], "exclude": [], "preferred": [] },
+                    "resolutions": {}, // Reverted to empty object as in working version
+                    "options": { "remove_ranks_under": -10000000000, "allow_english_in_languages": false, "remove_unknown_languages": false }
+                };
+                manifestUrl = `https://comet.elfhosted.com/${generateBase64(cometConfig)}/manifest.json`;
+
+            } else if (addonChoice === 'torz') {
+                const torzConfig = {
+                    "indexers": null,
+                    "stores": [{ "c": "tb", "t": apiKey || "" }]
+                };
+                manifestUrl = `https://stremthru.elfhosted.com/stremio/torz/${generateBase64(torzConfig)}/manifest.json`;
+
+            } else if (addonChoice === 'meteor') {
+                const meteorConfig = {
+                    "debridService": "torbox", "debridApiKey": apiKey || "",
+                    "maxResolution": "All",
+                    "includeNonCached": true, "language": "en"
+                };
+                manifestUrl = `https://meteorfortheweebs.midnightignite.me/${generateBase64(meteorConfig)}/manifest.json`;
+
+            } else if (addonChoice === 'hdhub') {
+                let configParts = [];
+                if (apiKey) configParts.push(`torbox=${apiKey}`);
+                manifestUrl = `https://hdhub.thevolecitor.qzz.io/${configParts.length > 0 ? configParts.join('|') + '/' : ''}manifest.json`;
+            }
+            
+            currentManifestUrl = manifestUrl;
+            const stremioUrl = manifestUrl.replace(/^https?:\/\//i, 'stremio://');
+            if (apiKey.length > 10) { 
+                installBtn.href = stremioUrl;
+                installBtn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                installBtn.classList.add('bg-blue-600', 'text-white', 'hover:bg-blue-700', 'shadow-lg', 'transform', 'hover:-translate-y-0.5');
+                copyBtn.classList.remove('hidden'); 
+            } else {
+                installBtn.href = "#";
+                installBtn.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                installBtn.classList.remove('bg-blue-600', 'text-white', 'hover:bg-blue-700', 'shadow-lg', 'transform', 'hover:-translate-y-0.5');
+                copyBtn.classList.add('hidden'); 
+            }
+        }
+
+        function copyRawLink() {
+            navigator.clipboard.writeText(currentManifestUrl).then(() => {
+                const btn = document.getElementById('copyBtn');
+                const originalText = btn.innerText;
+                btn.innerText = "Link Copied! Paste it into Stremio search.";
+                btn.classList.add('text-green-600');
+                setTimeout(() => { btn.innerText = originalText; btn.classList.remove('text-green-600'); }, 3000);
+            });
+        }
+
+        function shareOnFacebook() {
+            const url = encodeURIComponent(SHARE_URL);
+            window.open(
+                `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+                "_blank",
+                "width=600,height=500,noreferrer"
+            );
+        }
+
+        function shareOnX() {
+            const url = encodeURIComponent(SHARE_URL);
+            const text = encodeURIComponent(
+                "1-click Torbox + Stremio setup. Beginner-friendly, supports Torrentio/Comet/Torz/Meteor/HdHub, and works 100% in your browser."
+            );
+
+            window.open(
+                `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
+                "_blank",
+                "width=600,height=500,noreferrer"
+            );
+        }
+
+        window.onload = () => { applyProfile('netflix', document.getElementById('btn-netflix')); };
+    </script>
+</body>
+</html>
