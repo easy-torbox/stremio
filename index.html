@@ -67,15 +67,15 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <button id="btn-netflix" onclick="applyProfile('netflix', this)" class="profile-btn p-4 border rounded-xl transition text-left outline-none transform hover:-translate-y-0.5 shadow-sm">
                     <div class="font-bold text-blue-600">"Netflix" Mode</div>
-                    <div class="text-xs text-gray-600 mt-1 leading-relaxed">Super clean. 1 link per quality, instant play only.</div>
+                    <div class="text-xs text-gray-600 mt-1 leading-relaxed">Best default. Clean 4K-friendly links, instant play only.</div>
                 </button>
                 <button id="btn-datasaver" onclick="applyProfile('datasaver', this)" class="profile-btn p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition text-left outline-none transform hover:-translate-y-0.5 shadow-sm">
                     <div class="font-bold text-green-600">Data Saver</div>
-                    <div class="text-xs text-gray-600 mt-1 leading-relaxed">1080p max. Smallest file sizes, instant play only.</div>
+                    <div class="text-xs text-gray-600 mt-1 leading-relaxed">Smaller 1080p links for slower internet or limited data.</div>
                 </button>
                 <button id="btn-cinephile" onclick="applyProfile('cinephile', this)" class="profile-btn p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition text-left outline-none transform hover:-translate-y-0.5 shadow-sm">
                     <div class="font-bold text-purple-600">Cinephile</div>
-                    <div class="text-xs text-gray-600 mt-1 leading-relaxed">Highest quality 4K files. Shows more options.</div>
+                    <div class="text-xs text-gray-600 mt-1 leading-relaxed">High-quality 4K-friendly links without overwhelming results.</div>
                 </button>
             </div>
         </div>
@@ -85,75 +85,83 @@
             <button onclick="toggleSettings()" class="w-full flex justify-between items-center text-left outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1 group">
                 <h2 class="flex items-center text-md font-bold text-gray-700 group-hover:text-blue-600 transition-colors">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
-                    Step 3: Fine-Tune Settings <span class="text-xs font-normal text-gray-500 ml-2">(Optional)</span>
+                    Step 3: Advanced Settings <span class="text-xs font-normal text-gray-500 ml-2">(Optional)</span>
                 </h2>
                 <span id="toggleIcon" class="text-gray-400 text-xs font-bold transition-transform transform">▼</span>
             </button>
-            
-            <div id="advancedSettings" class="hidden mt-5 pt-5 border-t border-gray-200">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-                    <div class="col-span-1 md:col-span-2">
-                        <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider text-blue-600">Target Add-on</label>
-                        <select id="addonChoice" onchange="updateLink()" class="w-full p-2.5 border border-blue-300 rounded-lg text-sm bg-blue-50 outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
-                            <option value="torrentio">Torrentio (Recommended)</option>
-                            <option value="comet">Comet</option>
-                            <option value="torz">StremThru Torz</option>
-                            <option value="meteor">Meteor</option>
-                            <option value="hdhub">HdHub</option>
-                        </select>
-                    </div>
 
-                    <div id="maxResContainer">
-                        <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Max Resolution</label>
-                        <select id="maxRes" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="all">4K & Below</option>
-                            <option value="1080p">1080p & Below</option>
-                            <option value="720p">720p & Below</option>
-                        </select>
-                    </div>
-                    <div id="sortContainer">
-                        <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Sort Links By</label>
-                        <select id="sort" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="quality">Quality (Highest first)</option>
-                            <option value="size">Size (Smallest first)</option>
-                            <option value="qualitysize">Quality, then Size</option>
-                        </select>
-                    </div>
-                    <div id="limitContainer">
-                        <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Results Per Quality</label>
-                        <select id="limit" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="all">Show All</option>
-                            <option value="1">1 Link</option>
-                            <option value="3">3 Links</option>
-                            <option value="5">5 Links</option>
-                        </select>
-                    </div>
-                    <div id="sizeContainer">
-                        <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Max File Size</label>
-                        <select id="maxSize" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="all">No limit</option>
-                            <option value="2GB">2 GB</option>
-                            <option value="5GB">5 GB</option>
-                            <option value="10GB">10 GB</option>
-                            <option value="15GB">15 GB</option>
-                            <option value="25GB">25 GB</option>
-                        </select>
-                    </div>
-                    <div id="languageContainer">
-                        <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Language Priority</label>
-                        <select id="language" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="none">Default (English)</option>
-                            <option value="spanish">Spanish</option>
-                            <option value="french">French</option>
-                            <option value="italian">Italian</option>
-                            <option value="german">German</option>
-                            <option value="portuguese">Portuguese</option>
-                            <option value="hindi">Hindi</option>
-                        </select>
+            <div id="advancedSettings" class="hidden mt-5 pt-5 border-t border-gray-200 space-y-4">
+                <p class="text-sm text-gray-600 bg-blue-50 border border-blue-100 rounded-lg p-3">
+                    New here? You can skip this step — Quick Profiles already pick safe defaults for you.
+                </p>
+
+                <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider text-blue-600">Target Add-on</label>
+                    <select id="addonChoice" onchange="updateLink()" class="w-full p-2.5 border border-blue-300 rounded-lg text-sm bg-blue-50 outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+                        <option value="torrentio">Torrentio (Recommended)</option>
+                        <option value="comet">Comet</option>
+                        <option value="torz">StremThru Torz</option>
+                        <option value="meteor">Meteor</option>
+                        <option value="hdhub">HdHub</option>
+                    </select>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <p class="text-xs font-bold text-gray-600 mb-3 uppercase tracking-wider">Common Stream Filters</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                        <div id="maxResContainer">
+                            <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Video Quality Limit</label>
+                            <select id="maxRes" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="all">4K & Below</option>
+                                <option value="1080p">1080p & Below</option>
+                                <option value="720p">720p & Below</option>
+                            </select>
+                        </div>
+                        <div id="sortContainer">
+                            <label id="sortLabel" class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Sort Links By</label>
+                            <select id="sort" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="quality">Quality (Highest first)</option>
+                                <option value="size">Size (Smallest first)</option>
+                                <option value="qualitysize">Quality, then Size</option>
+                            </select>
+                        </div>
+                        <div id="limitContainer">
+                            <label id="limitLabel" class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Links Per Quality</label>
+                            <select id="limit" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="all">Show All</option>
+                                <option value="1">1 Link</option>
+                                <option value="3">3 Links</option>
+                                <option value="5">5 Links</option>
+                            </select>
+                        </div>
+                        <div id="sizeContainer">
+                            <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Max File Size</label>
+                            <select id="maxSize" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="all">No limit</option>
+                                <option value="2GB">2 GB</option>
+                                <option value="5GB">5 GB</option>
+                                <option value="10GB">10 GB</option>
+                                <option value="15GB">15 GB</option>
+                                <option value="25GB">25 GB</option>
+                            </select>
+                        </div>
+                        <div id="languageContainer" class="md:col-span-2">
+                            <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Language Priority</label>
+                            <select id="language" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="none">Default (English)</option>
+                                <option value="spanish">Spanish</option>
+                                <option value="french">French</option>
+                                <option value="italian">Italian</option>
+                                <option value="german">German</option>
+                                <option value="portuguese">Portuguese</option>
+                                <option value="hindi">Hindi</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
                 <div class="space-y-3 bg-white p-4 rounded-lg border border-gray-200">
+                    <p class="text-xs font-bold text-gray-600 mb-1 uppercase tracking-wider">Add-on Specific Advanced Settings</p>
                     <label class="flex items-start text-sm cursor-pointer group">
                         <input type="checkbox" id="cachedOnly" onchange="this.dataset.userSet = 'true'; updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
                         <div>
@@ -164,8 +172,8 @@
                     <label class="flex items-start text-sm cursor-pointer group pt-2 border-t border-gray-100">
                         <input type="checkbox" id="hideCams" onchange="this.dataset.userSet = 'true'; updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
                         <div>
-                            <span class="font-semibold text-gray-800 block">Hide theater recordings</span>
-                            <span class="text-xs text-gray-500">Filters out low-quality CAMs and Screeners.</span>
+                            <span id="hideCamsLabel" class="font-semibold text-gray-800 block">Hide theater recordings</span>
+                            <span id="hideCamsHelp" class="text-xs text-gray-500">Filters out low-quality CAMs and Screeners.</span>
                         </div>
                     </label>
                     <label class="flex items-start text-sm cursor-pointer group pt-2 border-t border-gray-100">
@@ -174,6 +182,58 @@
                             <span class="font-semibold text-gray-800 block">Hide 3D Movies</span>
                         </div>
                     </label>
+
+                    <div id="cometAdvancedContainer" class="hidden space-y-2 pt-3 border-t border-gray-100">
+                        <p class="text-xs font-bold text-gray-600 uppercase tracking-wider">Comet Advanced Controls</p>
+                        <label class="flex items-start text-sm cursor-pointer group">
+                            <input type="checkbox" id="cometDeduplicateStreams" checked onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <div>
+                                <span class="font-semibold text-gray-800 block">Remove duplicate streams</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start text-sm cursor-pointer group">
+                            <input type="checkbox" id="cometScrapeDebridAccountTorrents" onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <div>
+                                <span class="font-semibold text-gray-800 block">Include torrents from my debrid cloud</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start text-sm cursor-pointer group">
+                            <input type="checkbox" id="cometAllowEnglishInLanguages" checked onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <div>
+                                <span class="font-semibold text-gray-800 block">Allow English fallback with language preference</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start text-sm cursor-pointer group">
+                            <input type="checkbox" id="cometRemoveUnknownLanguages" onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <div>
+                                <span class="font-semibold text-gray-800 block">Hide unknown-language releases</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div id="torzAdvancedContainer" class="hidden space-y-2 pt-3 border-t border-gray-100">
+                        <p class="text-xs font-bold text-gray-600 uppercase tracking-wider">Torz Advanced Controls</p>
+                        <div>
+                            <label for="torzCustomFilter" class="block text-sm font-semibold text-gray-800 mb-1">Custom Torz filter</label>
+                            <textarea id="torzCustomFilter" onchange="updateLink()" oninput="updateLink()" rows="3" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500" placeholder="Resolution <= "1080p" or File.Size <= "10 GB""></textarea>
+                        </div>
+                    </div>
+
+                    <div id="hdhubAdvancedContainer" class="hidden space-y-2 pt-3 border-t border-gray-100">
+                        <p class="text-xs font-bold text-gray-600 uppercase tracking-wider">HdHub Advanced Controls</p>
+                        <label class="flex items-start text-sm cursor-pointer group">
+                            <input type="checkbox" id="hdhubTorboxOnly" checked onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <div>
+                                <span class="font-semibold text-gray-800 block">Torbox results only</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start text-sm cursor-pointer group">
+                            <input type="checkbox" id="hdhubIncludeUsenet" onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <div>
+                                <span class="font-semibold text-gray-800 block">Include Torbox Usenet</span>
+                            </div>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -248,16 +308,65 @@
         const SHARE_URL = "https://easy-torbox.github.io/stremio";
 
         const profiles = {
-            netflix: { maxRes: 'all', sort: 'quality', limit: '1', maxSize: 'all', language: 'none', cachedOnly: true, hideCams: true, hide3D: true },
-            datasaver: { maxRes: '1080p', sort: 'size', limit: '3', maxSize: '2GB', language: 'none', cachedOnly: true, hideCams: true, hide3D: true },
-            cinephile: { maxRes: 'all', sort: 'quality', limit: 'all', maxSize: 'all', language: 'none', cachedOnly: true, hideCams: true, hide3D: false }
+            netflix: { maxRes: 'all', sort: 'qualitysize', limit: '1', maxSize: 'all', language: 'none', cachedOnly: true, hideCams: true, hide3D: true },
+            datasaver: { maxRes: '1080p', sort: 'size', limit: '3', maxSize: '5GB', language: 'none', cachedOnly: true, hideCams: true, hide3D: true },
+            cinephile: { maxRes: 'all', sort: 'qualitysize', limit: '3', maxSize: 'all', language: 'none', cachedOnly: true, hideCams: true, hide3D: true }
         };
 
         let currentManifestUrl = "";
         let currentProfileKey = "netflix";
 
+        const addonCapabilities = {
+            torrentio: { maxRes: true, sort: true, limit: true, maxSize: true, language: true, cachedOnly: true, hideCams: true, hide3D: true },
+            comet: { maxRes: true, sort: false, limit: true, maxSize: true, language: true, cachedOnly: true, hideCams: true, hide3D: false },
+            torz: { maxRes: false, sort: true, limit: false, maxSize: false, language: false, cachedOnly: true, hideCams: false, hide3D: false },
+            meteor: { maxRes: true, sort: true, limit: true, maxSize: true, language: true, cachedOnly: true, hideCams: true, hide3D: true },
+            hdhub: { maxRes: true, sort: true, limit: true, maxSize: false, language: false, cachedOnly: false, hideCams: false, hide3D: false }
+        };
+
+        const controlBindings = {
+            maxRes: { inputId: 'maxRes', containerId: 'maxResContainer' },
+            sort: { inputId: 'sort', containerId: 'sortContainer' },
+            limit: { inputId: 'limit', containerId: 'limitContainer' },
+            maxSize: { inputId: 'maxSize', containerId: 'sizeContainer' },
+            language: { inputId: 'language', containerId: 'languageContainer' },
+            cachedOnly: { inputId: 'cachedOnly', containerId: 'cachedOnly' },
+            hideCams: { inputId: 'hideCams', containerId: 'hideCams' },
+            hide3D: { inputId: 'hide3D', containerId: 'hide3D' }
+        };
+
+        const sortOptionsByAddon = {
+            default: [
+                { value: 'quality', text: 'Quality (Highest first)' },
+                { value: 'size', text: 'Size (Smallest first)' },
+                { value: 'qualitysize', text: 'Quality, then Size' }
+            ],
+            torz: [
+                { value: 'quality', text: 'Resolution & quality (Highest first)' },
+                { value: 'size', text: 'Size (Smallest first)' },
+                { value: 'qualitysize', text: 'Resolution, quality, then largest size' }
+            ],
+            hdhub: [
+                { value: 'quality', text: 'Highest file size & quality first' },
+                { value: 'size', text: 'Lowest file size & quality first' }
+            ]
+        };
+
+        const torzSortMap = {
+            quality: '-resolution,-quality,-size',
+            size: 'size',
+            qualitysize: '-resolution,-quality,-size'
+        };
+
         function generateBase64(jsonObj) {
             return btoa(unescape(encodeURIComponent(JSON.stringify(jsonObj))));
+        }
+
+        function generateBase64Url(jsonObj) {
+            return btoa(unescape(encodeURIComponent(JSON.stringify(jsonObj))))
+                .replace(/\+/g, '-')
+                .replace(/\//g, '_')
+                .replace(/=+$/, '');
         }
 
         function toggleSettings() {
@@ -297,22 +406,107 @@
             updateLink();
         }
 
-        function applyBackendVisibility(addonChoice) {
-            const show = (id, visible) => {
-                const el = document.getElementById(id);
-                if (!el) return;
-                el.classList.toggle('hidden', !visible);
+        function mapUiLanguageToCode(language) {
+            const languageCodeMap = {
+                spanish: 'es',
+                french: 'fr',
+                italian: 'it',
+                german: 'de',
+                portuguese: 'pt',
+                hindi: 'hi'
             };
+            return languageCodeMap[language] || null;
+        }
 
-            const supportsLimit = addonChoice === 'torrentio' || addonChoice === 'comet' || addonChoice === 'meteor' || addonChoice === 'hdhub';
-            const supportsSize = addonChoice === 'torrentio' || addonChoice === 'comet' || addonChoice === 'torz';
-            const supportsSort = addonChoice === 'torrentio';
-            const supportsLanguage = addonChoice === 'torrentio';
+        function getTorzLanguageFilter(language) {
+            const code = mapUiLanguageToCode(language);
+            if (!code) return null;
+            return `Languages @? \"${code}\"`;
+        }
 
-            show('limitContainer', supportsLimit);
-            show('sizeContainer', supportsSize);
-            show('sortContainer', supportsSort);
-            show('languageContainer', supportsLanguage);
+        function setControlSupported(capabilityKey, supported) {
+            const binding = controlBindings[capabilityKey];
+            if (!binding) return;
+            const input = document.getElementById(binding.inputId);
+            if (!input) return;
+
+            const container = binding.containerId === binding.inputId
+                ? input.closest('label')
+                : document.getElementById(binding.containerId);
+
+            if (container) {
+                container.classList.toggle('hidden', !supported);
+            }
+        }
+
+        function applySortOptions(addonChoice) {
+            const sortSelect = document.getElementById('sort');
+            if (!sortSelect) return;
+
+            const options = sortOptionsByAddon[addonChoice] || sortOptionsByAddon.default;
+            const currentValue = sortSelect.value;
+            sortSelect.innerHTML = options
+                .map(option => `<option value="${option.value}">${option.text}</option>`)
+                .join('');
+
+            const supportsCurrent = options.some(option => option.value === currentValue);
+            sortSelect.value = supportsCurrent ? currentValue : options[0].value;
+        }
+
+        function applyAddonLabels(addonChoice) {
+            const hideCamsLabel = document.getElementById('hideCamsLabel');
+            const hideCamsHelp = document.getElementById('hideCamsHelp');
+            const sortLabel = document.getElementById('sortLabel');
+            const limitLabel = document.getElementById('limitLabel');
+
+            if (hideCamsLabel && hideCamsHelp) {
+                if (addonChoice === 'comet') {
+                    hideCamsLabel.textContent = 'Remove trash releases';
+                    hideCamsHelp.textContent = 'Filters broad low-quality/trash releases, including CAM/Screener.';
+                } else if (addonChoice === 'meteor') {
+                    hideCamsLabel.textContent = 'Smart filter: remove CAM/TS/Screener';
+                    hideCamsHelp.textContent = 'Filters broad low-quality recordings and trash releases.';
+                } else {
+                    hideCamsLabel.textContent = 'Hide theater recordings';
+                    hideCamsHelp.textContent = 'Filters out low-quality CAMs and Screeners.';
+                }
+            }
+
+            if (sortLabel) {
+                sortLabel.textContent = addonChoice === 'hdhub' ? 'Sort Links By (HDHub)' : 'Sort Links By';
+            }
+
+            if (limitLabel) {
+                if (addonChoice === 'comet' || addonChoice === 'meteor') {
+                    limitLabel.textContent = 'Links Per Resolution';
+                } else {
+                    limitLabel.textContent = 'Links Per Quality';
+                }
+            }
+        }
+
+        function applyAddonCapabilities(addonChoice) {
+            const capabilities = addonCapabilities[addonChoice] || addonCapabilities.torrentio;
+            Object.keys(controlBindings).forEach((capabilityKey) => {
+                setControlSupported(capabilityKey, !!capabilities[capabilityKey]);
+            });
+            applySortOptions(addonChoice);
+            applyAddonLabels(addonChoice);
+            const cometAdvancedContainer = document.getElementById('cometAdvancedContainer');
+            if (cometAdvancedContainer) {
+                cometAdvancedContainer.classList.toggle('hidden', addonChoice !== 'comet');
+            }
+            const torzAdvancedContainer = document.getElementById('torzAdvancedContainer');
+            if (torzAdvancedContainer) {
+                torzAdvancedContainer.classList.toggle('hidden', addonChoice !== 'torz');
+            }
+            const hdhubAdvancedContainer = document.getElementById('hdhubAdvancedContainer');
+            if (hdhubAdvancedContainer) {
+                hdhubAdvancedContainer.classList.toggle('hidden', addonChoice !== 'hdhub');
+            }
+            const apiKey = document.getElementById('apiKey');
+            if (apiKey) apiKey.disabled = false;
+            return capabilities;
         }
 
         function updateLink() {
@@ -333,24 +527,31 @@
             const userSelectedCachedOnly = cachedOnlyInput.dataset.userSet === 'true';
             const userSelectedHideCams = hideCamsInput.dataset.userSet === 'true';
             const hide3D = document.getElementById('hide3D').checked;
+            const cometDeduplicateStreamsInput = document.getElementById('cometDeduplicateStreams');
+            const cometScrapeDebridAccountTorrentsInput = document.getElementById('cometScrapeDebridAccountTorrents');
+            const cometAllowEnglishInLanguagesInput = document.getElementById('cometAllowEnglishInLanguages');
+            const cometRemoveUnknownLanguagesInput = document.getElementById('cometRemoveUnknownLanguages');
+            const torzCustomFilter = document.getElementById('torzCustomFilter').value.trim();
+            const hdhubTorboxOnly = document.getElementById('hdhubTorboxOnly').checked;
+            const hdhubIncludeUsenet = document.getElementById('hdhubIncludeUsenet').checked;
 
-            applyBackendVisibility(addonChoice);
+            const capabilities = applyAddonCapabilities(addonChoice);
 
             let manifestUrl = "";
 
             if (addonChoice === 'torrentio') {
                 let configParts = [`sort=${sort}`];
-                if (limit !== 'all') configParts.push(`limit=${limit}`);
-                if (maxSize !== 'all') configParts.push(`sizefilter=${maxSize}`);
-                if (language !== 'none') configParts.push(`language=${language}`);
+                if (capabilities.limit && limit !== 'all') configParts.push(`limit=${limit}`);
+                if (capabilities.maxSize && maxSize !== 'all') configParts.push(`sizefilter=${maxSize}`);
+                if (capabilities.language && language !== 'none') configParts.push(`language=${language}`);
                 let excludedQualities = [];
-                if (hideCams) excludedQualities.push('cam', 'screener');
-                if (hide3D) excludedQualities.push('3d');
-                if (maxRes === '1080p') excludedQualities.push('4k');
-                if (maxRes === '720p') excludedQualities.push('4k', '1080p');
+                if (capabilities.hideCams && hideCams) excludedQualities.push('cam', 'screener');
+                if (capabilities.hide3D && hide3D) excludedQualities.push('3d');
+                if (capabilities.maxRes && maxRes === '1080p') excludedQualities.push('4k');
+                if (capabilities.maxRes && maxRes === '720p') excludedQualities.push('4k', '1080p');
                 if (excludedQualities.length > 0) configParts.push(`qualityfilter=${excludedQualities.join(',')}`);
                 let debridOpts = ['nocatalog']; 
-                if (cachedOnly) debridOpts.push('nodownloadlinks'); 
+                if (capabilities.cachedOnly && cachedOnly) debridOpts.push('nodownloadlinks');
                 configParts.push(`debridoptions=${debridOpts.join(',')}`);
                 if (apiKey) configParts.push(`torbox=${apiKey}`);
                 manifestUrl = `https://torrentio.strem.fun/${configParts.join('|')}/manifest.json`;
@@ -368,75 +569,102 @@
                     }
                     return disabled;
                 }, {});
-                const maxSizeBytes = maxSize === 'all'
+                const maxSizeBytes = maxSize === 'all' || maxSize === 'none'
                     ? 0
                     : Number(maxSize.replace('GB', '')) * 1024 * 1024 * 1024;
+                const preferredLanguageCode = mapUiLanguageToCode(language);
 
                 const cometConfig = {
-                    "maxResultsPerResolution": limit === 'all' ? 0 : Number(limit),
-                    "maxSize": maxSizeBytes,
-                    "cachedOnly": userSelectedCachedOnly ? cachedOnly : false,
+                    "maxResultsPerResolution": capabilities.limit ? (limit === 'all' ? 0 : Number(limit)) : 0,
+                    "maxSize": capabilities.maxSize ? maxSizeBytes : 0,
+                    "cachedOnly": capabilities.cachedOnly ? cachedOnly : false,
                     "sortCachedUncachedTogether": false,
-                    "removeTrash": userSelectedHideCams ? hideCams : false,
+                    "removeTrash": capabilities.hideCams ? hideCams : false,
                     "resultFormat": ["all"],
                     "debridServices": [{ "service": "torbox", "apiKey": apiKey || "" }],
                     "enableTorrent": false,
-                    "deduplicateStreams": false,
-                    "scrapeDebridAccountTorrents": false,
+                    "deduplicateStreams": cometDeduplicateStreamsInput ? cometDeduplicateStreamsInput.checked : true,
+                    "scrapeDebridAccountTorrents": cometScrapeDebridAccountTorrentsInput ? cometScrapeDebridAccountTorrentsInput.checked : false,
                     "debridStreamProxyPassword": "",
                     "languages": {
                         "required": [],
                         "allowed": [],
                         "exclude": [],
-                        "preferred": []
+                        "preferred": capabilities.language && preferredLanguageCode ? [preferredLanguageCode] : []
                     },
-                    "resolutions": cometResolutions,
+                    "resolutions": capabilities.maxRes ? cometResolutions : {},
                     "options": {
                         "remove_ranks_under": -10000000000,
-                        "allow_english_in_languages": false,
-                        "remove_unknown_languages": false
+                        "allow_english_in_languages": cometAllowEnglishInLanguagesInput ? cometAllowEnglishInLanguagesInput.checked : true,
+                        "remove_unknown_languages": cometRemoveUnknownLanguagesInput ? cometRemoveUnknownLanguagesInput.checked : false
                     }
                 };
                 manifestUrl = `stremio://comet.elfhosted.com/${generateBase64(cometConfig)}/manifest.json`;
 
             } else if (addonChoice === 'torz') {
-                const filterParts = [];
-                if (maxRes === '1080p') filterParts.push('Resolution <= "1080p"');
-                if (maxRes === '720p') filterParts.push('Resolution <= "720p"');
-                if (maxSize !== 'all') {
-                    const torzMaxSize = maxSize.replace('GB', ' GB');
-                    filterParts.push(`(File.Size == "" || File.Size <= "${torzMaxSize}")`);
-                }
-
+                const torzSort = torzSortMap[sort] || torzSortMap.qualitysize;
                 const torzConfig = {
                     "indexers": null,
                     "stores": [{ "c": "tb", "t": apiKey || "" }],
-                    ...(filterParts.length > 0 ? { "filter": filterParts.join(' && ') } : {})
+                    ...(capabilities.cachedOnly && cachedOnly ? { "cached": true } : {}),
+                    ...(capabilities.sort ? { "sort": torzSort } : {}),
+                    ...(torzCustomFilter ? { "filter": torzCustomFilter } : {})
                 };
                 manifestUrl = `https://stremthru.elfhosted.com/stremio/torz/${generateBase64(torzConfig)}/manifest.json`;
 
             } else if (addonChoice === 'meteor') {
-                const resolutionMap = {
-                    all: 'All',
-                    '1080p': '1080P',
-                    '720p': '720P'
+                const meteorResolutionIncludeMap = {
+                    all: [],
+                    '1080p': ['1080p', '720p', '480p'],
+                    '720p': ['720p', '480p']
                 };
-
+                const meteorSortMap = {
+                    quality: ['resolution'],
+                    size: ['-size'],
+                    qualitysize: ['resolution', 'size']
+                };
+                const meteorLanguageCode = mapUiLanguageToCode(language);
+                const meteorLimit = capabilities.limit ? (limit === 'all' ? 0 : Number(limit)) : 0;
                 const meteorConfig = {
                     "debridService": "torbox",
                     "debridApiKey": apiKey || "",
-                    "maxResolution": resolutionMap[maxRes] || 'All',
-                    "maxResultsPerRes": limit === 'all' ? 0 : Number(limit),
-                    "includeNonCached": !cachedOnly,
-                    "language": "en"
+                    "cachedOnly": capabilities.cachedOnly ? cachedOnly : false,
+                    "maxResults": 0,
+                    "maxResultsPerRes": meteorLimit,
+                    "maxSize": capabilities.maxSize && maxSize !== 'all' ? Number(maxSize.replace('GB', '')) : 0,
+                    "resolutions": capabilities.maxRes ? (meteorResolutionIncludeMap[maxRes] || []) : [],
+                    "languages": {
+                        "required": [],
+                        "exclude": [],
+                        "preferred": capabilities.language && meteorLanguageCode ? [meteorLanguageCode] : []
+                    },
+                    "sortOrder": capabilities.sort ? (meteorSortMap[sort] || ['resolution', 'size']) : ['resolution', 'size'],
+                    "removeTrash": capabilities.hideCams ? hideCams : false,
+                    "exclude3D": capabilities.hide3D ? hide3D : false
                 };
-                manifestUrl = `https://meteorfortheweebs.midnightignite.me/${generateBase64(meteorConfig)}/manifest.json`;
+                manifestUrl = `https://meteorfortheweebs.midnightignite.me/${generateBase64Url(meteorConfig)}/manifest.json`;
 
             } else if (addonChoice === 'hdhub') {
-                let configParts = [];
-                if (apiKey) configParts.push(`torbox=${apiKey}`);
-                if (limit !== 'all') configParts.push(`mq=${limit}`);
-                manifestUrl = `https://hdhub.thevolecitor.qzz.io/${configParts.length > 0 ? configParts.join('|') + '/' : ''}manifest.json`;
+                const hdhubQualitiesMap = {
+                    all: ['4k', '2160p', '1440p', '1080p', '720p', '576p', '480p', '360p'],
+                    '1080p': ['1080p', '720p', '576p', '480p', '360p'],
+                    '720p': ['720p', '576p', '480p', '360p']
+                };
+
+                const hdhubConfig = {};
+                if (apiKey) hdhubConfig.torbox = apiKey;
+                if (capabilities.maxRes) hdhubConfig.qualities = hdhubQualitiesMap[maxRes] || hdhubQualitiesMap.all;
+                if (capabilities.sort) {
+                    hdhubConfig.sort = sort === 'size' ? 'asc' : 'desc';
+                }
+                if (capabilities.limit && limit !== 'all') hdhubConfig.mq = Number(limit);
+
+                // UI-only toggles currently: no verified, in-code schema evidence for HDHub keys `tb_only` / `tb_usenet`.
+                // Intentionally not emitted until key contract is confirmed to avoid speculative config output.
+                void hdhubTorboxOnly;
+                void hdhubIncludeUsenet;
+
+                manifestUrl = `https://hdhub.thevolecitor.qzz.io/${generateBase64Url(hdhubConfig)}/manifest.json`;
             }
             
             currentManifestUrl = manifestUrl;
@@ -486,7 +714,10 @@
             );
         }
 
-        window.onload = () => { applyProfile('netflix', document.getElementById('btn-netflix')); };
+        window.onload = () => {
+            applyProfile('netflix', document.getElementById('btn-netflix'));
+            applyAddonCapabilities(document.getElementById('addonChoice').value);
+        };
     </script>
 </body>
 </html>
