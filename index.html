@@ -50,7 +50,7 @@
             
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center ml-1 gap-2">
                 <p class="text-sm text-gray-600 font-medium">
-                    <a href="https://torbox.app/subscription?referral=32564992-6e50-40ae-85b3-612e83d57bf9" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline transition-colors">Sign up</a>
+                    <a href="referrals.html" class="text-blue-600 hover:text-blue-800 hover:underline transition-colors">New user? Use community referral pool</a>
                     <span class="mx-2 text-gray-300">|</span>
                     <a href="https://torbox.app/settings" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline transition-colors">Get API key</a>
                 </p>
@@ -253,60 +253,36 @@
             </div>
         </div>
 
-        <!-- Share Buttons -->
         <div class="mt-8 text-center">
-            <p class="text-sm text-gray-500 mb-3 font-medium">Share EasyTorbox</p>
-
-            <div class="flex justify-center gap-3">
-                <button
-                    onclick="shareOnFacebook()"
-                    aria-label="Share EasyTorbox on Facebook"
-                    title="Facebook"
-                    class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition shadow-md transform hover:-translate-y-0.5"
-                >
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M22 12a10 10 0 10-11.5 9.9v-7h-2.5V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5v2h2.7l-.4 2.9h-2.3v7A10 10 0 0022 12z"/>
-                    </svg>
-                </button>
-
-                <button
-                    onclick="shareOnX()"
-                    aria-label="Share EasyTorbox on X"
-                    title="X"
-                    class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-900 text-white hover:bg-black transition shadow-md transform hover:-translate-y-0.5"
-                >
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M18.244 2H21.5l-7.11 8.123L22.75 22h-6.56l-5.14-6.715L5.17 22H1.91l7.6-8.69L1.5 2h6.72l4.646 6.143L18.244 2zm-1.143 17.91h1.804L7.24 3.98H5.305l11.796 15.93z"/>
-                    </svg>
-                </button>
-            </div>
+            <p class="text-sm text-gray-500 mb-3 font-medium">Support EasyTorbox</p>
+            <a href="https://ko-fi.com/easytorbox" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-[#29ABE0] text-white font-semibold hover:opacity-90 transition shadow-md transform hover:-translate-y-0.5">
+                ☕ Tip on Ko-fi
+            </a>
         </div>
 
         <div class="mt-12 bg-blue-50 border border-blue-100 p-6 rounded-2xl text-center shadow-inner relative overflow-hidden">
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-100 rounded-full opacity-50 blur-2xl"></div>
-            <h3 class="text-xl font-extrabold text-blue-900 mb-2 relative z-10">🎁 Claim Your Bonus Days (Win-Win!)</h3>
+            <h3 class="text-xl font-extrabold text-blue-900 mb-2 relative z-10">🎁 Community Referral Pool</h3>
             <p class="text-sm text-blue-800 mb-5 relative z-10 max-w-md mx-auto">
-                If this tool saved you some time, using the link below to start your Torbox subscription or one-time purchase helps support this project—at zero cost to you.
+                New to Torbox? Use a community referral link for possible bonus days. Referral pool is optional and handled on a separate page.
             </p>
             <div class="bg-white/80 backdrop-blur-sm border border-blue-200 p-3 rounded-xl inline-block w-full mb-5 shadow-sm relative z-10">
                 <p class="text-sm font-bold text-blue-800 block">
-                    <strong>New users</strong> get an extra <span class="text-blue-600">7 days per month</span> or <span class="text-blue-600">84 days per year</span> added to your account!
+                    Community links are randomly selected from active submissions.
                 </p>
             </div>
-            <a href="https://torbox.app/subscription?referral=32564992-6e50-40ae-85b3-612e83d57bf9" target="_blank" class="relative z-10 inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-blue-700 transition shadow-lg transform hover:-translate-y-0.5 w-full sm:w-auto">
-                Subscribe & Claim Bonus
+            <a href="referrals.html" class="relative z-10 inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-blue-700 transition shadow-lg transform hover:-translate-y-0.5 w-full sm:w-auto">
+                Open Referral Pool
             </a>
         </div>
 
         <div class="mt-8 pt-6 border-t border-gray-200 text-center text-xs text-gray-500">
-            <p class="mb-2"><strong>Privacy Policy:</strong> This tool is 100% client-side. No data, API keys, or IP addresses are collected, stored, or sent to any server.</p>
+            <p class="mb-2"><strong>Privacy Policy:</strong> This tool is 100% client-side. No API keys are collected, stored, or sent to any server. The optional community referral page uses Cloudflare for anti-spam and referral rotation.</p>
             <p><strong>Open Source:</strong> Verify the code on <a href="https://github.com/easy-torbox/stremio" target="_blank" class="text-blue-600 hover:underline">GitHub</a>.</p>
         </div>
     </div>
 
     <script>
-        const SHARE_URL = "https://easy-torbox.github.io/stremio";
-
         const profiles = {
             netflix: { maxRes: 'all', sort: 'qualitysize', limit: '1', maxSize: 'all', language: 'none', cachedOnly: true, hideCams: true, hide3D: true },
             datasaver: { maxRes: '1080p', sort: 'size', limit: '3', maxSize: '5GB', language: 'none', cachedOnly: true, hideCams: true, hide3D: true },
@@ -690,28 +666,6 @@
                 btn.classList.add('text-green-600');
                 setTimeout(() => { btn.innerText = originalText; btn.classList.remove('text-green-600'); }, 3000);
             });
-        }
-
-        function shareOnFacebook() {
-            const url = encodeURIComponent(SHARE_URL);
-            window.open(
-                `https://www.facebook.com/sharer/sharer.php?u=${url}`,
-                "_blank",
-                "width=600,height=500,noreferrer"
-            );
-        }
-
-        function shareOnX() {
-            const url = encodeURIComponent(SHARE_URL);
-            const text = encodeURIComponent(
-                "1-click Torbox + Stremio setup. Beginner-friendly, supports Torrentio/Comet/Torz/Meteor/HdHub, and works 100% in your browser."
-            );
-
-            window.open(
-                `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
-                "_blank",
-                "width=600,height=500,noreferrer"
-            );
         }
 
         window.onload = () => {

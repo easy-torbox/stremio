@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EasyTorbox Community Referral Pool</title>
+  <meta name="description" content="Optional community referral pool for new Torbox users. Submit your referral link and get a random active referral." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800 font-sans p-4 md:p-12 min-h-screen flex items-center justify-center">
+  <div class="max-w-2xl w-full bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-gray-100">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Community Referral Pool</h1>
+      <p class="text-gray-500 text-sm">Optional flow for new Torbox users. Main EasyTorbox setup remains client-side.</p>
+    </div>
+
+    <div class="mb-8 p-4 rounded-xl border border-blue-200 bg-blue-50 text-sm text-blue-900">
+      <p class="font-semibold mb-1">How it works</p>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Submit your Torbox referral code or full referral URL.</li>
+        <li>Duplicate active referrals are rejected automatically.</li>
+        <li>Active referrals expire automatically after the configured retention window.</li>
+        <li>New users can open one random active referral link.</li>
+      </ul>
+    </div>
+
+    <section class="mb-10">
+      <h2 class="text-lg font-bold mb-3">1) Submit your referral</h2>
+      <label for="referralInput" class="block text-sm font-medium text-gray-700 mb-2">Referral code or URL</label>
+      <input id="referralInput" type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow shadow-sm" placeholder="e.g. 32564992-6e50-40ae-85b3-612e83d57bf9 or https://torbox.app/subscription?referral=..." />
+
+      <div class="mt-4">
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAADQhQLkjkuyaYwAG" data-theme="light"></div>
+      </div>
+
+      <button id="submitBtn" class="mt-4 w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition disabled:bg-gray-300 disabled:text-gray-600" onclick="submitReferral()">
+        Submit referral
+      </button>
+
+      <p id="submitStatus" class="mt-3 text-sm text-gray-600"></p>
+    </section>
+
+    <section class="mb-10 border-t pt-8 border-gray-100">
+      <h2 class="text-lg font-bold mb-3">2) New user? Get a random community referral</h2>
+      <button id="randomBtn" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition" onclick="openRandomReferral()">
+        Open random referral
+      </button>
+      <p id="randomStatus" class="mt-3 text-sm text-gray-600"></p>
+    </section>
+
+    <div class="mt-8 p-4 rounded-xl border border-amber-200 bg-amber-50 text-xs text-amber-900">
+      <p class="font-semibold mb-1">Privacy and scope</p>
+      <p>This page is optional and uses Cloudflare Worker + D1 + Turnstile for anti-spam, dedupe, and random referral rotation. Do not submit your Torbox API key here. EasyTorbox setup on the main page remains client-side.</p>
+    </div>
+
+    <div class="mt-8 text-center text-sm">
+      <a href="index.html" class="text-blue-600 hover:text-blue-800 hover:underline">← Back to EasyTorbox setup</a>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'https://easytorbox-referrals-api.etapps.workers.dev';
+
+    function setStatus(id, text, kind = 'info') {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.classList.remove('text-gray-600', 'text-green-700', 'text-red-700', 'text-amber-700');
+      if (kind === 'success') el.classList.add('text-green-700');
+      else if (kind === 'error') el.classList.add('text-red-700');
+      else if (kind === 'warn') el.classList.add('text-amber-700');
+      else el.classList.add('text-gray-600');
+    }
+
+    async function submitReferral() {
+      const submitBtn = document.getElementById('submitBtn');
+      const referral = document.getElementById('referralInput').value.trim();
+      const turnstileToken = window.turnstile?.getResponse();
+
+      if (!referral) {
+        setStatus('submitStatus', 'Please enter a referral code or URL.', 'warn');
+        return;
+      }
+
+      if (!turnstileToken) {
+        setStatus('submitStatus', 'Please complete the Turnstile challenge first.', 'warn');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      setStatus('submitStatus', 'Submitting...', 'info');
+
+      try {
+        const res = await fetch(`${API_BASE}/referrals/submit`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ referral, turnstileToken })
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok) {
+          setStatus('submitStatus', data.message || 'Referral accepted.', 'success');
+          document.getElementById('referralInput').value = '';
+          window.turnstile?.reset();
+          return;
+        }
+
+        if (res.status === 409) {
+          setStatus('submitStatus', data.message || 'This referral is already active in the pool.', 'warn');
+        } else if (res.status === 429) {
+          setStatus('submitStatus', data.message || 'Too many attempts. Please try again later.', 'warn');
+        } else {
+          setStatus('submitStatus', data.message || 'Submission failed. Please check your input.', 'error');
+        }
+      } catch (err) {
+        setStatus('submitStatus', 'Request failed. Please try again later.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+      }
+    }
+
+    async function openRandomReferral() {
+      const randomBtn = document.getElementById('randomBtn');
+      randomBtn.disabled = true;
+      setStatus('randomStatus', 'Getting a random referral...', 'info');
+
+      try {
+        const res = await fetch(`${API_BASE}/referrals/random`, { method: 'GET' });
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok || !data?.url) {
+          setStatus('randomStatus', data.message || 'No active referral available right now.', 'warn');
+          randomBtn.disabled = false;
+          return;
+        }
+
+        setStatus('randomStatus', data.source === 'fallback' ? 'Pool unavailable. Opening fallback link...' : 'Opening random community referral...', 'success');
+        window.open(data.url, '_blank', 'noopener,noreferrer');
+      } catch (err) {
+        setStatus('randomStatus', 'Request failed. Please try again later.', 'error');
+      } finally {
+        randomBtn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
