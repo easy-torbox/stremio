@@ -77,6 +77,13 @@
       <p>This page is optional and uses Cloudflare Worker + D1 + Turnstile to reduce spam, block duplicates, and rotate referral links. Do not paste your Torbox API key here. The main EasyTorbox setup page still runs client-side in your browser.</p>
     </div>
 
+    <div class="mt-8 text-center">
+      <p class="text-sm text-gray-500 mb-3 font-medium">Support EasyTorbox</p>
+      <a href="https://ko-fi.com/easytorbox" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-[#29ABE0] text-white font-semibold hover:opacity-90 transition shadow-md transform hover:-translate-y-0.5">
+        ☕ Tip on Ko-fi
+      </a>
+    </div>
+
     <div class="mt-8 text-center text-sm">
       <a href="index.html" class="text-blue-600 hover:text-blue-800 hover:underline">← Back to main EasyTorbox setup</a>
     </div>
@@ -145,6 +152,17 @@
 
     async function openRandomReferral() {
       const randomBtn = document.getElementById('randomBtn');
+
+      // Open a tab immediately from the click event to avoid iOS Safari popup blocking.
+      const popup = window.open('', '_blank');
+      if (!popup) {
+        setStatus('randomStatus', 'Popup was blocked. Please allow pop-ups and try again.', 'warn');
+        return;
+      }
+
+      popup.opener = null;
+      popup.document.write('<!doctype html><title>Opening referral...</title><p style="font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; padding: 16px;">Opening referral link...</p>');
+
       randomBtn.disabled = true;
       setStatus('randomStatus', 'Finding a random link...', 'info');
 
@@ -153,14 +171,15 @@
         const data = await res.json().catch(() => ({}));
 
         if (!res.ok || !data?.url) {
+          popup.close();
           setStatus('randomStatus', data.message || 'No active referral link is available right now.', 'warn');
-          randomBtn.disabled = false;
           return;
         }
 
         setStatus('randomStatus', data.source === 'fallback' ? 'Community list unavailable. Opening backup link...' : 'Opening a random community link...', 'success');
-        window.open(data.url, '_blank', 'noopener,noreferrer');
+        popup.location.replace(data.url);
       } catch (err) {
+        popup.close();
         setStatus('randomStatus', 'Network error. Please try again later.', 'error');
       } finally {
         randomBtn.disabled = false;

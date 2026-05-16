@@ -58,9 +58,14 @@ To reduce spam/random submissions, referral entries are validated in the Worker 
 - Torbox referral URL shape checks
 - Upstream referral verification before acceptance
 
-## ☕ Support the Project (Ko-fi)
-If this tool saved you time, you can support ongoing maintenance here:
-- [Ko-fi](https://ko-fi.com/easytorbox)
+## ☕ Support EasyTorbox
+If this tool saved you time, you can support ongoing maintenance:
+
+<p align="center">
+  <a href="https://ko-fi.com/easytorbox">
+    <img src="https://img.shields.io/badge/%E2%98%95-Tip%20on%20Ko--fi-29ABE0?style=for-the-badge&logo=kofi&logoColor=white" alt="Tip on Ko-fi" />
+  </a>
+</p>
 
 ---
 *Disclaimer: This is an independent, open-source community project. It is not officially affiliated with Torbox, Stremio, or any of the add-on developers.*
