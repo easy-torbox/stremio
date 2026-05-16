@@ -11,13 +11,13 @@
 <body class="bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800 font-sans p-4 md:p-12 min-h-screen flex items-center justify-center">
   <div class="max-w-2xl w-full bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-gray-100">
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Community Referral Pool</h1>
-      <p class="text-gray-500 text-sm mb-4">Optional flow for new Torbox users. Main EasyTorbox setup remains client-side.</p>
+      <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Community Referral Links</h1>
+      <p class="text-gray-500 text-sm mb-4">Optional page for new Torbox users. Your main EasyTorbox setup stays in your browser.</p>
 
       <div class="flex flex-wrap justify-center gap-2">
         <span class="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700 border border-green-100 text-[10px] uppercase font-bold tracking-wider">
           <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 4.925-3.467 9.057-8.124 10.04a1 1 0 01-.712 0C4.533 16.057 1.066 11.925 1.066 7.001c0-.68.057-1.35.166-2.001zm8.834 1.335a1 1 0 10-2 0V9H7a1 1 0 100 2h2v2.5a1 1 0 102 0V11h2a1 1 0 100-2h-2V6.334z"/></svg>
-          Anti-spam Protected
+          Spam protection enabled
         </span>
         <a href="https://github.com/easy-torbox/stremio" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 border border-gray-200 text-[10px] uppercase font-bold tracking-wider hover:bg-gray-200 transition">
           <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
@@ -27,18 +27,18 @@
     </div>
 
     <div class="mb-8 p-4 md:p-5 rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 text-sm text-blue-900">
-      <p class="font-semibold mb-1"><strong>New users</strong> get an extra <span class="text-blue-600">7 days per month</span> or <span class="text-blue-600">84 days per year</span> added to your account!</p>
-      <p class="text-xs text-blue-800/80">Referral bonus availability is controlled by Torbox and may change.</p>
+      <p class="font-semibold mb-1"><strong>New users</strong> can get extra account time: <span class="text-blue-600">7 days each month</span> or <span class="text-blue-600">84 days each year</span>.</p>
+      <p class="text-xs text-blue-800/80">This bonus is managed by Torbox and may change at any time.</p>
     </div>
 
     <section class="mb-10 border-t pt-8 border-gray-100">
       <h2 class="flex items-center text-lg font-bold mb-2 text-gray-800">
         <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-        Step 1: New user? Get a random community referral
+        Step 1: New here? Open a random referral link
       </h2>
-      <p class="text-sm text-gray-700 mb-3">Open a random active referral from the community pool.</p>
+      <p class="text-sm text-gray-700 mb-3">Click once to open one active referral link from the community list.</p>
       <button id="randomBtn" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition shadow-sm" onclick="openRandomReferral()">
-        Open random referral
+        Open random link
       </button>
       <p id="randomStatus" class="mt-3 text-sm text-gray-600"></p>
     </section>
@@ -46,39 +46,39 @@
     <section class="mb-10 border-t pt-8 border-gray-100">
       <h2 class="flex items-center text-lg font-bold mb-3 text-gray-800">
         <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-        Step 2: Submit your referral
+        Step 2: Add your referral link
       </h2>
-      <label for="referralInput" class="block text-sm font-medium text-gray-700 mb-2">Referral code or URL</label>
-      <input id="referralInput" type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow shadow-sm" placeholder="e.g. 32564992-6e50-40ae-85b3-612e83d57bf9 or https://torbox.app/subscription?referral=..." />
+      <label for="referralInput" class="block text-sm font-medium text-gray-700 mb-2">Your referral code or link</label>
+      <input id="referralInput" type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow shadow-sm" placeholder="Example: 32564992-6e50-40ae-85b3-612e83d57bf9 or a full Torbox referral URL" />
 
       <div class="mt-4">
         <div class="cf-turnstile" data-sitekey="0x4AAAAAADQhQLkjkuyaYwAG" data-theme="light"></div>
       </div>
 
       <button id="submitBtn" class="mt-4 w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition disabled:bg-gray-300 disabled:text-gray-600 shadow-sm" onclick="submitReferral()">
-        Submit referral
+        Submit link
       </button>
 
       <p id="submitStatus" class="mt-3 text-sm text-gray-600"></p>
 
       <div class="mt-5 p-4 rounded-xl border border-blue-200 bg-blue-50 text-sm text-blue-900 shadow-sm">
-        <p class="font-semibold mb-1">How it works</p>
+        <p class="font-semibold mb-1">What happens next</p>
         <ul class="list-disc list-inside space-y-1">
-          <li>Submit your Torbox referral code or full referral URL.</li>
-          <li>Duplicate active referrals are rejected automatically.</li>
-          <li>Active referrals expire automatically after the configured retention window.</li>
-          <li>New users can open one random active referral link.</li>
+          <li>Paste your Torbox referral code or full referral URL.</li>
+          <li>If the same active referral already exists, it will be rejected automatically.</li>
+          <li>Referral links are removed automatically after the set time window.</li>
+          <li>New users can open one random active referral link from the list.</li>
         </ul>
       </div>
     </section>
 
     <div class="mt-8 p-4 rounded-xl border border-amber-200 bg-amber-50 text-xs text-amber-900">
-      <p class="font-semibold mb-1">Privacy and scope</p>
-      <p>This page is optional and uses Cloudflare Worker + D1 + Turnstile for anti-spam, dedupe, and random referral rotation. Do not submit your Torbox API key here. EasyTorbox setup on the main page remains client-side.</p>
+      <p class="font-semibold mb-1">Privacy notice</p>
+      <p>This page is optional and uses Cloudflare Worker + D1 + Turnstile to reduce spam, block duplicates, and rotate referral links. Do not paste your Torbox API key here. The main EasyTorbox setup page still runs client-side in your browser.</p>
     </div>
 
     <div class="mt-8 text-center text-sm">
-      <a href="index.html" class="text-blue-600 hover:text-blue-800 hover:underline">← Back to EasyTorbox setup</a>
+      <a href="index.html" class="text-blue-600 hover:text-blue-800 hover:underline">← Back to main EasyTorbox setup</a>
     </div>
   </div>
 
@@ -101,17 +101,17 @@
       const turnstileToken = window.turnstile?.getResponse();
 
       if (!referral) {
-        setStatus('submitStatus', 'Please enter a referral code or URL.', 'warn');
+        setStatus('submitStatus', 'Enter a referral code or link first.', 'warn');
         return;
       }
 
       if (!turnstileToken) {
-        setStatus('submitStatus', 'Please complete the Turnstile challenge first.', 'warn');
+        setStatus('submitStatus', 'Complete the spam check first.', 'warn');
         return;
       }
 
       submitBtn.disabled = true;
-      setStatus('submitStatus', 'Submitting...', 'info');
+      setStatus('submitStatus', 'Submitting your link...', 'info');
 
       try {
         const res = await fetch(`${API_BASE}/referrals/submit`, {
@@ -123,21 +123,21 @@
         const data = await res.json().catch(() => ({}));
 
         if (res.ok) {
-          setStatus('submitStatus', data.message || 'Referral accepted.', 'success');
+          setStatus('submitStatus', data.message || 'Link submitted successfully.', 'success');
           document.getElementById('referralInput').value = '';
           window.turnstile?.reset();
           return;
         }
 
         if (res.status === 409) {
-          setStatus('submitStatus', data.message || 'This referral is already active in the pool.', 'warn');
+          setStatus('submitStatus', data.message || 'That link is already active in the list.', 'warn');
         } else if (res.status === 429) {
-          setStatus('submitStatus', data.message || 'Too many attempts. Please try again later.', 'warn');
+          setStatus('submitStatus', data.message || 'Too many tries. Please try again later.', 'warn');
         } else {
-          setStatus('submitStatus', data.message || 'Submission failed. Please check your input.', 'error');
+          setStatus('submitStatus', data.message || 'Could not submit. Check your code/link and try again.', 'error');
         }
       } catch (err) {
-        setStatus('submitStatus', 'Request failed. Please try again later.', 'error');
+        setStatus('submitStatus', 'Network error. Please try again later.', 'error');
       } finally {
         submitBtn.disabled = false;
       }
@@ -146,22 +146,22 @@
     async function openRandomReferral() {
       const randomBtn = document.getElementById('randomBtn');
       randomBtn.disabled = true;
-      setStatus('randomStatus', 'Getting a random referral...', 'info');
+      setStatus('randomStatus', 'Finding a random link...', 'info');
 
       try {
         const res = await fetch(`${API_BASE}/referrals/random`, { method: 'GET' });
         const data = await res.json().catch(() => ({}));
 
         if (!res.ok || !data?.url) {
-          setStatus('randomStatus', data.message || 'No active referral available right now.', 'warn');
+          setStatus('randomStatus', data.message || 'No active referral link is available right now.', 'warn');
           randomBtn.disabled = false;
           return;
         }
 
-        setStatus('randomStatus', data.source === 'fallback' ? 'Pool unavailable. Opening fallback link...' : 'Opening random community referral...', 'success');
+        setStatus('randomStatus', data.source === 'fallback' ? 'Community list unavailable. Opening backup link...' : 'Opening a random community link...', 'success');
         window.open(data.url, '_blank', 'noopener,noreferrer');
       } catch (err) {
-        setStatus('randomStatus', 'Request failed. Please try again later.', 'error');
+        setStatus('randomStatus', 'Network error. Please try again later.', 'error');
       } finally {
         randomBtn.disabled = false;
       }
