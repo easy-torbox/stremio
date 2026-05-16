@@ -48,7 +48,7 @@ function normalizeReferral(input) {
   const raw = String(input || '').trim();
   if (!raw) return { ok: false, message: 'Referral is required.' };
 
-  const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
   if (uuidRegex.test(raw)) {
     const code = raw.toLowerCase();
@@ -80,6 +80,26 @@ function normalizeReferral(input) {
     normalizedCode: code,
     referralUrl: `https://torbox.app/subscription?referral=${encodeURIComponent(code)}`
   };
+}
+
+async function verifyReferralUpstream(referralUrl) {
+  try {
+    const resp = await fetch(referralUrl, {
+      method: 'GET',
+      redirect: 'manual',
+      headers: {
+        'user-agent': 'stremio-referral-validator/1.0'
+      }
+    });
+
+    if ([400, 404, 410].includes(resp.status)) {
+      return { ok: false, message: 'Referral code was not recognized by Torbox.' };
+    }
+
+    return { ok: true };
+  } catch {
+    return { ok: false, message: 'Could not verify referral right now. Please retry.' };
+  }
 }
 
 async function verifyTurnstile(token, env, ip) {
@@ -253,6 +273,12 @@ async function handleSubmit(request, env, origin) {
   if (!parsed.ok) {
     await registerFailureAndMaybeBlock(env, ipHash, now, limits, 'invalid_referral');
     return json({ message: parsed.message }, 400, origin);
+  }
+
+  const upstreamCheck = await verifyReferralUpstream(parsed.referralUrl);
+  if (!upstreamCheck.ok) {
+    await registerFailureAndMaybeBlock(env, ipHash, now, limits, 'invalid_referral_upstream');
+    return json({ message: upstreamCheck.message }, 400, origin);
   }
 
   const turnstile = await verifyTurnstile(turnstileToken, env, ip);
