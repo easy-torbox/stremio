@@ -48,10 +48,19 @@ Unlike aggregator add-ons that route your stream requests through a middleman se
 
 Your Torbox API key, IP address, and configuration choices are **never** collected, logged, or transmitted to any external server. You can verify the entire codebase right here in the `index.html` file.
 
-## 🎁 Support the Project (Win-Win)
-If this tool saved you some time setting up Stremio for yourself or your family, consider using the referral link embedded in the tool (or [click right here](https://torbox.app/subscription?referral=32564992-6e50-40ae-85b3-612e83d57bf9)) if you ever start your Torbox subscription. 
+## 🧩 Community Referral Pool (Optional)
+A separate page at [`referrals.html`](referrals.html) provides a simple community referral pool flow:
+- Step 1: New users open a random community referral link
+- Step 2: Users can submit their own referral
 
-**It costs you nothing extra, and Torbox gives new users bonus days (7 extra days per month, or 84 extra days per year!) added to your account just for using the link.**
+To reduce spam/random submissions, referral entries are validated in the Worker using:
+- UUIDv4 format checks
+- Torbox referral URL shape checks
+- Upstream referral verification before acceptance
+
+## ☕ Support the Project (Ko-fi)
+If this tool saved you time, you can support ongoing maintenance here:
+- [Ko-fi](https://ko-fi.com/easytorbox)
 
 ---
 *Disclaimer: This is an independent, open-source community project. It is not officially affiliated with Torbox, Stremio, or any of the add-on developers.*
