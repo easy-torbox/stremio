@@ -6,3 +6,6 @@ compatibility_date = "2026-05-16"
 binding = "DB"
 database_name = "torbox-referrals-prod"
 database_id = "99db8ea3-bf26-4685-9e9b-e15f578a081d"
+
+[vars]
+ALLOWED_ORIGINS = "https://easy-torbox.github.io,https://etapps.github.io"

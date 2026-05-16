@@ -105,33 +105,39 @@ async function verifyTurnstile(token, env, ip) {
 }
 
 async function ensureSecurityTables(env) {
-  await env.DB.exec(`
-    CREATE TABLE IF NOT EXISTS submit_events (
+  await env.DB.prepare(
+    `CREATE TABLE IF NOT EXISTS submit_events (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       ip_hash TEXT NOT NULL,
       success INTEGER NOT NULL,
       created_at INTEGER NOT NULL
-    );
+    )`
+  ).run();
 
-    CREATE INDEX IF NOT EXISTS idx_submit_events_ip_created
-    ON submit_events(ip_hash, created_at);
+  await env.DB.prepare(
+    'CREATE INDEX IF NOT EXISTS idx_submit_events_ip_created ON submit_events(ip_hash, created_at)'
+  ).run();
 
-    CREATE TABLE IF NOT EXISTS used_turnstile_tokens (
+  await env.DB.prepare(
+    `CREATE TABLE IF NOT EXISTS used_turnstile_tokens (
       token_hash TEXT PRIMARY KEY,
       created_at INTEGER NOT NULL,
       expires_at INTEGER NOT NULL
-    );
+    )`
+  ).run();
 
-    CREATE INDEX IF NOT EXISTS idx_used_tokens_expires
-    ON used_turnstile_tokens(expires_at);
+  await env.DB.prepare(
+    'CREATE INDEX IF NOT EXISTS idx_used_tokens_expires ON used_turnstile_tokens(expires_at)'
+  ).run();
 
-    CREATE TABLE IF NOT EXISTS blocked_ips (
+  await env.DB.prepare(
+    `CREATE TABLE IF NOT EXISTS blocked_ips (
       ip_hash TEXT PRIMARY KEY,
       blocked_until INTEGER NOT NULL,
       reason TEXT,
       updated_at INTEGER NOT NULL
-    );
-  `);
+    )`
+  ).run();
 }
 
 async function cleanExpiredSecurityRows(env, now) {
@@ -336,9 +342,16 @@ async function handleRandom(env, origin) {
 
 export default {
   async fetch(request, env) {
-    const allowedOrigin = String(env.ALLOWED_ORIGIN || '').trim();
+    const allowedOrigins = String(env.ALLOWED_ORIGINS || env.ALLOWED_ORIGIN || '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+
     const requestOrigin = request.headers.get('origin') || '';
-    const corsOrigin = requestOrigin && requestOrigin === allowedOrigin ? requestOrigin : (allowedOrigin || '*');
+    const isOriginAllowed = !allowedOrigins.length || (requestOrigin && allowedOrigins.includes(requestOrigin));
+    const corsOrigin = requestOrigin && isOriginAllowed
+      ? requestOrigin
+      : (allowedOrigins[0] || '*');
 
     if (request.method === 'OPTIONS') {
       return new Response(null, {
@@ -354,7 +367,7 @@ export default {
     const url = new URL(request.url);
 
     if (request.method === 'POST' && url.pathname === '/referrals/submit') {
-      if (allowedOrigin && requestOrigin !== allowedOrigin) {
+      if (!isOriginAllowed) {
         return json({ message: 'Origin not allowed.' }, 403, corsOrigin);
       }
       return handleSubmit(request, env, corsOrigin);
