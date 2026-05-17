@@ -55,6 +55,35 @@
     .actions {
       margin-top: 14px;
     }
+    .filters {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .filters label {
+      font-size: 14px;
+      color: #444;
+    }
+    .filters input {
+      padding: 6px 8px;
+      min-width: 240px;
+    }
+    .pagination {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pagination button {
+      padding: 6px 10px;
+    }
+    .pagination .page-info {
+      color: #555;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -62,6 +91,11 @@
   <p class="meta">Shows current referral codes and total times clicked.</p>
 
   <div class="summary" id="summary">Loading stats...</div>
+
+  <div class="filters">
+    <label for="codeSearchInput">Search code:</label>
+    <input id="codeSearchInput" type="search" placeholder="Type referral code..." autocomplete="off" />
+  </div>
 
   <table>
     <thead>
@@ -79,6 +113,12 @@
     </tbody>
   </table>
 
+  <div class="pagination" id="pagination" style="display:none;">
+    <button id="prevPageBtn" type="button">Previous</button>
+    <button id="nextPageBtn" type="button">Next</button>
+    <span class="page-info" id="pageInfo"></span>
+  </div>
+
   <p class="error" id="errorMsg" style="display:none;"></p>
 
   <div class="actions">
@@ -88,6 +128,11 @@
 
   <script>
     const API_BASE = 'https://easytorbox-referrals-api.etapps.workers.dev';
+
+    const PAGE_SIZE = 25;
+    let allItems = [];
+    let filteredItems = [];
+    let currentPage = 1;
 
     function toDateTime(epochSeconds) {
       if (!epochSeconds) return '-';
@@ -104,6 +149,64 @@
         .replaceAll('"', '"');
     }
 
+    function renderPage() {
+      const rowsEl = document.getElementById('statsRows');
+      const paginationEl = document.getElementById('pagination');
+      const prevBtn = document.getElementById('prevPageBtn');
+      const nextBtn = document.getElementById('nextPageBtn');
+      const pageInfoEl = document.getElementById('pageInfo');
+
+      if (!allItems.length) {
+        rowsEl.innerHTML = '<tr><td colspan="4">No referral records found.</td></tr>';
+        paginationEl.style.display = 'none';
+        return;
+      }
+
+      if (!filteredItems.length) {
+        rowsEl.innerHTML = '<tr><td colspan="4">No matching referral codes.</td></tr>';
+        paginationEl.style.display = 'none';
+        return;
+      }
+
+      const totalPages = Math.ceil(filteredItems.length / PAGE_SIZE);
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const pageItems = filteredItems.slice(start, start + PAGE_SIZE);
+
+      rowsEl.innerHTML = pageItems.map((item) => {
+        const statusClass = item.isActive ? 'active' : 'inactive';
+        const statusLabel = item.isActive ? 'Active' : 'Inactive';
+        return `
+          <tr>
+            <td><code>${escapeHtml(item.code || '')}</code></td>
+            <td>${Number(item.clickCount || 0)}</td>
+            <td class="${statusClass}">${statusLabel}</td>
+            <td>${toDateTime(item.lastClickedAt)}</td>
+          </tr>
+        `;
+      }).join('');
+
+      paginationEl.style.display = totalPages > 1 ? 'flex' : 'none';
+      prevBtn.disabled = currentPage <= 1;
+      nextBtn.disabled = currentPage >= totalPages;
+      pageInfoEl.textContent = `Page ${currentPage} of ${totalPages} | Showing ${start + 1}-${start + pageItems.length} of ${filteredItems.length} matches`;
+    }
+
+    function applyFilter() {
+      const inputEl = document.getElementById('codeSearchInput');
+      const q = (inputEl.value || '').trim().toLowerCase();
+
+      filteredItems = allItems.filter((item) => {
+        const code = String(item?.code || '').toLowerCase();
+        return !q || code.includes(q);
+      });
+
+      currentPage = 1;
+      renderPage();
+    }
+
     async function loadStats() {
       const summaryEl = document.getElementById('summary');
       const rowsEl = document.getElementById('statsRows');
@@ -114,6 +217,9 @@
       errorEl.style.display = 'none';
       summaryEl.textContent = 'Loading stats...';
       rowsEl.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
+      allItems = [];
+      currentPage = 1;
+      filteredItems = [];
 
       try {
         const res = await fetch(`${API_BASE}/referrals/stats`);
@@ -125,24 +231,8 @@
 
         summaryEl.textContent = `Generated: ${toDateTime(data.generatedAt)} | Total Codes: ${data.totalCodes} | Active Codes: ${data.activeCodes} | Total Clicks: ${data.totalClicks}`;
 
-        const items = Array.isArray(data.items) ? data.items : [];
-        if (!items.length) {
-          rowsEl.innerHTML = '<tr><td colspan="4">No referral records found.</td></tr>';
-          return;
-        }
-
-        rowsEl.innerHTML = items.map((item) => {
-          const statusClass = item.isActive ? 'active' : 'inactive';
-          const statusLabel = item.isActive ? 'Active' : 'Inactive';
-          return `
-            <tr>
-              <td><code>${escapeHtml(item.code || '')}</code></td>
-              <td>${Number(item.clickCount || 0)}</td>
-              <td class="${statusClass}">${statusLabel}</td>
-              <td>${toDateTime(item.lastClickedAt)}</td>
-            </tr>
-          `;
-        }).join('');
+        allItems = Array.isArray(data.items) ? data.items : [];
+        applyFilter();
       } catch (err) {
         summaryEl.textContent = 'Could not load stats.';
         rowsEl.innerHTML = '<tr><td colspan="4">Error loading rows.</td></tr>';
@@ -154,6 +244,17 @@
     }
 
     document.getElementById('refreshBtn').addEventListener('click', loadStats);
+    document.getElementById('prevPageBtn').addEventListener('click', () => {
+      currentPage -= 1;
+      renderPage();
+    });
+    document.getElementById('nextPageBtn').addEventListener('click', () => {
+      currentPage += 1;
+      renderPage();
+    });
+
+    document.getElementById('codeSearchInput').addEventListener('input', applyFilter);
+
     loadStats();
   </script>
 </body>
