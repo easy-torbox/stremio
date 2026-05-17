@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Referral Stats</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 24px;
+      color: #222;
+      line-height: 1.4;
+    }
+    h1 {
+      margin: 0 0 8px 0;
+    }
+    .meta {
+      margin: 0 0 16px 0;
+      color: #555;
+    }
+    .summary {
+      margin: 12px 0 20px 0;
+      padding: 12px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    th {
+      background: #f3f3f3;
+    }
+    .active {
+      color: #0a7a2f;
+      font-weight: bold;
+    }
+    .inactive {
+      color: #a33;
+      font-weight: bold;
+    }
+    .error {
+      color: #a33;
+      font-weight: bold;
+      margin-top: 12px;
+    }
+    .actions {
+      margin-top: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Referral Stats</h1>
+  <p class="meta">Shows current referral codes and total times clicked.</p>
+
+  <div class="summary" id="summary">Loading stats...</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Clicks</th>
+        <th>Status</th>
+        <th>Last Clicked</th>
+      </tr>
+    </thead>
+    <tbody id="statsRows">
+      <tr>
+        <td colspan="4">Loading...</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="error" id="errorMsg" style="display:none;"></p>
+
+  <div class="actions">
+    <button id="refreshBtn" type="button">Refresh</button>
+    <a href="referrals.html" style="margin-left:12px;">Back to referrals</a>
+  </div>
+
+  <script>
+    const API_BASE = 'https://easytorbox-referrals-api.etapps.workers.dev';
+
+    function toDateTime(epochSeconds) {
+      if (!epochSeconds) return '-';
+      const d = new Date(Number(epochSeconds) * 1000);
+      if (Number.isNaN(d.getTime())) return '-';
+      return d.toLocaleString();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll('&', '&')
+        .replaceAll('<', '<')
+        .replaceAll('>', '>')
+        .replaceAll('"', '"')
+        .replaceAll("'", ''');
+    }
+
+    async function loadStats() {
+      const summaryEl = document.getElementById('summary');
+      const rowsEl = document.getElementById('statsRows');
+      const errorEl = document.getElementById('errorMsg');
+      const refreshBtn = document.getElementById('refreshBtn');
+
+      refreshBtn.disabled = true;
+      errorEl.style.display = 'none';
+      summaryEl.textContent = 'Loading stats...';
+      rowsEl.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
+
+      try {
+        const res = await fetch(`${API_BASE}/referrals/stats`);
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data?.message || 'Failed to load stats.');
+        }
+
+        summaryEl.textContent = `Generated: ${toDateTime(data.generatedAt)} | Total Codes: ${data.totalCodes} | Active Codes: ${data.activeCodes} | Total Clicks: ${data.totalClicks}`;
+
+        const items = Array.isArray(data.items) ? data.items : [];
+        if (!items.length) {
+          rowsEl.innerHTML = '<tr><td colspan="4">No referral records found.</td></tr>';
+          return;
+        }
+
+        rowsEl.innerHTML = items.map((item) => {
+          const statusClass = item.isActive ? 'active' : 'inactive';
+          const statusLabel = item.isActive ? 'Active' : 'Inactive';
+          return `
+            <tr>
+              <td><code>${escapeHtml(item.code || '')}</code></td>
+              <td>${Number(item.clickCount || 0)}</td>
+              <td class="${statusClass}">${statusLabel}</td>
+              <td>${toDateTime(item.lastClickedAt)}</td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        summaryEl.textContent = 'Could not load stats.';
+        rowsEl.innerHTML = '<tr><td colspan="4">Error loading rows.</td></tr>';
+        errorEl.textContent = err?.message || 'Unknown error';
+        errorEl.style.display = 'block';
+      } finally {
+        refreshBtn.disabled = false;
+      }
+    }
+
+    document.getElementById('refreshBtn').addEventListener('click', loadStats);
+    loadStats();
+  </script>
+</body>
+</html>

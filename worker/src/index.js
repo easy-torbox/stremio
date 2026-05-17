@@ -395,6 +395,45 @@ async function handleRandom(env, origin) {
   }, 200, origin);
 }
 
+async function handleStats(env, origin) {
+  const now = nowEpochSeconds();
+
+  const rows = await env.DB.prepare(
+    `SELECT
+       normalized_code,
+       referral_url,
+       status,
+       created_at,
+       expires_at,
+       COALESCE(selection_count, 0) AS click_count,
+       COALESCE(last_selected_at, 0) AS last_selected_at
+     FROM referrals
+     ORDER BY click_count DESC, created_at DESC`
+  ).all();
+
+  const items = (rows?.results || []).map((row) => ({
+    code: row.normalized_code,
+    referralUrl: row.referral_url,
+    status: row.status,
+    isActive: row.status === 'active' && Number(row.expires_at) > now,
+    clickCount: Number(row.click_count || 0),
+    createdAt: Number(row.created_at || 0),
+    expiresAt: Number(row.expires_at || 0),
+    lastClickedAt: Number(row.last_selected_at || 0)
+  }));
+
+  const totalClicks = items.reduce((sum, item) => sum + item.clickCount, 0);
+  const activeCount = items.filter((item) => item.isActive).length;
+
+  return json({
+    generatedAt: now,
+    totalCodes: items.length,
+    activeCodes: activeCount,
+    totalClicks,
+    items
+  }, 200, origin);
+}
+
 export default {
   async fetch(request, env) {
     const allowedOrigins = String(env.ALLOWED_ORIGINS || env.ALLOWED_ORIGIN || '')
@@ -430,6 +469,10 @@ export default {
 
     if (request.method === 'GET' && url.pathname === '/referrals/random') {
       return handleRandom(env, corsOrigin);
+    }
+
+    if (request.method === 'GET' && url.pathname === '/referrals/stats') {
+      return handleStats(env, corsOrigin);
     }
 
     if (request.method === 'GET' && url.pathname === '/health') {
