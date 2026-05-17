@@ -1,7 +1,8 @@
 *.md
 tmp_meteor/
+*.sh
+.DS_Store
 
 # Cloudflare Wrangler local state/cache
 .wrangler/
 worker/.wrangler/
-*.sh
