@@ -34,29 +34,30 @@
     <section class="mb-10 border-t pt-8 border-gray-100">
       <h2 class="flex items-center text-lg font-bold mb-2 text-gray-800">
         <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-        Step 1: New here? Open a random referral link
+        Step 1: New User? Sign up
       </h2>
-      <p class="text-sm text-gray-700 mb-3">Click once to open one active referral link from the community list.</p>
+      <p class="text-sm text-gray-700 mb-3">Only if you’re new to Torbox: click once to open an active community referral link and continue sign-up.</p>
       <button id="randomBtn" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition shadow-sm" onclick="openRandomReferral()">
-        Sign up
+        Open sign-up link
       </button>
+      <p class="mt-2 text-xs text-gray-500">Existing users can skip this step and go straight to Step 2.</p>
       <p id="randomStatus" class="mt-3 text-sm text-gray-600"></p>
     </section>
 
     <section class="mb-10 border-t pt-8 border-gray-100">
       <h2 class="flex items-center text-lg font-bold mb-3 text-gray-800">
         <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-        Step 2: Add your referral link
+        Step 2: Share your referral (optional)
       </h2>
-      <label for="referralInput" class="block text-sm font-medium text-gray-700 mb-2">Your referral code or link</label>
-      <input id="referralInput" type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow shadow-sm" placeholder="Example: 32564992-6e50-40ae-85b3-612e83d57bf9 or a full Torbox referral URL" />
+      <label for="referralInput" class="block text-sm font-medium text-gray-700 mb-2">Your Torbox referral code or link</label>
+      <input id="referralInput" type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow shadow-sm" placeholder="Paste your Torbox referral code or full referral link" />
 
       <div class="mt-4">
         <div class="cf-turnstile" data-sitekey="0x4AAAAAADQhQLkjkuyaYwAG" data-theme="light"></div>
       </div>
 
       <button id="submitBtn" class="mt-4 w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition disabled:bg-gray-300 disabled:text-gray-600 shadow-sm" onclick="submitReferral()">
-        Submit link
+        Add to community list
       </button>
 
       <p id="submitStatus" class="mt-3 text-sm text-gray-600"></p>
@@ -67,7 +68,7 @@
           <li>Paste your Torbox referral code or full referral URL.</li>
           <li>If the same active referral already exists, it will be rejected automatically.</li>
           <li>Referral links are removed automatically after the set time window.</li>
-          <li>New users can open one random active referral link from the list.</li>
+          <li>New users can open one active referral link to continue sign-up.</li>
         </ul>
       </div>
     </section>
