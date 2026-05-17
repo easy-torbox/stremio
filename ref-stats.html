@@ -89,8 +89,10 @@
 <body>
   <h1>Referral Stats</h1>
   <p class="meta">Shows current referral codes and total times clicked.</p>
+  <p class="meta" id="updatedAt">Last updated: loading...</p>
 
   <div class="summary" id="summary">Loading stats...</div>
+  <p class="meta"><strong>Metric guide:</strong> <span class="active">Active</span> = available for random sign-up, <span class="inactive">Inactive</span> = expired/removed, <strong>Clicks</strong> = times opened from the pool.</p>
 
   <div class="filters">
     <label for="codeSearchInput">Search code:</label>
@@ -229,7 +231,13 @@
           throw new Error(data?.message || 'Failed to load stats.');
         }
 
-        summaryEl.textContent = `Generated: ${toDateTime(data.generatedAt)} | Total Codes: ${data.totalCodes} | Active Codes: ${data.activeCodes} | Total Clicks: ${data.totalClicks}`;
+        const active = Number(data.activeCodes || 0);
+        const total = Number(data.totalCodes || 0);
+        const totalClicks = Number(data.totalClicks || 0);
+        const health = active > 0 ? `Pool healthy: ${active} active link${active === 1 ? '' : 's'} available.` : 'Pool needs links: no active referral links right now.';
+        summaryEl.textContent = `${health} Total Codes: ${total} | Active Codes: ${active} | Total Clicks: ${totalClicks}`;
+        const updatedAtEl = document.getElementById('updatedAt');
+        if (updatedAtEl) updatedAtEl.textContent = `Last updated: ${toDateTime(data.generatedAt)}`;
 
         allItems = Array.isArray(data.items) ? data.items : [];
         applyFilter();

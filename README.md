@@ -7,6 +7,13 @@ A dead-simple, 1-click web tool designed to help you (or your non-tech-savvy fri
 
 👉 **[Launch the Tool Here](https://easy-torbox.github.io/stremio/)**
 
+## ⚡ 30-Second Start
+1. Open [`index.html`](index.html) via the launch link above.
+2. Paste your Torbox API key.
+3. Keep **"Netflix" Mode** and click **Install to Stremio**.
+
+Need referral bonus flow? Use [`referrals.html`](referrals.html).
+
 ## 🖼️ How it works
 
 **1. Configure in seconds**  
@@ -66,6 +73,22 @@ If this tool saved you time, you can support ongoing maintenance:
     <img src="https://img.shields.io/badge/%E2%98%95-Tip%20on%20Ko--fi-29ABE0?style=for-the-badge&logo=kofi&logoColor=white" alt="Tip on Ko-fi" />
   </a>
 </p>
+
+### Crypto
+- **🟢 ₮ USDT on TRON (TRC20)**
+  `TKKAfAs5HNGqxtmHXbgxZfNYy65KWX1Gty`
+  [🔳 QR](https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=TKKAfAs5HNGqxtmHXbgxZfNYy65KWX1Gty)
+- **🔵 $ USDC on Solana (SPL)**
+  `Fa5oih6oyru6hwjaNSS8WEVc5ACEtpTGe7Zq197D7wW1`
+  [🔳 QR](https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=Fa5oih6oyru6hwjaNSS8WEVc5ACEtpTGe7Zq197D7wW1)
+
+## ❓ FAQ
+- **Why is Install disabled?**
+  Add a valid Torbox API key first.
+- **Stremio did not open after clicking install. What now?**
+  Use the “Copy raw link” button and paste it in Stremio.
+- **Which referral step should I use?**
+  New user: Step 1. Existing user with active plan: Step 2.
 
 ---
 *Disclaimer: This is an independent, open-source community project. It is not officially affiliated with Torbox, Stremio, or any of the add-on developers.*
