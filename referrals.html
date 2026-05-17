@@ -27,7 +27,7 @@
     </div>
 
     <div class="mb-8 p-4 md:p-5 rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 text-sm text-blue-900">
-      <p class="font-semibold mb-1"><strong>New users</strong> may get extra time: <span class="text-blue-600">7 days monthly</span> or <span class="text-blue-600">84 days yearly</span>.</p>
+      <p class="font-semibold mb-1"><strong>New users</strong> get extra time: <span class="text-blue-600">7 days per moth</span> or <span class="text-blue-600">84 days per year</span>.</p>
       <p class="text-xs text-blue-800/80">Bonus rules are set by Torbox and can change.</p>
     </div>
 
@@ -47,15 +47,14 @@
     <section class="mb-10 border-t pt-8 border-gray-100">
       <h2 class="flex items-center text-lg font-bold mb-3 text-gray-800">
         <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-        Step 2: Share your referral (optional)
+        Step 2: Share your referral code
       </h2>
-      <label for="referralInput" class="block text-sm font-medium text-gray-700 mb-2">Your Torbox referral code/link</label>
+      
+      <input id="referralInput" type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow shadow-sm" placeholder="Your referral code or full link" />
       <p class="text-xs text-amber-700 mb-2">Only submit your code if your Torbox plan/subscription is active (required for bonus days).</p>
-      <input id="referralInput" type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow shadow-sm" placeholder="Paste your referral code or full link" />
 
       <div class="mt-4">
         <div class="cf-turnstile" data-sitekey="0x4AAAAAADQhQLkjkuyaYwAG" data-theme="light"></div>
-        <p class="mt-2 text-xs text-gray-500">Complete this check once, then click <strong>Add to community list</strong>.</p>
       </div>
 
       <button id="submitBtn" class="mt-4 w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-[#29ABE0] text-white font-semibold hover:opacity-90 transition shadow-md transform hover:-translate-y-0.5 disabled:bg-gray-300 disabled:text-gray-600 disabled:transform-none disabled:shadow-sm" onclick="submitReferral()">
