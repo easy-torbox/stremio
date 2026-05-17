@@ -4,3 +4,4 @@ tmp_meteor/
 # Cloudflare Wrangler local state/cache
 .wrangler/
 worker/.wrangler/
+*.sh
