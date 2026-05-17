@@ -55,12 +55,13 @@
             
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center ml-1 gap-2">
                 <p class="text-sm text-gray-600 font-medium">
-                    <a href="referrals.html" class="text-blue-600 hover:text-blue-800 hover:underline transition-colors">Sign up</a>
+                    <a id="signupLink" href="#" onclick="openSignupLink(event)" class="text-blue-600 hover:text-blue-800 hover:underline transition-colors">Sign up</a>
                     <span class="mx-2 text-gray-300">|</span>
                     <a href="https://torbox.app/settings" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline transition-colors">Get API key</a>
                 </p>
                 <p class="text-xs text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-md border border-green-100">(Key is processed locally)</p>
             </div>
+            <p id="signupStatus" class="mt-2 ml-1 text-xs text-gray-500"></p>
         </div>
 
         <!-- Step 2: Profiles -->
@@ -762,6 +763,64 @@
                 }, 1200);
             } catch (_) {
                 // no-op
+            }
+        }
+
+        function setSignupStatus(text, kind = 'info') {
+            const el = document.getElementById('signupStatus');
+            if (!el) return;
+            el.textContent = text;
+            el.classList.remove('text-gray-500', 'text-green-700', 'text-red-700', 'text-amber-700');
+            if (kind === 'success') el.classList.add('text-green-700');
+            else if (kind === 'error') el.classList.add('text-red-700');
+            else if (kind === 'warn') el.classList.add('text-amber-700');
+            else el.classList.add('text-gray-500');
+        }
+
+        async function openSignupLink(event) {
+            event.preventDefault();
+
+            const signupLink = document.getElementById('signupLink');
+            if (signupLink) {
+                signupLink.classList.add('opacity-60', 'pointer-events-none');
+                signupLink.setAttribute('aria-disabled', 'true');
+            }
+
+            // iOS-safe: open popup immediately from click gesture.
+            const popup = window.open('', '_blank');
+            if (!popup) {
+                setSignupStatus('Popup was blocked. Please allow pop-ups and try again.', 'warn');
+                if (signupLink) {
+                    signupLink.classList.remove('opacity-60', 'pointer-events-none');
+                    signupLink.removeAttribute('aria-disabled');
+                }
+                return;
+            }
+
+            popup.opener = null;
+            popup.document.write('<!doctype html><title>Opening referral...</title><p style="font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; padding: 16px;">Opening referral link...</p>');
+            setSignupStatus('Finding a random link...', 'info');
+
+            try {
+                const res = await fetch('https://easytorbox-referrals-api.etapps.workers.dev/referrals/random', { method: 'GET' });
+                const data = await res.json().catch(() => ({}));
+
+                if (!res.ok || !data?.url) {
+                    popup.close();
+                    setSignupStatus(data.message || 'No active referral link is available right now.', 'warn');
+                    return;
+                }
+
+                setSignupStatus(data.source === 'fallback' ? 'Community list unavailable. Opening backup link...' : 'Opening a random community link...', 'success');
+                popup.location.replace(data.url);
+            } catch (_) {
+                popup.close();
+                setSignupStatus('Network error. Please try again later.', 'error');
+            } finally {
+                if (signupLink) {
+                    signupLink.classList.remove('opacity-60', 'pointer-events-none');
+                    signupLink.removeAttribute('aria-disabled');
+                }
             }
         }
 
