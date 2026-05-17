@@ -8,11 +8,11 @@ A dead-simple, 1-click web tool designed to help you (or your non-tech-savvy fri
 👉 **[Launch the Tool Here](https://easy-torbox.github.io/stremio/)**
 
 ## ⚡ 30-Second Start
-1. Open [`index.html`](index.html) via the launch link above.
+1. Open [`index.html`](https://easy-torbox.github.io/stremio/index.html) via the launch link above.
 2. Paste your Torbox API key.
 3. Keep **"Netflix" Mode** and click **Install to Stremio**.
 
-Need referral bonus flow? Use [`referrals.html`](referrals.html).
+Need referral bonus flow? Use [`referrals.html`](https://easy-torbox.github.io/stremio/referrals.html).
 
 ## 🖼️ How it works
 
@@ -56,7 +56,7 @@ Unlike aggregator add-ons that route your stream requests through a middleman se
 Your Torbox API key, IP address, and configuration choices are **never** collected, logged, or transmitted to any external server. You can verify the entire codebase right here in the `index.html` file.
 
 ## 🧩 Community Referral Pool (Optional)
-A separate page at [`referrals.html`](referrals.html) provides a simple community referral pool flow:
+A separate page at [`referrals.html`](https://easy-torbox.github.io/stremio/referrals.html) provides a simple community referral pool flow:
 - Step 1: New users open a random community referral link
 - Step 2: Users can submit their own referral
 
