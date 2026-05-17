@@ -39,6 +39,20 @@
     th {
       background: #f3f3f3;
     }
+    th.sortable {
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+    th.sortable .sort-indicator {
+      margin-left: 6px;
+      color: #888;
+      font-size: 12px;
+    }
+    th.sortable.sorted-asc .sort-indicator,
+    th.sortable.sorted-desc .sort-indicator {
+      color: #222;
+    }
     .active {
       color: #0a7a2f;
       font-weight: bold;
@@ -54,6 +68,13 @@
     }
     .actions {
       margin-top: 14px;
+    }
+    .filters .actions {
+      margin-top: 0;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
     .filters {
       margin-top: 12px;
@@ -97,15 +118,19 @@
   <div class="filters">
     <label for="codeSearchInput">Search code:</label>
     <input id="codeSearchInput" type="search" placeholder="Type referral code..." autocomplete="off" />
+    <div class="actions">
+      <button id="refreshBtn" type="button">Refresh</button>
+      <a href="referrals.html">Back to referrals</a>
+    </div>
   </div>
 
   <table>
     <thead>
       <tr>
-        <th>Code</th>
-        <th>Clicks</th>
-        <th>Status</th>
-        <th>Last Clicked</th>
+        <th class="sortable" data-sort-key="code" data-sort-type="string">Code <span class="sort-indicator">↕</span></th>
+        <th class="sortable" data-sort-key="clickCount" data-sort-type="number">Clicks <span class="sort-indicator">↕</span></th>
+        <th class="sortable" data-sort-key="isActive" data-sort-type="boolean">Status <span class="sort-indicator">↕</span></th>
+        <th class="sortable" data-sort-key="lastClickedAt" data-sort-type="number">Last Clicked <span class="sort-indicator">↕</span></th>
       </tr>
     </thead>
     <tbody id="statsRows">
@@ -123,11 +148,6 @@
 
   <p class="error" id="errorMsg" style="display:none;"></p>
 
-  <div class="actions">
-    <button id="refreshBtn" type="button">Refresh</button>
-    <a href="referrals.html" style="margin-left:12px;">Back to referrals</a>
-  </div>
-
   <script>
     const API_BASE = 'https://easytorbox-referrals-api.etapps.workers.dev';
 
@@ -135,6 +155,8 @@
     let allItems = [];
     let filteredItems = [];
     let currentPage = 1;
+    let sortKey = 'clickCount';
+    let sortDirection = 'desc';
 
     function toDateTime(epochSeconds) {
       if (!epochSeconds) return '-';
@@ -149,6 +171,70 @@
         .replaceAll('<', '<')
         .replaceAll('>', '>')
         .replaceAll('"', '"');
+    }
+
+    function compareValues(a, b, type) {
+      if (type === 'number') {
+        const av = Number(a || 0);
+        const bv = Number(b || 0);
+        return av - bv;
+      }
+      if (type === 'boolean') {
+        const av = a ? 1 : 0;
+        const bv = b ? 1 : 0;
+        return av - bv;
+      }
+      const as = String(a || '').toLowerCase();
+      const bs = String(b || '').toLowerCase();
+      return as.localeCompare(bs);
+    }
+
+    function applySort() {
+      const headerEl = document.querySelector(`th[data-sort-key="${sortKey}"]`);
+      const sortType = headerEl?.dataset?.sortType || 'string';
+
+      filteredItems.sort((a, b) => {
+        const base = compareValues(a?.[sortKey], b?.[sortKey], sortType);
+        if (base === 0) {
+          return String(a?.code || '').localeCompare(String(b?.code || ''));
+        }
+        return sortDirection === 'asc' ? base : -base;
+      });
+    }
+
+    function updateSortIndicators() {
+      const headers = document.querySelectorAll('th.sortable');
+      headers.forEach((th) => {
+        th.classList.remove('sorted-asc', 'sorted-desc');
+        const indicator = th.querySelector('.sort-indicator');
+        if (!indicator) return;
+
+        const key = th.dataset.sortKey;
+        if (key === sortKey) {
+          if (sortDirection === 'asc') {
+            th.classList.add('sorted-asc');
+            indicator.textContent = '▲';
+          } else {
+            th.classList.add('sorted-desc');
+            indicator.textContent = '▼';
+          }
+        } else {
+          indicator.textContent = '↕';
+        }
+      });
+    }
+
+    function setSort(nextSortKey) {
+      if (sortKey === nextSortKey) {
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        sortKey = nextSortKey;
+        sortDirection = 'asc';
+      }
+      currentPage = 1;
+      applySort();
+      updateSortIndicators();
+      renderPage();
     }
 
     function renderPage() {
@@ -205,7 +291,9 @@
         return !q || code.includes(q);
       });
 
+      applySort();
       currentPage = 1;
+      updateSortIndicators();
       renderPage();
     }
 
@@ -263,6 +351,11 @@
 
     document.getElementById('codeSearchInput').addEventListener('input', applyFilter);
 
+    document.querySelectorAll('th.sortable').forEach((th) => {
+      th.addEventListener('click', () => setSort(th.dataset.sortKey));
+    });
+
+    updateSortIndicators();
     loadStats();
   </script>
 </body>
