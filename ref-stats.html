@@ -101,8 +101,7 @@
         .replaceAll('&', '&')
         .replaceAll('<', '<')
         .replaceAll('>', '>')
-        .replaceAll('"', '"')
-        .replaceAll("'", ''');
+        .replaceAll('"', '"');
     }
 
     async function loadStats() {
@@ -118,7 +117,7 @@
 
       try {
         const res = await fetch(`${API_BASE}/referrals/stats`);
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
 
         if (!res.ok) {
           throw new Error(data?.message || 'Failed to load stats.');
