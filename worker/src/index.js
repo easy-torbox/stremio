@@ -158,6 +158,10 @@ async function ensureSecurityTables(env) {
       updated_at INTEGER NOT NULL
     )`
   ).run();
+
+  await env.DB.prepare(
+    'CREATE INDEX IF NOT EXISTS idx_referrals_active_pool ON referrals(status, expires_at, selection_count, last_selected_at)'
+  ).run();
 }
 
 async function cleanExpiredSecurityRows(env, now) {
@@ -332,13 +336,37 @@ async function handleSubmit(request, env, origin) {
 async function handleRandom(env, origin) {
   const now = nowEpochSeconds();
 
+  const preferredCode = String(env.PREFERRED_REFERRAL_CODE || '').trim().toLowerCase();
+
   const row = await env.DB.prepare(
-    `SELECT id, referral_url
-     FROM referrals
-     WHERE status = 'active' AND expires_at > ?
-     ORDER BY RANDOM()
+    `WITH preferred AS (
+       SELECT id, referral_url, COALESCE(selection_count, 0) AS sc
+       FROM referrals
+       WHERE status = 'active' AND expires_at > ? AND normalized_code = ?
+       LIMIT 1
+     ), base_candidates AS (
+       SELECT id, referral_url, COALESCE(selection_count, 0) AS sc
+       FROM referrals
+       WHERE status = 'active' AND expires_at > ?
+       ORDER BY COALESCE(selection_count, 0) ASC, COALESCE(last_selected_at, 0) ASC
+       LIMIT 200
+     ), candidates AS (
+       SELECT id, referral_url, sc FROM base_candidates
+       UNION
+       SELECT id, referral_url, sc FROM preferred
+     ), scored AS (
+       SELECT
+         id,
+         referral_url,
+         (1.0 / (sc + 1.0)) AS weight,
+         (ABS(RANDOM()) / 9223372036854775807.0) AS r
+       FROM candidates
+     )
+     SELECT id, referral_url
+     FROM scored
+     ORDER BY (r / weight) ASC
      LIMIT 1`
-  ).bind(now).first();
+  ).bind(now, preferredCode, now).first();
 
   if (!row) {
     const fallbackUrl = String(env.FALLBACK_TORBOX_URL || '').trim();
