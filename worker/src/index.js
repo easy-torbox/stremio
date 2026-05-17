@@ -337,6 +337,7 @@ async function handleRandom(env, origin) {
   const now = nowEpochSeconds();
 
   const preferredCode = String(env.PREFERRED_REFERRAL_CODE || '').trim().toLowerCase();
+  const randomPoolLimit = parseIntEnv(env, 'RANDOM_POOL_LIMIT', 200);
 
   const row = await env.DB.prepare(
     `WITH preferred AS (
@@ -349,7 +350,7 @@ async function handleRandom(env, origin) {
        FROM referrals
        WHERE status = 'active' AND expires_at > ?
        ORDER BY COALESCE(selection_count, 0) ASC, COALESCE(last_selected_at, 0) ASC
-       LIMIT 200
+       LIMIT ?
      ), candidates AS (
        SELECT id, referral_url, sc FROM base_candidates
        UNION
@@ -366,7 +367,7 @@ async function handleRandom(env, origin) {
      FROM scored
      ORDER BY (r / weight) ASC
      LIMIT 1`
-  ).bind(now, preferredCode, now).first();
+  ).bind(now, preferredCode, now, randomPoolLimit).first();
 
   if (!row) {
     const fallbackUrl = String(env.FALLBACK_TORBOX_URL || '').trim();
