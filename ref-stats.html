@@ -68,6 +68,28 @@
       align-items: center;
       gap: 12px;
     }
+    .filters .actions button,
+    .filters .actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid #d1d5db;
+      background: #f9fafb;
+      color: #1f2937;
+      cursor: pointer;
+    }
+    .filters .actions button:hover,
+    .filters .actions a:hover {
+      background: #eef2ff;
+      border-color: #93c5fd;
+      color: #1d4ed8;
+    }
     .filters {
       margin-top: 12px;
       display: flex;
@@ -121,8 +143,7 @@
     <label for="codeSearchInput">Search code:</label>
     <input id="codeSearchInput" type="search" placeholder="Type referral code..." autocomplete="off" />
     <div class="actions">
-      <button id="refreshBtn" type="button">Refresh</button>
-      <a href="referrals.html">Back to referrals</a>
+      <button id="refreshBtn" type="button" aria-label="Refresh stats" title="Refresh stats">↻</button>
     </div>
   </div>
 
