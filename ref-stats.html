@@ -4,16 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Referral Stats</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 24px;
-      color: #222;
-      line-height: 1.4;
-    }
-    h1 {
-      margin: 0 0 8px 0;
-    }
     .meta {
       margin: 0 0 16px 0;
       color: #555;
@@ -107,13 +99,22 @@
     }
   </style>
 </head>
-<body>
-  <img src="assets/easytorbox-logo-128.png?v=2" alt="EasyTorbox logo" style="display:block;margin:0 auto 12px auto;height:64px;width:auto;" width="64" height="64" loading="eager" decoding="async">
-  <h1>Referral Stats</h1>
-  <p class="meta">Shows current referral codes and total times clicked.</p>
-  <p class="meta" id="updatedAt">Last updated: loading...</p>
+<body class="bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800 font-sans p-4 md:p-12 min-h-screen flex items-center justify-center">
+  <div class="max-w-5xl w-full bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-gray-100">
+    <nav class="mb-6" aria-label="Primary">
+      <div class="flex flex-wrap items-center justify-center gap-2 text-sm">
+        <a href="index.html" class="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-200 transition">Setup</a>
+        <a href="referrals.html" class="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-200 transition">Referral Pool</a>
+        <a href="ref-stats.html" class="px-3 py-1.5 rounded-full bg-blue-600 text-white font-semibold">Stats</a>
+      </div>
+    </nav>
 
-  <div class="summary" id="summary">Loading stats...</div>
+    <img src="assets/easytorbox-logo-128.png?v=2" alt="EasyTorbox logo" class="mx-auto mb-3 h-16 w-auto" width="64" height="64" loading="eager" decoding="async">
+    <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight text-center">Referral Stats</h1>
+    <p class="meta text-center">Shows current referral codes and total times clicked.</p>
+  <p class="meta text-center" id="updatedAt">Last updated: loading...</p>
+
+  <div class="summary rounded-xl" id="summary">Loading stats...</div>
   <p class="meta"><strong>Metric guide:</strong> <span class="active">Active</span> = available for random sign-up, <span class="inactive">Inactive</span> = expired/removed, <strong>Clicks</strong> = times opened from the pool.</p>
 
   <div class="filters">
@@ -359,5 +360,6 @@
     updateSortIndicators();
     loadStats();
   </script>
+  </div>
 </body>
 </html>
