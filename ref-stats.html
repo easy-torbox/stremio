@@ -160,15 +160,17 @@
 </head>
 <body class="bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800 font-sans p-4 md:p-12 min-h-screen flex items-center justify-center">
   <div class="max-w-5xl w-full bg-white p-4 md:p-10 rounded-2xl shadow-xl border border-gray-100">
-    <nav class="mb-6" aria-label="Primary">
-      <div class="flex flex-wrap items-center justify-center gap-2 text-sm">
-        <a href="index.html" class="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-200 transition">Setup</a>
-        <a href="referrals.html" class="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-200 transition">Referral Pool</a>
-        <a href="ref-stats.html" class="px-3 py-1.5 rounded-full bg-blue-600 text-white font-semibold">Stats</a>
-      </div>
-    </nav>
+    <div class="mb-6 flex flex-wrap items-center justify-center gap-3" aria-label="Primary">
+      <img src="assets/easytorbox-logo-128.png?v=2" alt="EasyTorbox logo" class="h-11 w-auto" width="44" height="44" loading="eager" decoding="async">
+      <nav>
+        <div class="flex flex-wrap items-center justify-center gap-2 text-sm">
+          <a href="index.html" class="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-200 transition">Setup</a>
+          <a href="referrals.html" class="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-200 transition">Referral Pool</a>
+          <a href="ref-stats.html" class="px-3 py-1.5 rounded-full bg-blue-600 text-white font-semibold">Stats</a>
+        </div>
+      </nav>
+    </div>
 
-    <img src="assets/easytorbox-logo-128.png?v=2" alt="EasyTorbox logo" class="mx-auto mb-3 h-16 w-auto" width="64" height="64" loading="eager" decoding="async">
     <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight text-center">Referral Stats</h1>
     <p class="meta text-center">Shows current referral codes and total times clicked.</p>
   <p class="meta text-center" id="updatedAt">Last updated: loading...</p>
@@ -209,6 +211,10 @@
   </div>
 
   <p class="error" id="errorMsg" style="display:none;"></p>
+
+  <div class="mt-8 text-center">
+    <a href="https://ko-fi.com/easytorbox" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-full bg-amber-500 text-white font-semibold hover:bg-amber-600 transition text-sm align-middle"><span aria-hidden="true">☕</span><span>Buy Me a Coffee</span></a>
+  </div>
 
   <script>
     const API_BASE = 'https://easytorbox-referrals-api.etapps.workers.dev';
