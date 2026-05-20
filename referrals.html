@@ -27,27 +27,10 @@
       </div>
     </div>
 
-    <div class="mb-8 p-4 md:p-5 rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 text-sm text-blue-900">
-      <p class="font-semibold mb-1"><strong>New users and referrers each</strong> get extra <span class="text-blue-600">7 days per moth</span> or <span class="text-blue-600">84 days per year</span>.</p>
-      <p class="text-xs text-blue-800/80">Bonus rules are set by Torbox and can change.</p>
-    </div>
-
-    <section class="mb-10 border-t pt-8 border-gray-100">
-      <h2 class="flex items-center text-lg font-bold mb-2 text-gray-800">
-        <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-        Step 1: New User? Sign up
-      </h2>
-      <p class="text-sm text-gray-700 mb-3">If you’re new to Torbox, sign up using an active referral link.</p>
-      <button id="randomBtn" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-[#29ABE0] text-white font-semibold hover:opacity-90 transition shadow-md transform hover:-translate-y-0.5" onclick="openRandomReferral()">
-        Sign up
-      </button>
-      <p id="randomStatus" class="mt-3 text-sm text-gray-600"></p>
-    </section>
-
     <section class="mb-10 border-t pt-8 border-gray-100">
       <h2 class="flex items-center text-lg font-bold mb-3 text-gray-800">
         <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-        Step 2: Share your referral code
+        Share your referral code
       </h2>
       
       <input id="referralInput" type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow shadow-sm" placeholder="Your referral code or full link" />
@@ -62,9 +45,6 @@
       </button>
 
       <p id="submitStatus" class="mt-3 text-sm text-gray-600"></p>
-      <p class="mt-2 text-sm">
-        <a href="ref-stats.html" class="text-blue-600 hover:text-blue-800 hover:underline">View referral stats</a>
-      </p>
 
       <div class="mt-5 p-4 rounded-xl border border-blue-200 bg-blue-50 text-sm text-blue-900 shadow-sm">
         <p class="font-semibold mb-1">What happens next</p>
@@ -78,13 +58,33 @@
       </div>
     </section>
 
+    <p class="mt-2 mb-8 text-center text-sm">
+      <a href="ref-stats.html" class="text-blue-600 hover:text-blue-800 hover:underline">View referral stats</a>
+    </p>
+
+    <section class="mb-10 border-t pt-8 border-gray-100">
+      <h2 class="flex items-center text-lg font-bold mb-2 text-gray-800">
+        <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        New to TorBox?
+      </h2>
+      <p class="text-sm text-gray-700 mb-3">Sign up using an active referral link in the community pool.</p>
+      <button id="randomBtn" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-[#29ABE0] text-white font-semibold hover:opacity-90 transition shadow-md transform hover:-translate-y-0.5" onclick="openRandomReferral()">
+        Sign up
+      </button>
+      <p id="randomStatus" class="mt-3 text-sm text-gray-600"></p>
+      <div class="mt-5 p-4 md:p-5 rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 text-sm text-blue-900">
+        <p class="font-semibold mb-1"><strong>New users and referrers each</strong> get extra <span class="text-blue-600">7 days per month</span> or <span class="text-blue-600">84 days per year</span>.</p>
+        <p class="text-xs text-blue-800/80">Bonus rules are set by Torbox and can change.</p>
+      </div>
+    </section>
+
     <div class="mt-8 text-center">
       <a href="https://ko-fi.com/easytorbox" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-full bg-amber-500 text-white font-semibold hover:bg-amber-600 transition text-sm align-middle"><span aria-hidden="true">☕</span><span>Buy Me a Coffee</span></a>
     </div>
 
-    <div class="mt-8 p-4 rounded-xl border border-amber-200 bg-amber-50 text-xs text-amber-900">
-      <p class="font-semibold mb-1">Privacy notice</p>
-      <p>This optional page uses Cloudflare Worker + D1 + Turnstile to reduce spam, block duplicates, and rotate links. Do not paste your Torbox API key here. EasyTorbox setup still runs in your browser.</p>
+    <div class="mt-8 pt-6 border-t border-gray-200 text-center text-xs text-gray-500">
+      <p class="mb-2"><strong>Privacy Policy:</strong> This optional page uses Cloudflare Worker + D1 + Turnstile to reduce spam, block duplicates, and rotate links. Do not paste your Torbox API key here. EasyTorbox setup still runs in your browser.</p>
+      <p><strong>Open Source:</strong> Verify the code on <a href="https://github.com/easy-torbox/stremio" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">GitHub</a>.</p>
     </div>
 
     <div class="mt-8 text-center text-sm">
@@ -134,7 +134,7 @@
         const data = await res.json().catch(() => ({}));
 
         if (res.ok) {
-          setStatus('submitStatus', data.message || 'Added to pool. You are all set.', 'success');
+          setStatus('submitStatus', data.message || 'Added to pool. Your code is now active if valid.', 'success');
           document.getElementById('referralInput').value = '';
           window.turnstile?.reset();
           return;
