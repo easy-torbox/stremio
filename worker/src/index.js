@@ -3,6 +3,9 @@ function json(data, status = 200, origin = '*') {
     status,
     headers: {
       'content-type': 'application/json; charset=utf-8',
+      'cache-control': 'no-store, no-cache, must-revalidate, max-age=0',
+      'pragma': 'no-cache',
+      'expires': '0',
       'access-control-allow-origin': origin,
       'access-control-allow-methods': 'GET,POST,OPTIONS',
       'access-control-allow-headers': 'content-type'
@@ -338,6 +341,14 @@ async function handleRandom(env, origin) {
 
   const preferredCode = String(env.PREFERRED_REFERRAL_CODE || '').trim().toLowerCase();
   const randomPoolLimit = parseIntEnv(env, 'RANDOM_POOL_LIMIT', 200);
+  const includeDiagnostics = String(env.INCLUDE_RANDOM_DIAGNOSTICS || '').trim() === '1';
+
+  const eligibleCountRow = await env.DB.prepare(
+    `SELECT COUNT(*) AS c
+     FROM referrals
+     WHERE status = 'active' AND expires_at > ?`
+  ).bind(now).first();
+  const eligibleCount = Number(eligibleCountRow?.c || 0);
 
   const row = await env.DB.prepare(
     `WITH preferred AS (
@@ -375,11 +386,30 @@ async function handleRandom(env, origin) {
       return json({
         url: fallbackUrl,
         source: 'fallback',
+        reason: 'no_eligible_pool_row',
+        ...(includeDiagnostics ? {
+          diagnostics: {
+            eligibleCount,
+            randomPoolLimit,
+            preferredCode: preferredCode || null,
+            now
+          }
+        } : {}),
         message: 'No active community referral found. Using fallback.'
       }, 200, origin);
     }
 
-    return json({ message: 'No active referrals are available right now.' }, 404, origin);
+    return json({
+      message: 'No active referrals are available right now.',
+      ...(includeDiagnostics ? {
+        diagnostics: {
+          eligibleCount,
+          randomPoolLimit,
+          preferredCode: preferredCode || null,
+          now
+        }
+      } : {})
+    }, 404, origin);
   }
 
   await env.DB.prepare(
@@ -391,7 +421,15 @@ async function handleRandom(env, origin) {
 
   return json({
     url: row.referral_url,
-    source: 'pool'
+    source: 'pool',
+    ...(includeDiagnostics ? {
+      diagnostics: {
+        eligibleCount,
+        randomPoolLimit,
+        preferredCode: preferredCode || null,
+        now
+      }
+    } : {})
   }, 200, origin);
 }
 
