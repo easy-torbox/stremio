@@ -33,7 +33,11 @@ function parseLimits(env) {
     maxFailuresPerHour: parseIntEnv(env, 'MAX_FAILURES_PER_HOUR', 12),
     blockMinutes: parseIntEnv(env, 'BLOCK_MINUTES', 60),
     tokenTtlSeconds: parseIntEnv(env, 'TOKEN_TTL_SECONDS', 600),
-    maxBodyBytes: parseIntEnv(env, 'MAX_BODY_BYTES', 4096)
+    maxBodyBytes: parseIntEnv(env, 'MAX_BODY_BYTES', 4096),
+    randomMaxPerMinute: parseIntEnv(env, 'RANDOM_MAX_PER_MINUTE', 8),
+    randomMaxPerHour: parseIntEnv(env, 'RANDOM_MAX_PER_HOUR', 120),
+    randomMinIntervalSeconds: parseIntEnv(env, 'RANDOM_MIN_INTERVAL_SECONDS', 2),
+    randomBlockMinutes: parseIntEnv(env, 'RANDOM_BLOCK_MINUTES', 30)
   };
 }
 
@@ -163,6 +167,20 @@ async function ensureSecurityTables(env) {
   ).run();
 
   await env.DB.prepare(
+    `CREATE TABLE IF NOT EXISTS random_events (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      ip_hash TEXT NOT NULL,
+      allowed INTEGER NOT NULL,
+      reason TEXT,
+      created_at INTEGER NOT NULL
+    )`
+  ).run();
+
+  await env.DB.prepare(
+    'CREATE INDEX IF NOT EXISTS idx_random_events_ip_created ON random_events(ip_hash, created_at)'
+  ).run();
+
+  await env.DB.prepare(
     'CREATE INDEX IF NOT EXISTS idx_referrals_active_pool ON referrals(status, expires_at, selection_count, last_selected_at)'
   ).run();
 }
@@ -224,6 +242,41 @@ async function markTokenUsed(env, tokenHash, now, ttlSeconds) {
 async function isTokenUsed(env, tokenHash) {
   const row = await env.DB.prepare('SELECT token_hash FROM used_turnstile_tokens WHERE token_hash = ? LIMIT 1').bind(tokenHash).first();
   return !!row;
+}
+
+async function recordRandomEvent(env, ipHash, now, allowed, reason = null) {
+  await env.DB.prepare(
+    'INSERT INTO random_events (ip_hash, allowed, reason, created_at) VALUES (?, ?, ?, ?)'
+  ).bind(ipHash, allowed ? 1 : 0, reason, now).run();
+}
+
+async function checkRandomRateLimit(env, ipHash, now, limits) {
+  const lastEventRow = await env.DB.prepare(
+    'SELECT created_at FROM random_events WHERE ip_hash = ? AND allowed = 1 ORDER BY created_at DESC LIMIT 1'
+  ).bind(ipHash).first();
+
+  const lastAllowedAt = Number(lastEventRow?.created_at || 0);
+  if (lastAllowedAt > 0 && (now - lastAllowedAt) < limits.randomMinIntervalSeconds) {
+    const retryAfter = Math.max(1, limits.randomMinIntervalSeconds - (now - lastAllowedAt));
+    return { ok: false, reason: 'cooldown', retryAfter };
+  }
+
+  const minuteCountRow = await env.DB.prepare(
+    'SELECT COUNT(*) AS c FROM random_events WHERE ip_hash = ? AND created_at >= ?'
+  ).bind(ipHash, now - 60).first();
+
+  const hourCountRow = await env.DB.prepare(
+    'SELECT COUNT(*) AS c FROM random_events WHERE ip_hash = ? AND created_at >= ?'
+  ).bind(ipHash, now - 3600).first();
+
+  const minuteCount = Number(minuteCountRow?.c || 0);
+  const hourCount = Number(hourCountRow?.c || 0);
+
+  if (minuteCount >= limits.randomMaxPerMinute || hourCount >= limits.randomMaxPerHour) {
+    return { ok: false, reason: 'rate_limit', retryAfter: 60 };
+  }
+
+  return { ok: true };
 }
 
 async function handleSubmit(request, env, origin) {
@@ -336,8 +389,48 @@ async function handleSubmit(request, env, origin) {
   }, 201, origin);
 }
 
-async function handleRandom(env, origin) {
+async function handleRandom(request, env, origin) {
   const now = nowEpochSeconds();
+  const limits = parseLimits(env);
+  await ensureSecurityTables(env);
+
+  const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+  const hashSecret = String(env.IP_HASH_SECRET || '').trim();
+  if (!hashSecret) {
+    return json({ message: 'Server misconfiguration: missing IP_HASH_SECRET.' }, 500, origin);
+  }
+
+  const ipHash = await hashWithSecret(ip, hashSecret);
+  if (await isBlocked(env, ipHash, now)) {
+    await recordRandomEvent(env, ipHash, now, false, 'blocked_ip');
+    return json({ message: 'Too many requests. Please wait and try again.' }, 429, origin);
+  }
+
+  const randomRateCheck = await checkRandomRateLimit(env, ipHash, now, limits);
+  if (!randomRateCheck.ok) {
+    await recordRandomEvent(env, ipHash, now, false, randomRateCheck.reason);
+
+    if (randomRateCheck.reason === 'rate_limit') {
+      const blockedUntil = now + (limits.randomBlockMinutes * 60);
+      await env.DB.prepare(
+        `INSERT INTO blocked_ips (ip_hash, blocked_until, reason, updated_at)
+         VALUES (?, ?, ?, ?)
+         ON CONFLICT(ip_hash) DO UPDATE SET blocked_until = excluded.blocked_until, reason = excluded.reason, updated_at = excluded.updated_at`
+      ).bind(ipHash, blockedUntil, 'random_rate_limit', now).run();
+    }
+
+    return json({ message: 'Please wait a moment before trying again.', retryAfter: randomRateCheck.retryAfter || 1 }, 429, origin);
+  }
+
+  const randomRequireTurnstile = String(env.RANDOM_REQUIRE_TURNSTILE || '').trim() === '1';
+  const randomTurnstileToken = request.headers.get('x-turnstile-token') || '';
+  if (randomRequireTurnstile) {
+    const turnstile = await verifyTurnstile(randomTurnstileToken, env, ip);
+    if (!turnstile.ok) {
+      await recordRandomEvent(env, ipHash, now, false, 'turnstile_failed_random');
+      return json({ message: 'Spam check required before opening referral link.' }, 403, origin);
+    }
+  }
 
   const preferredCode = String(env.PREFERRED_REFERRAL_CODE || '').trim().toLowerCase();
   const randomPoolLimit = parseIntEnv(env, 'RANDOM_POOL_LIMIT', 200);
@@ -383,6 +476,7 @@ async function handleRandom(env, origin) {
   if (!row) {
     const fallbackUrl = String(env.FALLBACK_TORBOX_URL || '').trim();
     if (fallbackUrl) {
+      await recordRandomEvent(env, ipHash, now, true, 'fallback');
       return json({
         url: fallbackUrl,
         source: 'fallback',
@@ -399,6 +493,7 @@ async function handleRandom(env, origin) {
       }, 200, origin);
     }
 
+    await recordRandomEvent(env, ipHash, now, true, 'empty_pool');
     return json({
       message: 'No active referrals are available right now.',
       ...(includeDiagnostics ? {
@@ -418,6 +513,8 @@ async function handleRandom(env, origin) {
          last_selected_at = ?
      WHERE id = ?`
   ).bind(now, row.id).run();
+
+  await recordRandomEvent(env, ipHash, now, true, 'ok');
 
   return json({
     url: row.referral_url,
@@ -506,7 +603,7 @@ export default {
     }
 
     if (request.method === 'GET' && url.pathname === '/referrals/random') {
-      return handleRandom(env, corsOrigin);
+      return handleRandom(request, env, corsOrigin);
     }
 
     if (request.method === 'GET' && url.pathname === '/referrals/stats') {
