@@ -8,7 +8,7 @@ function json(data, status = 200, origin = '*') {
       'expires': '0',
       'access-control-allow-origin': origin,
       'access-control-allow-methods': 'GET,POST,OPTIONS',
-      'access-control-allow-headers': 'content-type'
+      'access-control-allow-headers': 'content-type, x-turnstile-token'
     }
   });
 }
@@ -599,7 +599,7 @@ export default {
         headers: {
           'access-control-allow-origin': corsOrigin,
           'access-control-allow-methods': 'GET,POST,OPTIONS',
-          'access-control-allow-headers': 'content-type'
+          'access-control-allow-headers': 'content-type, x-turnstile-token'
         }
       });
     }

@@ -288,7 +288,7 @@
   </div>
 
   <script>
-    const API_BASE = 'https://easytorbox-referrals-api.etapps.workers.dev';
+    const API_BASE = window.ETB_SHARED?.API_BASE || 'https://easytorbox-referrals-api.etapps.workers.dev';
 
     const PAGE_SIZE = 25;
     let allItems = [];

@@ -9,6 +9,9 @@ ALLOWED_ORIGINS = "https://easy-torbox.github.io,https://easytorbox.com,https://
 # Optional fallback URL used when pool has no eligible referral
 FALLBACK_TORBOX_URL = "https://torbox.app/subscription"
 
+# Optional preferred referral code to bias random selection (UUID, lowercase recommended)
+PREFERRED_REFERRAL_CODE = ""
+
 # Optional diagnostics toggle for /referrals/random payloads (0/1)
 INCLUDE_RANDOM_DIAGNOSTICS = "0"
 
