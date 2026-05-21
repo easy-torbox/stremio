@@ -569,17 +569,28 @@ async function handleStats(env, origin) {
   }, 200, origin);
 }
 
+function normalizeOrigin(value) {
+  const raw = String(value || '').trim();
+  if (!raw) return '';
+  try {
+    return new URL(raw).origin.toLowerCase();
+  } catch {
+    return raw.replace(/\/+$/, '').toLowerCase();
+  }
+}
+
 export default {
   async fetch(request, env) {
     const allowedOrigins = String(env.ALLOWED_ORIGINS || env.ALLOWED_ORIGIN || '')
       .split(',')
-      .map((s) => s.trim())
+      .map((s) => normalizeOrigin(s))
       .filter(Boolean);
 
     const requestOrigin = request.headers.get('origin') || '';
-    const isOriginAllowed = !allowedOrigins.length || (requestOrigin && allowedOrigins.includes(requestOrigin));
-    const corsOrigin = requestOrigin && isOriginAllowed
-      ? requestOrigin
+    const normalizedRequestOrigin = normalizeOrigin(requestOrigin);
+    const isOriginAllowed = !allowedOrigins.length || (normalizedRequestOrigin && allowedOrigins.includes(normalizedRequestOrigin));
+    const corsOrigin = normalizedRequestOrigin && isOriginAllowed
+      ? normalizedRequestOrigin
       : (allowedOrigins[0] || '*');
 
     if (request.method === 'OPTIONS') {

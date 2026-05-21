@@ -66,16 +66,20 @@
       margin-left: auto;
       display: flex;
       align-items: center;
+      align-self: end;
       gap: 12px;
+      flex: 0 0 auto;
     }
     .filters .actions button,
     .filters .actions a {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 8px 12px;
-      border-radius: 9999px;
-      font-size: 13px;
+      gap: 8px;
+      min-height: 44px;
+      padding: 0 14px;
+      border-radius: 12px;
+      font-size: 14px;
       font-weight: 600;
       text-decoration: none;
       transition: all 0.2s ease;
@@ -83,6 +87,12 @@
       background: #f9fafb;
       color: #1f2937;
       cursor: pointer;
+      line-height: 1;
+    }
+    .filters .actions button svg {
+      width: 16px;
+      height: 16px;
+      flex: 0 0 auto;
     }
     .filters .actions button:hover,
     .filters .actions a:hover {
@@ -90,25 +100,56 @@
       border-color: #93c5fd;
       color: #1d4ed8;
     }
+    .filters .actions button:disabled {
+      opacity: 0.65;
+      cursor: wait;
+    }
+    .filters .actions button.is-loading svg {
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
     .filters {
-      margin-top: 12px;
+      margin-top: 14px;
       display: flex;
-      align-items: center;
-      gap: 8px;
+      align-items: flex-end;
+      gap: 10px;
       flex-wrap: wrap;
+      padding: 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      background: #fcfcfd;
+    }
+    .filters .search-field {
+      flex: 1 1 320px;
+      min-width: 240px;
+      max-width: 640px;
     }
     .filters label {
-      font-size: 14px;
-      color: #444;
+      display: block;
+      width: 100%;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 6px;
     }
     .filters input {
-      padding: 8px 10px;
+      padding: 12px 14px;
       min-width: 0;
-      width: 100%;
+      width: min(100%, 520px);
       max-width: 100%;
       border: 1px solid #d1d5db;
-      border-radius: 10px;
+      border-radius: 12px;
       box-sizing: border-box;
+      font-size: 15px;
+      color: #111827;
+      background: #fff;
+    }
+    .filters input:focus {
+      outline: none;
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
     }
     .table-wrap {
       width: 100%;
@@ -143,18 +184,40 @@
       }
     }
     .pagination {
-      margin-top: 12px;
+      margin-top: 14px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       flex-wrap: wrap;
     }
     .pagination button {
-      padding: 6px 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      background: #f9fafb;
+      color: #1f2937;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .pagination button:hover:not(:disabled) {
+      background: #eef2ff;
+      border-color: #93c5fd;
+      color: #1d4ed8;
+    }
+    .pagination button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
     .pagination .page-info {
-      color: #555;
+      color: #4b5563;
       font-size: 14px;
+      font-weight: 500;
     }
   </style>
 </head>
@@ -179,10 +242,18 @@
   <p class="meta"><strong>Metric guide:</strong> <span class="active">Active</span> = available for random sign-up, <span class="inactive">Inactive</span> = expired/removed, <strong>Clicks</strong> = times opened from the pool.</p>
 
   <div class="filters">
-    <label for="codeSearchInput">Search code:</label>
-    <input id="codeSearchInput" type="search" placeholder="Type referral code..." autocomplete="off" />
+    <div class="search-field">
+      <label for="codeSearchInput">Search code</label>
+      <input id="codeSearchInput" type="search" placeholder="Type a referral code…" autocomplete="off" />
+    </div>
     <div class="actions">
-      <button id="refreshBtn" type="button" aria-label="Refresh stats" title="Refresh stats">↻</button>
+      <button id="refreshBtn" type="button" aria-label="Refresh stats" title="Refresh stats">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 1 1-2.64-6.36" />
+          <polyline points="21 3 21 9 15 9" />
+        </svg>
+        <span>Refresh</span>
+      </button>
     </div>
   </div>
 
@@ -372,6 +443,7 @@
       const refreshBtn = document.getElementById('refreshBtn');
 
       refreshBtn.disabled = true;
+      refreshBtn.classList.add('is-loading');
       errorEl.style.display = 'none';
       summaryEl.textContent = 'Loading stats...';
       rowsEl.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
@@ -404,6 +476,7 @@
         errorEl.style.display = 'block';
       } finally {
         refreshBtn.disabled = false;
+        refreshBtn.classList.remove('is-loading');
       }
     }
 

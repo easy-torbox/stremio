@@ -2,6 +2,23 @@ name = "easytorbox-referrals-api"
 main = "src/index.js"
 compatibility_date = "2026-05-16"
 
+[vars]
+# CORS allowlist for site origins (comma-separated)
+ALLOWED_ORIGINS = "https://easy-torbox.github.io,https://easytorbox.com,https://www.easytorbox.com,http://localhost:8787,http://127.0.0.1:8787"
+
+# Optional fallback URL used when pool has no eligible referral
+FALLBACK_TORBOX_URL = "https://torbox.app/subscription"
+
+# Optional diagnostics toggle for /referrals/random payloads (0/1)
+INCLUDE_RANDOM_DIAGNOSTICS = "0"
+
+# Random endpoint anti-abuse controls
+RANDOM_MAX_PER_MINUTE = "8"
+RANDOM_MAX_PER_HOUR = "120"
+RANDOM_MIN_INTERVAL_SECONDS = "2"
+RANDOM_BLOCK_MINUTES = "30"
+RANDOM_REQUIRE_TURNSTILE = "0"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "torbox-referrals-prod"
