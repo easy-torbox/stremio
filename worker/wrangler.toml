@@ -12,6 +12,8 @@ FALLBACK_TORBOX_URL = "https://torbox.app/subscription"
 # Optional preferred referral code to bias random selection (UUID, lowercase recommended)
 PREFERRED_REFERRAL_CODE = ""
 
+RANDOM_POOL_LIMIT = 100
+
 # Optional diagnostics toggle for /referrals/random payloads (0/1)
 INCLUDE_RANDOM_DIAGNOSTICS = "0"
 
