@@ -38,7 +38,9 @@ function parseLimits(env) {
     randomMaxPerHour: parseIntEnv(env, 'RANDOM_MAX_PER_HOUR', 120),
     randomMaxPerDay: parseIntEnv(env, 'RANDOM_MAX_PER_DAY', 10),
     randomMinIntervalSeconds: parseIntEnv(env, 'RANDOM_MIN_INTERVAL_SECONDS', 2),
-    randomBlockMinutes: parseIntEnv(env, 'RANDOM_BLOCK_MINUTES', 30)
+    randomBlockMinutes: parseIntEnv(env, 'RANDOM_BLOCK_MINUTES', 30),
+    randomGlobalMaxPerMinute: parseIntEnv(env, 'RANDOM_GLOBAL_MAX_PER_MINUTE', 30),
+    randomGlobalMaxPerHour: parseIntEnv(env, 'RANDOM_GLOBAL_MAX_PER_HOUR', 300)
   };
 }
 
@@ -182,12 +184,28 @@ async function ensureSecurityTables(env) {
   ).run();
 
   await env.DB.prepare(
+    `CREATE TABLE IF NOT EXISTS random_rate_counters (
+      scope TEXT NOT NULL,
+      key TEXT NOT NULL,
+      bucket_start INTEGER NOT NULL,
+      count INTEGER NOT NULL,
+      expires_at INTEGER NOT NULL,
+      PRIMARY KEY(scope, key, bucket_start)
+    )`
+  ).run();
+
+  await env.DB.prepare(
+    'CREATE INDEX IF NOT EXISTS idx_random_rate_counters_expires ON random_rate_counters(expires_at)'
+  ).run();
+
+  await env.DB.prepare(
     'CREATE INDEX IF NOT EXISTS idx_referrals_active_pool ON referrals(status, expires_at, selection_count, last_selected_at)'
   ).run();
 }
 
 async function cleanExpiredSecurityRows(env, now) {
   await env.DB.prepare('DELETE FROM used_turnstile_tokens WHERE expires_at <= ?').bind(now).run();
+  await env.DB.prepare('DELETE FROM random_rate_counters WHERE expires_at <= ?').bind(now).run();
 }
 
 async function isBlocked(env, ipHash, now) {
@@ -251,35 +269,48 @@ async function recordRandomEvent(env, ipHash, now, allowed, reason = null) {
   ).bind(ipHash, allowed ? 1 : 0, reason, now).run();
 }
 
-async function checkRandomRateLimit(env, ipHash, now, limits) {
-  const lastEventRow = await env.DB.prepare(
-    'SELECT created_at FROM random_events WHERE ip_hash = ? AND allowed = 1 ORDER BY created_at DESC LIMIT 1'
-  ).bind(ipHash).first();
+function bucketStart(now, bucketSeconds) {
+  return Math.floor(now / bucketSeconds) * bucketSeconds;
+}
 
-  const lastAllowedAt = Number(lastEventRow?.created_at || 0);
-  if (lastAllowedAt > 0 && (now - lastAllowedAt) < limits.randomMinIntervalSeconds) {
-    const retryAfter = Math.max(1, limits.randomMinIntervalSeconds - (now - lastAllowedAt));
-    return { ok: false, reason: 'cooldown', retryAfter };
+async function incrementRandomCounter(env, scope, key, bucketSeconds, now) {
+  const start = bucketStart(now, bucketSeconds);
+  const expiresAt = start + bucketSeconds + 3600;
+
+  const row = await env.DB.prepare(
+    `INSERT INTO random_rate_counters (scope, key, bucket_start, count, expires_at)
+     VALUES (?, ?, ?, 1, ?)
+     ON CONFLICT(scope, key, bucket_start) DO UPDATE SET count = count + 1, expires_at = excluded.expires_at
+     RETURNING count`
+  ).bind(scope, key, start, expiresAt).first();
+
+  return Number(row?.count || 1);
+}
+
+async function checkRandomRateLimit(env, ipHash, now, limits) {
+  const minuteCount = await incrementRandomCounter(env, 'ip_minute', ipHash, 60, now);
+  if (minuteCount > limits.randomMaxPerMinute) {
+    return { ok: false, reason: 'ip_minute_rate_limit', retryAfter: 60 };
   }
 
-  const minuteCountRow = await env.DB.prepare(
-    'SELECT COUNT(*) AS c FROM random_events WHERE ip_hash = ? AND created_at >= ?'
-  ).bind(ipHash, now - 60).first();
+  const hourCount = await incrementRandomCounter(env, 'ip_hour', ipHash, 3600, now);
+  if (hourCount > limits.randomMaxPerHour) {
+    return { ok: false, reason: 'ip_hour_rate_limit', retryAfter: 3600 };
+  }
 
-  const hourCountRow = await env.DB.prepare(
-    'SELECT COUNT(*) AS c FROM random_events WHERE ip_hash = ? AND created_at >= ?'
-  ).bind(ipHash, now - 3600).first();
+  const dayCount = await incrementRandomCounter(env, 'ip_day', ipHash, 86400, now);
+  if (dayCount > limits.randomMaxPerDay) {
+    return { ok: false, reason: 'ip_day_rate_limit', retryAfter: 86400 };
+  }
 
-  const dayCountRow = await env.DB.prepare(
-    'SELECT COUNT(*) AS c FROM random_events WHERE ip_hash = ? AND created_at >= ?'
-  ).bind(ipHash, now - 86400).first();
+  const globalMinuteCount = await incrementRandomCounter(env, 'global_minute', 'all', 60, now);
+  if (globalMinuteCount > limits.randomGlobalMaxPerMinute) {
+    return { ok: false, reason: 'global_rate_limit', retryAfter: 60 };
+  }
 
-  const minuteCount = Number(minuteCountRow?.c || 0);
-  const hourCount = Number(hourCountRow?.c || 0);
-  const dayCount = Number(dayCountRow?.c || 0);
-
-  if (minuteCount >= limits.randomMaxPerMinute || hourCount >= limits.randomMaxPerHour || dayCount >= limits.randomMaxPerDay) {
-    return { ok: false, reason: 'rate_limit', retryAfter: 60 };
+  const globalHourCount = await incrementRandomCounter(env, 'global_hour', 'all', 3600, now);
+  if (globalHourCount > limits.randomGlobalMaxPerHour) {
+    return { ok: false, reason: 'global_rate_limit', retryAfter: 3600 };
   }
 
   return { ok: true };
@@ -399,6 +430,7 @@ async function handleRandom(request, env, origin) {
   const now = nowEpochSeconds();
   const limits = parseLimits(env);
   await ensureSecurityTables(env);
+  await cleanExpiredSecurityRows(env, now);
 
   const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
   const hashSecret = String(env.IP_HASH_SECRET || '').trim();
@@ -416,13 +448,13 @@ async function handleRandom(request, env, origin) {
   if (!randomRateCheck.ok) {
     await recordRandomEvent(env, ipHash, now, false, randomRateCheck.reason);
 
-    if (randomRateCheck.reason === 'rate_limit') {
+    if (randomRateCheck.reason === 'ip_hour_rate_limit' || randomRateCheck.reason === 'ip_day_rate_limit') {
       const blockedUntil = now + (limits.randomBlockMinutes * 60);
       await env.DB.prepare(
         `INSERT INTO blocked_ips (ip_hash, blocked_until, reason, updated_at)
          VALUES (?, ?, ?, ?)
          ON CONFLICT(ip_hash) DO UPDATE SET blocked_until = excluded.blocked_until, reason = excluded.reason, updated_at = excluded.updated_at`
-      ).bind(ipHash, blockedUntil, 'random_rate_limit', now).run();
+      ).bind(ipHash, blockedUntil, randomRateCheck.reason, now).run();
     }
 
     return json({ message: 'Please wait a moment before trying again.', retryAfter: randomRateCheck.retryAfter || 1 }, 429, origin);
