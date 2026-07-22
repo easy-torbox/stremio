@@ -36,6 +36,7 @@ function parseLimits(env) {
     maxBodyBytes: parseIntEnv(env, 'MAX_BODY_BYTES', 4096),
     randomMaxPerMinute: parseIntEnv(env, 'RANDOM_MAX_PER_MINUTE', 8),
     randomMaxPerHour: parseIntEnv(env, 'RANDOM_MAX_PER_HOUR', 120),
+    randomMaxPerDay: parseIntEnv(env, 'RANDOM_MAX_PER_DAY', 10),
     randomMinIntervalSeconds: parseIntEnv(env, 'RANDOM_MIN_INTERVAL_SECONDS', 2),
     randomBlockMinutes: parseIntEnv(env, 'RANDOM_BLOCK_MINUTES', 30)
   };
@@ -269,10 +270,15 @@ async function checkRandomRateLimit(env, ipHash, now, limits) {
     'SELECT COUNT(*) AS c FROM random_events WHERE ip_hash = ? AND created_at >= ?'
   ).bind(ipHash, now - 3600).first();
 
+  const dayCountRow = await env.DB.prepare(
+    'SELECT COUNT(*) AS c FROM random_events WHERE ip_hash = ? AND created_at >= ?'
+  ).bind(ipHash, now - 86400).first();
+
   const minuteCount = Number(minuteCountRow?.c || 0);
   const hourCount = Number(hourCountRow?.c || 0);
+  const dayCount = Number(dayCountRow?.c || 0);
 
-  if (minuteCount >= limits.randomMaxPerMinute || hourCount >= limits.randomMaxPerHour) {
+  if (minuteCount >= limits.randomMaxPerMinute || hourCount >= limits.randomMaxPerHour || dayCount >= limits.randomMaxPerDay) {
     return { ok: false, reason: 'rate_limit', retryAfter: 60 };
   }
 
