@@ -7,7 +7,7 @@
   <meta name="description" content="Optional community referral pool for new Torbox users. Submit your referral link and get a random active referral." />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-  <script src="assets/signup-shared.js?v=4"></script>
+  <script src="assets/signup-shared.js?v=5"></script>
 </head>
 <body class="bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800 font-sans p-4 md:p-12 min-h-screen flex items-center justify-center">
   <div class="max-w-2xl w-full bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-gray-100">
@@ -75,7 +75,10 @@
         New to TorBox?
       </h2>
       <p class="text-sm text-gray-700 mb-3">Sign up using an active referral link in the community pool.</p>
-      <button id="randomBtn" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-[#29ABE0] text-white font-semibold hover:opacity-90 transition shadow-md transform hover:-translate-y-0.5">
+      <div class="mt-4">
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAADQhQLkjkuyaYwAG" data-theme="light"></div>
+      </div>
+      <button id="randomBtn" class="mt-4 w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-[#29ABE0] text-white font-semibold hover:opacity-90 transition shadow-md transform hover:-translate-y-0.5">
         Sign up
       </button>
       <p id="randomStatus" class="mt-3 text-sm text-gray-600"></p>
@@ -185,9 +188,15 @@
       sessionStorage.setItem(RANDOM_LAST_CLICK_KEY, String(nowMs));
 
       try {
+        const turnstileToken = window.turnstile?.getResponse?.() || '';
+        if (!turnstileToken) {
+          setStatus('randomStatus', 'Complete the spam check first.', 'warn');
+          return;
+        }
+
         await window.openCommunitySignup({
           statusElementId: 'randomStatus',
-          turnstileToken: window.turnstile?.getResponse?.() || '',
+          turnstileToken,
           disableSelector: '#randomBtn',
           loadingMessage: 'Finding a random link...'
         });

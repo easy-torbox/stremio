@@ -444,6 +444,24 @@ async function handleRandom(request, env, origin) {
     return json({ message: 'Too many requests. Please wait and try again.' }, 429, origin);
   }
 
+  const randomRequireTurnstile = String(env.RANDOM_REQUIRE_TURNSTILE || '').trim() === '1';
+  const randomTurnstileToken = request.headers.get('x-turnstile-token') || '';
+  if (randomRequireTurnstile) {
+    const tokenHash = await hashWithSecret(randomTurnstileToken, hashSecret);
+    if (await isTokenUsed(env, tokenHash)) {
+      await recordRandomEvent(env, ipHash, now, false, 'turnstile_replay_random');
+      return json({ message: 'Spam check expired. Please retry challenge.' }, 409, origin);
+    }
+
+    const turnstile = await verifyTurnstile(randomTurnstileToken, env, ip);
+    if (!turnstile.ok) {
+      await recordRandomEvent(env, ipHash, now, false, 'turnstile_failed_random');
+      return json({ message: 'Complete the spam check before opening a referral link.' }, 403, origin);
+    }
+
+    await markTokenUsed(env, tokenHash, now, limits.tokenTtlSeconds);
+  }
+
   const randomRateCheck = await checkRandomRateLimit(env, ipHash, now, limits);
   if (!randomRateCheck.ok) {
     await recordRandomEvent(env, ipHash, now, false, randomRateCheck.reason);
@@ -458,16 +476,6 @@ async function handleRandom(request, env, origin) {
     }
 
     return json({ message: 'Please wait a moment before trying again.', retryAfter: randomRateCheck.retryAfter || 1 }, 429, origin);
-  }
-
-  const randomRequireTurnstile = String(env.RANDOM_REQUIRE_TURNSTILE || '').trim() === '1';
-  const randomTurnstileToken = request.headers.get('x-turnstile-token') || '';
-  if (randomRequireTurnstile) {
-    const turnstile = await verifyTurnstile(randomTurnstileToken, env, ip);
-    if (!turnstile.ok) {
-      await recordRandomEvent(env, ipHash, now, false, 'turnstile_failed_random');
-      return json({ message: 'Spam check required before opening referral link.' }, 403, origin);
-    }
   }
 
   const preferredCode = String(env.PREFERRED_REFERRAL_CODE || '').trim().toLowerCase();
