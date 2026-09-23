@@ -1,18 +1,19 @@
 # 🚀 EasyTorbox for Stremio
 
 ![Open Source](https://img.shields.io/badge/Open_Source-Yes-blue.svg)
-![Privacy](https://img.shields.io/badge/Privacy-100%25_Client_Side-brightgreen.svg)
+![Privacy](https://img.shields.io/badge/Privacy-Local_Setup-brightgreen.svg)
 
-A dead-simple, 1-click web tool designed to help you (or your non-tech-savvy friends and family) connect a [Torbox](https://torbox.app/) account to Stremio instantly. 
+A beginner-friendly web tool designed to help you (or your non-tech-savvy friends and family) connect an existing Torbox subscription to Stremio quickly, with optional community referral signup for new users.
 
 👉 **[Launch the Tool Here](https://easy-torbox.github.io/stremio/)**
 
-## ⚡ 30-Second Start
+## ⚡ Beginner Start
 1. Open [`index.html`](https://easy-torbox.github.io/stremio/index.html) via the launch link above.
-2. Paste your Torbox API key.
-3. Keep **"Netflix" Mode** and click **Install to Stremio**.
+2. Paste your Torbox API key from Torbox settings.
+3. Keep the default settings or expand optional settings if you want to customize them.
+4. Click **Install in Stremio**.
 
-Need referral bonus flow? Use [`referrals.html`](https://easy-torbox.github.io/stremio/referrals.html).
+No Torbox subscription yet? Use the secondary **Sign up on Torbox** button below the setup area. EasyTorbox selects one community referral and sends you directly to Torbox to attempt a referral-attributed signup.
 
 ## 🖼️ How it works
 
@@ -39,26 +40,26 @@ This tool dynamically generates safe, properly-encoded Stremio installation link
 *   **Meteor**
 *   **HdHub**
 
-*(Note: MediaFusion is intentionally excluded from this tool because their recent v5 update requires server-side encryption. We strictly keep everything client-side!)*
+*(Note: MediaFusion is intentionally excluded from this tool because their recent v5 update requires server-side encryption; EasyTorbox keeps API-key setup local.)*
 
 ## 🎬 The "Quick Profiles"
 1.  🟦 **"Netflix" Mode:** The cleanest experience. Hides CAMs/3D, restricts results to exactly 1 instant-play link per resolution. No clutter.
 2.  🟩 **Data Saver:** Caps resolution at 1080p and sorts by smallest file size first. Great for mobile viewing or strict data caps.
 3.  🟪 **Cinephile:** Unrestricted quality. Shows all available 4K/HDR files sorted by highest quality first.
 
-## 🔒 Strict Privacy Guarantee & Direct Connection
-**Your API Key is completely safe.** This web app is 100% serverless and runs entirely inside your local browser via JavaScript. 
+## 🔒 Local Setup Privacy & Direct Connection
+**Your API key is not sent to EasyTorbox during setup.** The setup UI runs in your browser and prepares the Stremio install link locally.
 
-Unlike aggregator add-ons that route your stream requests through a middleman server, EasyTorbox configures Stremio to connect **directly** to the content providers. This means no server bottlenecks and total privacy.
+Unlike aggregator add-ons that route your stream requests through a middleman server, EasyTorbox configures Stremio to connect **directly** to the content providers. This means no EasyTorbox server bottleneck for your Stremio setup.
 
 <img src="./screenshots/workflow.png" alt="Workflow" width="600">
 
-Your Torbox API key, IP address, and configuration choices are **never** collected, logged, or transmitted to any external server. You can verify the entire codebase right here in the `index.html` file.
+Your Torbox API key and setup configuration choices are not collected by EasyTorbox during local setup. When you install, the selected add-on receives the key as part of its configuration, and any copied install link contains the key. Referral/signup and referral-submission flows use the EasyTorbox Worker for anti-abuse checks; that service may process request metadata such as IP-derived rate-limit hashes, Turnstile verification results, and referral request details.
 
-## 🧩 Community Referral Pool (Optional)
-A separate page at [`referrals.html`](https://easy-torbox.github.io/stremio/referrals.html) provides a simple community referral pool flow:
-- Step 1: New users open a random community referral link
-- Step 2: Users can submit their own referral
+## 🧩 Community Referral Pool
+New-user signup now starts directly on [`index.html`](https://easy-torbox.github.io/stremio/index.html). A successful referral handoff means EasyTorbox selected one active community referral and started navigation to Torbox to attempt a referral-attributed signup. Torbox attribution is not externally verifiable by this project, and the handoff does not prove external registration, purchase, or bonus award.
+
+The separate [`referrals.html`](https://easy-torbox.github.io/stremio/referrals.html) page is only for existing Torbox users who want to contribute their own referral code.
 
 To reduce spam/random submissions, referral entries are validated in the Worker using:
 - UUIDv4 format checks
@@ -85,10 +86,12 @@ If this tool saved you time, you can support ongoing maintenance:
 ## ❓ FAQ
 - **Why is Install disabled?**
   Add a valid Torbox API key first.
-- **Stremio did not open after clicking install. What now?**
-  Use the “Copy raw link” button and paste it in Stremio.
-- **Which referral step should I use?**
-  New user: Step 1. Existing user with active plan: Step 2.
+- **Stremio did not open after choosing Install in Stremio. What now?**
+  Use the **Copy install link** button and paste it in Stremio.
+- **Which referral page should I use?**
+  New users should start on the main setup page. Existing Torbox users with an active eligible plan can use the referral page to submit their code.
+- **Does a handoff mean a confirmed signup or verified attribution?**
+  No. A handoff means EasyTorbox selected a referral and started navigation to Torbox. External registration completion and Torbox attribution are not visible to this site.
 
 ---
 *Disclaimer: This is an independent, open-source community project. It is not officially affiliated with Torbox, Stremio, or any of the add-on developers.*

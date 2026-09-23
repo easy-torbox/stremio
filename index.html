@@ -6,302 +6,266 @@
     <title>EasyTorbox for Stremio</title>
 
     <meta property="og:title" content="EasyTorbox for Stremio">
-    <meta property="og:description" content="1-click Torbox + Stremio setup. Beginner-friendly, supports Torrentio, Comet, Torz, Meteor, and HdHub. Works 100% in your browser.">
+    <meta property="og:description" content="Connect an existing Torbox subscription to Stremio with beginner-friendly defaults. Optional community referral signup is available for new users.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://easy-torbox.github.io/stremio">
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="EasyTorbox for Stremio">
-    <meta name="twitter:description" content="1-click Torbox + Stremio setup. Beginner-friendly, supports Torrentio, Comet, Torz, Meteor, and HdHub. Works 100% in your browser.">
+    <meta name="twitter:description" content="Connect an existing Torbox subscription to Stremio with beginner-friendly defaults. Optional community referral signup is available for new users.">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="assets/signup-shared.js?v=5"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+    <script src="assets/signup-shared.js?v=6"></script>
     <style>
         #advancedSettings { transition: all 0.3s ease-in-out; }
     </style>
 </head>
-<body class="bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800 font-sans p-4 md:p-12 min-h-screen flex items-center justify-center">
-    <div class="max-w-2xl w-full bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-gray-100">
-        
-        <div class="mb-6 flex flex-wrap items-center justify-center gap-3" aria-label="Primary">
-            <img src="assets/easytorbox-logo-128.png?v=2" alt="EasyTorbox logo" class="h-11 w-auto" width="44" height="44" loading="eager" decoding="async">
-            <nav>
-                <div class="flex flex-wrap items-center justify-center gap-2 text-sm">
-                    <a href="index.html" class="px-3 py-1.5 rounded-full bg-blue-600 text-white font-semibold">Setup</a>
-                    <a href="referrals.html" class="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-200 transition">Referral Pool</a>
-                    <a href="ref-stats.html" class="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-200 transition">Stats</a>
-                </div>
-            </nav>
-        </div>
-
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">EasyTorbox for Stremio</h1>
-            <p class="text-gray-500 text-sm mb-4">The easiest, 1-click configuration tool.</p>
-            
-            <div class="flex flex-wrap justify-center gap-2">
-                <span class="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700 border border-green-100 text-[10px] uppercase font-bold tracking-wider">
-                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 4.925-3.467 9.057-8.124 10.04a1 1 0 01-.712 0C4.533 16.057 1.066 11.925 1.066 7.001c0-.68.057-1.35.166-2.001zm8.834 1.335a1 1 0 10-2 0V9H7a1 1 0 100 2h2v2.5a1 1 0 102 0V11h2a1 1 0 100-2h-2V6.334z"/></svg>
-                    100% Client-Side
-                </span>
-                <a href="https://github.com/easy-torbox/stremio" target="_blank" class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 border border-gray-200 text-[10px] uppercase font-bold tracking-wider hover:bg-gray-200 transition">
-                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    Open Source
+<body class="min-h-screen bg-slate-950 text-slate-900 font-sans">
+    <div class="min-h-screen overflow-x-hidden bg-[radial-gradient(circle_at_top_left,_rgba(41,171,224,0.18),_transparent_30rem),linear-gradient(135deg,_#0f172a_0%,_#172033_52%,_#0f172a_100%)] px-3 py-4 sm:px-4 md:py-8">
+        <main class="mx-auto w-full max-w-3xl">
+            <header class="mb-4 flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/95 p-4 shadow-xl shadow-slate-950/15 sm:flex-row sm:items-center sm:justify-between">
+                <a href="index.html" class="flex min-w-0 items-center gap-4 text-slate-900">
+                    <img src="assets/easytorbox-logo-128.png?v=2" alt="EasyTorbox logo" class="h-16 w-16 flex-none drop-shadow-sm" width="64" height="64" loading="eager" decoding="async">
+                    <div class="min-w-0">
+                        <h1 class="text-xl font-black tracking-tight sm:text-2xl">Connect Torbox to Stremio</h1>
+                    </div>
                 </a>
-            </div>
-        </div>
+                <nav aria-label="Primary navigation" class="text-sm">
+                    <div class="flex flex-wrap gap-1.5">
+                        <a href="index.html" class="rounded-full bg-slate-900 px-4 py-2 font-semibold text-white shadow-sm" aria-current="page">Setup</a>
+                        <a href="referrals.html" class="rounded-full px-4 py-2 font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-800">Share Link</a>
+                        <a href="ref-stats.html" class="rounded-full px-4 py-2 font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-800">Stats</a>
+                    </div>
+                </nav>
+            </header>
 
-        <div class="mb-8 p-4 rounded-xl border border-blue-200 bg-blue-50 text-sm text-blue-900">
-            <p class="font-semibold mb-1">Quick start (30 seconds)</p>
-            <p>1) Paste API key → 2) Keep <strong>"Netflix" Mode</strong> → 3) Click <strong>Install to Stremio</strong>.</p>
-        </div>
-        
-        <!-- Step 1: API Key -->
-        <div class="mb-10">
-            <h2 class="flex items-center text-lg font-bold mb-3 text-gray-800">
-                <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
-                Step 1: Enter Your Torbox API Key
-            </h2>
-            <div class="mb-2">
-                <input type="text" id="apiKey" oninput="updateLink()" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow shadow-sm" placeholder="Paste your API key here...">
-            </div>
-            
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center ml-1 gap-2">
-                <p class="text-sm text-gray-600 font-medium">
-                    <a id="signupLink" href="referrals.html#signup" class="text-blue-600 hover:text-blue-800 hover:underline transition-colors">Sign up</a>
-                    <span class="mx-2 text-gray-300">|</span>
-                    <a href="https://torbox.app/settings" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline transition-colors">Get API key</a>
-                </p>
-                <p class="text-xs text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-md border border-green-100">(Key is processed locally)</p>
-            </div>
-            <p id="signupStatus" class="mt-2 ml-1 text-xs text-gray-500"></p>
-        </div>
-
-        <!-- Step 2: Profiles -->
-        <div class="mb-8 border-t pt-8 border-gray-100">
-            <h2 class="flex items-center text-lg font-bold mb-2 text-gray-800">
-                <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                Step 2: Choose a Quick Profile
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <button id="btn-netflix" onclick="applyProfile('netflix', this)" class="profile-btn p-4 border rounded-xl transition text-left outline-none transform hover:-translate-y-0.5 shadow-sm">
-                    <div class="font-bold text-blue-600">"Netflix" Mode</div>
-                    <div class="text-xs text-gray-600 mt-1 leading-relaxed">Best default. Clean 4K-friendly links, instant play only.</div>
-                </button>
-                <button id="btn-datasaver" onclick="applyProfile('datasaver', this)" class="profile-btn p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition text-left outline-none transform hover:-translate-y-0.5 shadow-sm">
-                    <div class="font-bold text-green-600">Data Saver</div>
-                    <div class="text-xs text-gray-600 mt-1 leading-relaxed">Smaller 1080p links for slower internet or limited data.</div>
-                </button>
-                <button id="btn-cinephile" onclick="applyProfile('cinephile', this)" class="profile-btn p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition text-left outline-none transform hover:-translate-y-0.5 shadow-sm">
-                    <div class="font-bold text-purple-600">Cinephile</div>
-                    <div class="text-xs text-gray-600 mt-1 leading-relaxed">High-quality 4K-friendly links without overwhelming results.</div>
-                </button>
-            </div>
-        </div>
-
-        <!-- Step 3: Advanced Settings -->
-        <div class="mb-10 p-5 border border-gray-200 rounded-xl bg-gray-50 shadow-inner">
-            <button onclick="toggleSettings()" class="w-full flex justify-between items-center text-left outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1 group">
-                <h2 class="flex items-center text-md font-bold text-gray-700 group-hover:text-blue-600 transition-colors">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
-                    Step 3: Advanced Settings <span class="text-xs font-normal text-gray-500 ml-2">(Optional)</span>
-                </h2>
-                <span id="toggleIcon" class="text-gray-400 text-xs font-bold transition-transform transform">▼</span>
-            </button>
-
-            <div id="advancedSettings" class="hidden mt-5 pt-5 border-t border-gray-200 space-y-4">
-                <p class="text-sm text-gray-600 bg-blue-50 border border-blue-100 rounded-lg p-3">
-                    New here? You can skip this step — Quick Profiles already pick safe defaults for you.
-                </p>
-
-                <div class="bg-white p-4 rounded-lg border border-gray-200">
-                    <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider text-blue-600">Target Add-on</label>
-                    <select id="addonChoice" onchange="updateLink()" class="w-full p-2.5 border border-blue-300 rounded-lg text-sm bg-blue-50 outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
-                        <option value="torrentio">Torrentio (Recommended)</option>
-                        <option value="comet">Comet</option>
-                        <option value="torz">StremThru Torz</option>
-                        <option value="meteor">Meteor</option>
-                        <option value="hdhub">HdHub</option>
-                    </select>
+            <section id="setupSection" class="mb-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl shadow-slate-950/15 sm:p-5 md:p-6">
+                <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <h2 class="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">Connect Torbox to Stremio</h2>
+                    <p class="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700">
+                        <svg aria-hidden="true" class="h-4 w-4 flex-none" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3 5 6v5c0 4.5 3 8.5 7 10 4-1.5 7-5.5 7-10V6l-7-3Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 12 2 2 4-5"/></svg>
+                        Key not sent to EasyTorbox
+                    </p>
                 </div>
 
-                <div class="bg-white p-4 rounded-lg border border-gray-200">
-                    <p class="text-xs font-bold text-gray-600 mb-3 uppercase tracking-wider">Common Stream Filters</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-                        <div id="maxResContainer">
-                            <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Video Quality Limit</label>
-                            <select id="maxRes" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="all">4K & Below</option>
-                                <option value="1080p">1080p & Below</option>
-                                <option value="720p">720p & Below</option>
+                <div class="mb-4">
+                    <label for="apiKey" class="mb-2 block text-sm font-bold text-slate-800">Torbox API key</label>
+                    <div class="flex flex-col gap-2 sm:flex-row sm:items-stretch">
+                        <div class="flex min-w-0 flex-1 rounded-2xl border border-slate-300 bg-white shadow-sm transition focus-within:border-sky-500 focus-within:ring-4 focus-within:ring-sky-100">
+                            <input type="password" id="apiKey" oninput="updateLink()" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" class="min-w-0 flex-1 rounded-l-2xl bg-white p-4 text-base outline-none" placeholder="Paste your Torbox API key here" aria-describedby="apiKeyHelp">
+                            <button id="toggleApiKeyVisibility" type="button" onclick="toggleApiKeyMask()" aria-controls="apiKey" aria-pressed="false" class="rounded-r-2xl border-l border-slate-200 px-4 text-sm font-black text-sky-700 transition hover:bg-sky-50 focus:outline-none focus:ring-4 focus:ring-sky-100">Show</button>
+                        </div>
+                        <a id="getKeyLink" href="https://torbox.app/settings" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-sky-100 sm:flex-none">Get key <span aria-hidden="true" class="ml-2">↗</span></a>
+                    </div>
+                    <p id="apiKeyHelp" class="mt-2 text-xs leading-5 text-slate-500">Your key stays in this browser while EasyTorbox prepares the local install link.</p>
+                </div>
+
+                <div class="mb-4 rounded-2xl border border-slate-200 bg-white p-3">
+                    <button id="settingsToggle" type="button" onclick="toggleSettings()" aria-expanded="false" aria-controls="advancedSettings" class="flex w-full items-center justify-between rounded-xl bg-slate-50 p-3 text-left transition hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-sky-100">
+                        <span class="flex min-w-0 items-start gap-3">
+                            <svg aria-hidden="true" class="mt-0.5 h-5 w-5 flex-none text-slate-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M4 12h2m12 0h2M12 4v2m0 12v2m-5.7-2.3 1.4-1.4m8.6-8.6 1.4-1.4m0 11.4-1.4-1.4M7.7 7.7 6.3 6.3"/></svg>
+                            <span>
+                                <span class="block text-base font-black text-slate-950">Settings (optional)</span>
+                            </span>
+                        </span>
+                        <span id="toggleIcon" class="ml-4 flex-none text-sm font-black text-slate-400 transition-transform">▼</span>
+                    </button>
+
+                    <div id="advancedSettings" class="hidden mt-4 space-y-5">
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-1 gap-3 md:grid-cols-3" role="group" aria-label="Setup profiles">
+                                <button id="btn-netflix" type="button" onclick="applyProfile('netflix', this)" aria-pressed="true" class="profile-btn rounded-2xl border p-4 text-left shadow-sm transition hover:-translate-y-0.5">
+                                    <div class="font-black text-sky-700">Netflix Mode</div>
+                                    <div class="mt-1 text-xs leading-relaxed text-slate-600">Fewer links per quality, instant-play only, 4K allowed.</div>
+                                </button>
+                                <button id="btn-datasaver" type="button" onclick="applyProfile('datasaver', this)" aria-pressed="false" class="profile-btn rounded-2xl border border-slate-200 p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50">
+                                    <div class="font-black text-emerald-700">Data Saver</div>
+                                    <div class="mt-1 text-xs leading-relaxed text-slate-600">1080p limit, smaller files, instant-play only.</div>
+                                </button>
+                                <button id="btn-cinephile" type="button" onclick="applyProfile('cinephile', this)" aria-pressed="false" class="profile-btn rounded-2xl border border-slate-200 p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50">
+                                    <div class="font-black text-purple-700">High Quality</div>
+                                    <div class="mt-1 text-xs leading-relaxed text-slate-600">More links per quality with the same instant-play default.</div>
+                                </button>
+                            </div>
+                            <div class="flex flex-col gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm sm:flex-row sm:items-center sm:justify-between">
+                                <p id="selectedProfileSummary" class="font-semibold text-slate-700" aria-live="polite">Selected profile: Netflix Mode</p>
+                                <button id="resetProfileBtn" type="button" onclick="resetToNetflixMode()" class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-black text-sky-700 transition hover:bg-sky-50 focus:outline-none focus:ring-4 focus:ring-sky-100">Reset to Netflix Mode</button>
+                            </div>
+                        </div>
+
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                            <label for="addonChoice" class="mb-1.5 block text-xs font-black uppercase tracking-wider text-sky-700">Target add-on</label>
+                            <select id="addonChoice" onchange="updateLink()" class="w-full rounded-xl border border-sky-200 bg-white p-3 text-sm shadow-sm outline-none focus:ring-4 focus:ring-sky-100">
+                                <option value="torrentio">Torrentio (Recommended)</option>
+                                <option value="comet">Comet</option>
+                                <option value="torz">StremThru Torz</option>
+                                <option value="meteor">Meteor</option>
+                                <option value="hdhub">HdHub</option>
                             </select>
                         </div>
-                        <div id="sortContainer">
-                            <label id="sortLabel" class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Sort Links By</label>
-                            <select id="sort" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="quality">Quality (Highest first)</option>
-                                <option value="size">Size (Smallest first)</option>
-                                <option value="qualitysize">Quality, then Size</option>
-                            </select>
+
+                        <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                            <p class="mb-3 text-xs font-black uppercase tracking-wider text-slate-600">Stream filters</p>
+                            <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+                                <div id="maxResContainer">
+                                    <label for="maxRes" class="mb-1.5 block text-xs font-black uppercase tracking-wider text-slate-600">Video quality limit</label>
+                                    <select id="maxRes" onchange="updateLink()" class="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm outline-none focus:ring-4 focus:ring-sky-100">
+                                        <option value="all">4K & Below</option>
+                                        <option value="1080p">1080p & Below</option>
+                                        <option value="720p">720p & Below</option>
+                                    </select>
+                                </div>
+                                <div id="sortContainer">
+                                    <label id="sortLabel" for="sort" class="mb-1.5 block text-xs font-black uppercase tracking-wider text-slate-600">Sort links by</label>
+                                    <select id="sort" onchange="updateLink()" class="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm outline-none focus:ring-4 focus:ring-sky-100">
+                                        <option value="quality">Quality (Highest first)</option>
+                                        <option value="size">Size (Smallest first)</option>
+                                        <option value="qualitysize">Quality, then Size</option>
+                                    </select>
+                                </div>
+                                <div id="limitContainer">
+                                    <label id="limitLabel" for="limit" class="mb-1.5 block text-xs font-black uppercase tracking-wider text-slate-600">Links per quality</label>
+                                    <select id="limit" onchange="updateLink()" class="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm outline-none focus:ring-4 focus:ring-sky-100">
+                                        <option value="all">Show All</option>
+                                        <option value="1">1 Link</option>
+                                        <option value="3">3 Links</option>
+                                        <option value="5">5 Links</option>
+                                    </select>
+                                </div>
+                                <div id="sizeContainer">
+                                    <label for="maxSize" class="mb-1.5 block text-xs font-black uppercase tracking-wider text-slate-600">Max file size</label>
+                                    <select id="maxSize" onchange="updateLink()" class="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm outline-none focus:ring-4 focus:ring-sky-100">
+                                        <option value="all">No limit</option>
+                                        <option value="2GB">2 GB</option>
+                                        <option value="5GB">5 GB</option>
+                                        <option value="10GB">10 GB</option>
+                                        <option value="15GB">15 GB</option>
+                                        <option value="25GB">25 GB</option>
+                                    </select>
+                                </div>
+                                <div id="languageContainer" class="md:col-span-2">
+                                    <label for="language" class="mb-1.5 block text-xs font-black uppercase tracking-wider text-slate-600">Language priority</label>
+                                    <select id="language" onchange="updateLink()" class="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm outline-none focus:ring-4 focus:ring-sky-100">
+                                        <option value="none">Default (English)</option>
+                                        <option value="spanish">Spanish</option>
+                                        <option value="french">French</option>
+                                        <option value="italian">Italian</option>
+                                        <option value="german">German</option>
+                                        <option value="portuguese">Portuguese</option>
+                                        <option value="hindi">Hindi</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div id="limitContainer">
-                            <label id="limitLabel" class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Links Per Quality</label>
-                            <select id="limit" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="all">Show All</option>
-                                <option value="1">1 Link</option>
-                                <option value="3">3 Links</option>
-                                <option value="5">5 Links</option>
-                            </select>
-                        </div>
-                        <div id="sizeContainer">
-                            <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Max File Size</label>
-                            <select id="maxSize" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="all">No limit</option>
-                                <option value="2GB">2 GB</option>
-                                <option value="5GB">5 GB</option>
-                                <option value="10GB">10 GB</option>
-                                <option value="15GB">15 GB</option>
-                                <option value="25GB">25 GB</option>
-                            </select>
-                        </div>
-                        <div id="languageContainer" class="md:col-span-2">
-                            <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Language Priority</label>
-                            <select id="language" onchange="updateLink()" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="none">Default (English)</option>
-                                <option value="spanish">Spanish</option>
-                                <option value="french">French</option>
-                                <option value="italian">Italian</option>
-                                <option value="german">German</option>
-                                <option value="portuguese">Portuguese</option>
-                                <option value="hindi">Hindi</option>
-                            </select>
+
+                        <div class="space-y-3 rounded-2xl border border-slate-200 bg-white p-4">
+                            <p class="text-xs font-black uppercase tracking-wider text-slate-600">Advanced controls</p>
+                            <label class="flex cursor-pointer items-start text-sm">
+                                <input type="checkbox" id="cachedOnly" onchange="this.dataset.userSet = 'true'; updateLink()" class="mt-1 mr-3 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500">
+                                <span><span class="block font-bold text-slate-900">Only show instant-play links</span><span class="text-xs text-slate-500">Hides files Torbox needs to download first.</span></span>
+                            </label>
+                            <label class="flex cursor-pointer items-start border-t border-slate-100 pt-2 text-sm">
+                                <input type="checkbox" id="hideCams" onchange="this.dataset.userSet = 'true'; updateLink()" class="mt-1 mr-3 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500">
+                                <span><span id="hideCamsLabel" class="block font-bold text-slate-900">Hide theater recordings</span><span id="hideCamsHelp" class="text-xs text-slate-500">Filters out low-quality CAMs and Screeners.</span></span>
+                            </label>
+                            <label class="flex cursor-pointer items-start border-t border-slate-100 pt-2 text-sm">
+                                <input type="checkbox" id="hide3D" onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500">
+                                <span class="font-bold text-slate-900">Hide 3D movies</span>
+                            </label>
+
+                            <div id="cometAdvancedContainer" class="hidden space-y-2 border-t border-slate-100 pt-3">
+                                <p class="text-xs font-black uppercase tracking-wider text-slate-600">Comet advanced controls</p>
+                                <label class="flex cursor-pointer items-start text-sm"><input type="checkbox" id="cometDeduplicateStreams" checked onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"><span class="font-bold text-slate-900">Remove duplicate streams</span></label>
+                                <label class="flex cursor-pointer items-start text-sm"><input type="checkbox" id="cometScrapeDebridAccountTorrents" onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"><span class="font-bold text-slate-900">Include torrents from my debrid cloud</span></label>
+                                <label class="flex cursor-pointer items-start text-sm"><input type="checkbox" id="cometAllowEnglishInLanguages" checked onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"><span class="font-bold text-slate-900">Allow English fallback with language preference</span></label>
+                                <label class="flex cursor-pointer items-start text-sm"><input type="checkbox" id="cometRemoveUnknownLanguages" onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"><span class="font-bold text-slate-900">Hide unknown-language releases</span></label>
+                            </div>
+
+                            <div id="torzAdvancedContainer" class="hidden space-y-2 border-t border-slate-100 pt-3">
+                                <p class="text-xs font-black uppercase tracking-wider text-slate-600">Torz advanced controls</p>
+                                <label for="torzCustomFilter" class="block text-sm font-bold text-slate-900">Custom Torz filter</label>
+                                <textarea id="torzCustomFilter" onchange="updateLink()" oninput="updateLink()" rows="3" class="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm outline-none focus:ring-4 focus:ring-sky-100" placeholder='Resolution <= "1080p" or File.Size <= "10 GB"'></textarea>
+                            </div>
+
                         </div>
                     </div>
                 </div>
 
-                <div class="space-y-3 bg-white p-4 rounded-lg border border-gray-200">
-                    <p class="text-xs font-bold text-gray-600 mb-1 uppercase tracking-wider">Add-on Specific Advanced Settings</p>
-                    <label class="flex items-start text-sm cursor-pointer group">
-                        <input type="checkbox" id="cachedOnly" onchange="this.dataset.userSet = 'true'; updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                        <div>
-                            <span class="font-semibold text-gray-800 block">Only show instant-play links</span>
-                            <span class="text-xs text-gray-500">Highly recommended. Hides files that Torbox needs to download first.</span>
-                        </div>
-                    </label>
-                    <label class="flex items-start text-sm cursor-pointer group pt-2 border-t border-gray-100">
-                        <input type="checkbox" id="hideCams" onchange="this.dataset.userSet = 'true'; updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                        <div>
-                            <span id="hideCamsLabel" class="font-semibold text-gray-800 block">Hide theater recordings</span>
-                            <span id="hideCamsHelp" class="text-xs text-gray-500">Filters out low-quality CAMs and Screeners.</span>
-                        </div>
-                    </label>
-                    <label class="flex items-start text-sm cursor-pointer group pt-2 border-t border-gray-100">
-                        <input type="checkbox" id="hide3D" onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                        <div>
-                            <span class="font-semibold text-gray-800 block">Hide 3D Movies</span>
-                        </div>
-                    </label>
-
-                    <div id="cometAdvancedContainer" class="hidden space-y-2 pt-3 border-t border-gray-100">
-                        <p class="text-xs font-bold text-gray-600 uppercase tracking-wider">Comet Advanced Controls</p>
-                        <label class="flex items-start text-sm cursor-pointer group">
-                            <input type="checkbox" id="cometDeduplicateStreams" checked onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                            <div>
-                                <span class="font-semibold text-gray-800 block">Remove duplicate streams</span>
-                            </div>
-                        </label>
-                        <label class="flex items-start text-sm cursor-pointer group">
-                            <input type="checkbox" id="cometScrapeDebridAccountTorrents" onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                            <div>
-                                <span class="font-semibold text-gray-800 block">Include torrents from my debrid cloud</span>
-                            </div>
-                        </label>
-                        <label class="flex items-start text-sm cursor-pointer group">
-                            <input type="checkbox" id="cometAllowEnglishInLanguages" checked onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                            <div>
-                                <span class="font-semibold text-gray-800 block">Allow English fallback with language preference</span>
-                            </div>
-                        </label>
-                        <label class="flex items-start text-sm cursor-pointer group">
-                            <input type="checkbox" id="cometRemoveUnknownLanguages" onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                            <div>
-                                <span class="font-semibold text-gray-800 block">Hide unknown-language releases</span>
-                            </div>
-                        </label>
+                <div id="resultArea" class="rounded-2xl border border-slate-200 bg-slate-50 p-3 sm:p-4">
+                    <div class="mb-3 rounded-2xl border border-slate-200 bg-white p-3 text-sm">
+                        <p class="text-xs font-black uppercase tracking-wider text-slate-500">Ready to install</p>
+                        <p id="installSummary" class="mt-1 font-semibold text-slate-800" aria-live="polite">Netflix Mode · Torrentio · instant-play only · 1 link per quality</p>
                     </div>
-
-                    <div id="torzAdvancedContainer" class="hidden space-y-2 pt-3 border-t border-gray-100">
-                        <p class="text-xs font-bold text-gray-600 uppercase tracking-wider">Torz Advanced Controls</p>
-                        <div>
-                            <label for="torzCustomFilter" class="block text-sm font-semibold text-gray-800 mb-1">Custom Torz filter</label>
-                            <textarea id="torzCustomFilter" onchange="updateLink()" oninput="updateLink()" rows="3" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500" placeholder="Resolution <= "1080p" or File.Size <= "10 GB""></textarea>
+                    <a id="installBtn" href="#" aria-disabled="true" onclick="return handleInstallAttempt(event)" onkeydown="return handleInstallKeydown(event)" class="flex w-full cursor-not-allowed items-center justify-center rounded-2xl bg-slate-300 px-5 py-4 text-lg font-black text-slate-500 transition-all duration-300">
+                        <svg aria-hidden="true" class="mr-2 h-6 w-6 flex-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1m-4-4-4 4m0 0-4-4m4 4V4"></path></svg>
+                        <span id="installBtnText">Add key to continue</span>
+                    </a>
+                    <div class="mt-4 space-y-3 text-sm text-slate-500">
+                        <p id="installHint" role="status" aria-live="polite"></p>
+                        <div id="recoveryArea" class="hidden rounded-2xl border border-slate-200 bg-white p-3">
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="font-black text-slate-900">Didn't open?</p>
+                                    <p class="mt-1 text-xs leading-5 text-slate-500">Copy the sensitive install link and paste it into Stremio, or install Stremio from the official site.</p>
+                                </div>
+                                <div class="flex flex-col gap-2 sm:flex-row">
+                                    <button id="copyBtn" type="button" onclick="copyInstallLink()" class="rounded-xl border border-sky-200 bg-sky-50 px-3 py-2 font-bold text-sky-700 transition hover:bg-sky-100 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400">
+                                        Copy install link
+                                    </button>
+                                    <a href="https://www.stremio.com/downloads" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-slate-200 bg-white px-3 py-2 font-bold text-slate-700 transition hover:bg-slate-50">Get Stremio <span aria-hidden="true">↗</span></a>
+                                </div>
+                            </div>
+                            <p id="copyStatus" class="mt-2 min-h-[1.25rem] text-xs font-semibold text-slate-600" role="status" aria-live="polite"></p>
+                            <div id="copyFallback" class="hidden mt-3">
+                                <label for="manualInstallLink" class="block text-xs font-black uppercase tracking-wider text-amber-700">Sensitive install link — select and copy manually</label>
+                                <textarea id="manualInstallLink" readonly rows="3" class="mt-1 w-full rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-950 outline-none focus:ring-4 focus:ring-amber-100"></textarea>
+                            </div>
                         </div>
-                    </div>
-
-                    <div id="hdhubAdvancedContainer" class="hidden space-y-2 pt-3 border-t border-gray-100">
-                        <p class="text-xs font-bold text-gray-600 uppercase tracking-wider">HdHub Advanced Controls</p>
-                        <label class="flex items-start text-sm cursor-pointer group">
-                            <input type="checkbox" id="hdhubTorboxOnly" checked onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                            <div>
-                                <span class="font-semibold text-gray-800 block">Torbox results only</span>
-                            </div>
-                        </label>
-                        <label class="flex items-start text-sm cursor-pointer group">
-                            <input type="checkbox" id="hdhubIncludeUsenet" onchange="updateLink()" class="mt-1 mr-3 h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                            <div>
-                                <span class="font-semibold text-gray-800 block">Include Torbox Usenet</span>
-                            </div>
-                        </label>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <div id="resultArea" class="mt-8 pt-8 border-t border-gray-200 text-gray-800">
-            <h2 class="block text-lg font-bold mb-4">Step 4: Finish</h2>
-            <a id="installBtn" href="#" class="block w-full bg-gray-300 text-gray-500 font-bold py-4 px-4 rounded-full cursor-not-allowed transition-all duration-300 text-lg flex justify-center items-center">
-                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                Install to Stremio
-            </a>
-            
-            <div class="mt-4 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 gap-2">
-                <p id="installHint">Paste a valid API key to enable Install to Stremio.</p>
-                <button id="copyBtn" onclick="copyRawLink()" class="hidden text-blue-600 hover:text-blue-800 font-semibold transition">
-                    Button not working? Copy raw link.
-                </button>
-            </div>
-        </div>
+            <section id="signupSection" class="mb-4 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl shadow-slate-950/15 sm:p-5">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="min-w-0">
+                        <h2 class="text-base font-black text-slate-950">No Torbox subscription yet?</h2>
+                        <p class="mt-1 text-sm leading-6 text-slate-600">Eligible new users may receive up to <strong class="text-slate-900">7 extra days/month</strong> or <strong class="text-slate-900">84/year</strong>. Torbox eligibility rules apply; an eligible community referrer may be required.</p>
+                    </div>
+                    <button id="signupBtn" type="button" onclick="startSignupFlow()" class="inline-flex w-full items-center justify-center rounded-xl border border-sky-200 bg-white px-4 py-3 text-sm font-black text-sky-700 transition hover:bg-sky-50 focus:outline-none focus:ring-4 focus:ring-sky-100 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 sm:w-auto sm:flex-none">
+                        Sign up on Torbox <span aria-hidden="true" class="ml-2">↗</span>
+                    </button>
+                </div>
+                <div id="signupTurnstile" class="mt-3 flex justify-center"></div>
+                <p id="signupStatus" class="mt-3 min-h-[1.25rem] text-sm text-slate-600" role="status" aria-live="polite"></p>
+            </section>
 
-        <div class="mt-12 bg-blue-50 border border-blue-100 p-6 rounded-2xl text-center shadow-inner relative overflow-hidden">
-            <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-100 rounded-full opacity-50 blur-2xl"></div>
-            <h3 class="text-xl font-extrabold text-blue-900 mb-2 relative z-10">🎁 Claim Your Bonus Days (Win-Win!)</h3>
-            <p class="text-sm text-blue-800 mb-5 relative z-10 max-w-md mx-auto">
-                Click below to use a random active referral code from the community pool at sign-up.
-            </p>
-            <div class="bg-white/80 backdrop-blur-sm border border-blue-200 p-3 rounded-xl inline-block w-full mb-5 shadow-sm relative z-10">
-                <p class="text-sm font-bold text-blue-800 block">
-                    <strong>New users</strong> get an extra <span class="text-blue-600">7 days per month</span> or <span class="text-blue-600">84 days per year</span> added to your account!
-                </p>
-            </div>
-            <a id="signupBonusBtn" href="referrals.html#signup" class="relative z-10 inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-[#29ABE0] text-white font-semibold hover:opacity-90 transition shadow-md transform hover:-translate-y-0.5 w-full sm:w-auto">
-                Sign up & claim bonus
-            </a>
-            <p class="mt-3 relative z-10">
-                <a href="referrals.html" class="text-blue-700 font-semibold hover:text-blue-900 hover:underline transition-colors">Add your referral code to the pool</a>
-            </p>
-        </div>
-
-        <div class="mt-8 text-center">
-            <p class="text-sm text-gray-700 mb-2">If this project helped you, consider supporting it for just $1.</p>
-            <a href="https://ko-fi.com/easytorbox" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-full bg-amber-500 text-white font-semibold hover:bg-amber-600 transition text-sm align-middle"><span aria-hidden="true">☕</span><span>Buy me a coffee</span></a>
-        </div>
-
-        <div class="mt-8 pt-6 border-t border-gray-200 text-center text-xs text-gray-500">
-            <p class="mb-2"><strong>Privacy Policy:</strong> This tool is 100% client-side. No API keys are collected, stored, or sent to any server. The optional community referral page uses Cloudflare for anti-spam and referral rotation.</p>
-            <p><strong>Open Source:</strong> Verify the code on <a href="https://github.com/easy-torbox/stremio" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline" aria-label="Open EasyTorbox GitHub repository (opens in new tab)">GitHub</a>.</p>
-        </div>
+            <footer class="rounded-2xl border border-white/10 bg-white/95 p-5 text-center text-sm text-slate-600 shadow-xl shadow-slate-950/15">
+                <details class="mb-3 text-xs text-slate-500">
+                    <summary class="cursor-pointer font-semibold">Privacy & signup protection</summary>
+                    <p class="mt-2">Setup runs in your browser. Signup uses Turnstile and our referral service. No referral available? We won't redirect you.</p>
+                </details>
+                <div class="flex flex-wrap items-center justify-center gap-3">
+                    <a href="referrals.html" class="font-bold text-sky-700 hover:underline">Share your referral code</a>
+                    <span class="text-slate-300">•</span>
+                    <a href="https://github.com/easy-torbox/stremio" target="_blank" rel="noopener noreferrer" class="font-bold text-sky-700 hover:underline">Open source</a>
+                    <span class="text-slate-300">•</span>
+                    <a href="https://ko-fi.com/easytorbox" target="_blank" rel="noopener noreferrer" class="font-bold text-amber-600 hover:underline">Support the project</a>
+                </div>
+            </footer>
+        </main>
     </div>
 
     <script>
+        const SIGNUP_TURNSTILE_SITE_KEY = '0x4AAAAAADQhQLkjkuyaYwAG';
+        const SIGNUP_TURNSTILE_WAIT_MS = 10000;
+        const SIGNUP_TURNSTILE_POLL_MS = 100;
+        let signupTurnstileWidgetId = null;
+        let signupInFlight = false;
+        let signupToken = '';
+        let signupAttemptId = 0;
+        let signupReferralRequestStarted = false;
+
         const profiles = {
             netflix: { maxRes: 'all', sort: 'qualitysize', limit: '1', maxSize: 'all', language: 'none', cachedOnly: true, hideCams: true, hide3D: true },
             datasaver: { maxRes: '1080p', sort: 'size', limit: '3', maxSize: '5GB', language: 'none', cachedOnly: true, hideCams: true, hide3D: true },
@@ -309,7 +273,9 @@
         };
 
         let currentManifestUrl = "";
+        let currentInstallUrl = "";
         let currentProfileKey = "netflix";
+        let applyingProfile = false;
 
         const addonCapabilities = {
             torrentio: { maxRes: true, sort: true, limit: true, maxSize: true, language: true, cachedOnly: true, hideCams: true, hide3D: true },
@@ -364,27 +330,181 @@
                 .replace(/=+$/, '');
         }
 
-        function toggleSettings() {
-            const settingsDiv = document.getElementById('advancedSettings');
-            const icon = document.getElementById('toggleIcon');
-            if (settingsDiv.classList.contains('hidden')) {
-                settingsDiv.classList.remove('hidden');
-                icon.style.transform = 'rotate(-180deg)';
-            } else {
-                settingsDiv.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
+        function setSignupStatus(text, kind = 'info') {
+            if (window.ETB_SHARED?.setStatusById) {
+                window.ETB_SHARED.setStatusById('signupStatus', text, kind);
+                return;
+            }
+            const el = document.getElementById('signupStatus');
+            if (el) el.textContent = text;
+        }
+
+        function resetSignupAttempt(message = '', kind = 'info') {
+            signupInFlight = false;
+            signupToken = '';
+            signupReferralRequestStarted = false;
+            const button = document.getElementById('signupBtn');
+            if (button) button.disabled = false;
+            if (message) setSignupStatus(message, kind);
+        }
+
+        function renderSignupTurnstile() {
+            if (!window.turnstile || signupTurnstileWidgetId !== null) return signupTurnstileWidgetId !== null;
+            const el = document.getElementById('signupTurnstile');
+            if (!el) return false;
+
+            try {
+                const widgetId = window.turnstile.render(el, {
+                    sitekey: SIGNUP_TURNSTILE_SITE_KEY,
+                    execution: 'execute',
+                    appearance: 'execute',
+                    action: 'signup',
+                    callback: (token) => {
+                        signupToken = token || '';
+                        continueSignupFlow(signupAttemptId);
+                    },
+                    'expired-callback': () => {
+                        signupToken = '';
+                        window.turnstile?.reset?.(signupTurnstileWidgetId);
+                        resetSignupAttempt('Verification expired. Click Sign up again.', 'warn');
+                    },
+                    'timeout-callback': () => {
+                        signupToken = '';
+                        window.turnstile?.reset?.(signupTurnstileWidgetId);
+                        resetSignupAttempt('Verification timed out. Click Sign up again.', 'warn');
+                    },
+                    'error-callback': () => {
+                        signupToken = '';
+                        window.turnstile?.reset?.(signupTurnstileWidgetId);
+                        resetSignupAttempt('Verification failed. Please try again.', 'error');
+                    }
+                });
+
+                if (widgetId === undefined || widgetId === null) {
+                    resetSignupAttempt('Verification could not start. Please try again.', 'error');
+                    return false;
+                }
+
+                signupTurnstileWidgetId = widgetId;
+                return true;
+            } catch (error) {
+                resetSignupAttempt('Verification could not start. Please try again.', 'error');
+                return false;
             }
         }
 
-        function applyProfile(profileKey, btnElement) {
-            document.querySelectorAll('.profile-btn').forEach(btn => {
-                btn.classList.remove('ring-2', 'ring-blue-500', 'ring-green-500', 'ring-purple-500', 'bg-blue-50', 'bg-green-50', 'bg-purple-50', 'border-transparent');
-                btn.classList.add('border-gray-200');
+        function waitForTurnstileAvailability(attemptId) {
+            const startedAt = Date.now();
+            return new Promise((resolve) => {
+                const check = () => {
+                    if (!signupInFlight || attemptId !== signupAttemptId) return resolve(false);
+                    if (renderSignupTurnstile()) return resolve(true);
+                    if (Date.now() - startedAt >= SIGNUP_TURNSTILE_WAIT_MS) return resolve(false);
+                    setTimeout(check, SIGNUP_TURNSTILE_POLL_MS);
+                };
+                check();
             });
-            if(profileKey === 'netflix') { btnElement.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50', 'border-transparent'); btnElement.classList.remove('border-gray-200'); }
-            if(profileKey === 'datasaver') { btnElement.classList.add('ring-2', 'ring-green-500', 'bg-green-50', 'border-transparent'); btnElement.classList.remove('border-gray-200'); }
-            if(profileKey === 'cinephile') { btnElement.classList.add('ring-2', 'ring-purple-500', 'bg-purple-50', 'border-transparent'); btnElement.classList.remove('border-gray-200'); }
+        }
+
+        async function startSignupFlow() {
+            if (signupInFlight) return;
+            signupInFlight = true;
+            signupToken = '';
+            signupReferralRequestStarted = false;
+            const attemptId = ++signupAttemptId;
+            const button = document.getElementById('signupBtn');
+            if (button) button.disabled = true;
+            setSignupStatus('Checking that you are a real visitor...', 'loading');
+
+            const ready = await waitForTurnstileAvailability(attemptId);
+            if (!ready) {
+                resetSignupAttempt('Verification is still loading. Please try again in a few seconds.', 'warn');
+                return;
+            }
+
+            if (!signupInFlight || attemptId !== signupAttemptId || signupReferralRequestStarted) return;
+
+            try {
+                window.turnstile.execute(signupTurnstileWidgetId);
+            } catch (error) {
+                window.turnstile?.reset?.(signupTurnstileWidgetId);
+                resetSignupAttempt('Verification could not start. Please try again.', 'error');
+            }
+        }
+
+        async function continueSignupFlow(attemptId = signupAttemptId) {
+            if (!signupInFlight || attemptId !== signupAttemptId || !signupToken || signupReferralRequestStarted) return;
+            signupReferralRequestStarted = true;
+            const result = await window.openCommunitySignup({
+                statusElementId: 'signupStatus',
+                disableSelector: '#signupBtn',
+                turnstileToken: signupToken,
+                loadingMessage: 'Checking for an eligible community referral...',
+                navigatingMessage: 'Opening Torbox now...',
+                sameTab: true
+            });
+
+            if (!result?.ok) {
+                window.turnstile?.reset?.(signupTurnstileWidgetId);
+                resetSignupAttempt('', 'info');
+            }
+        }
+
+        window.addEventListener('pageshow', (event) => {
+            if (!event.persisted) return;
+            if (signupTurnstileWidgetId !== null) window.turnstile?.reset?.(signupTurnstileWidgetId);
+            resetSignupAttempt('', 'info');
+        });
+
+        function isApiKeyAcceptable(apiKey) {
+            return apiKey.trim().length > 10;
+        }
+
+        function hasInstallLink() {
+            return isApiKeyAcceptable(document.getElementById('apiKey')?.value || '') && Boolean(currentInstallUrl);
+        }
+
+        function toggleApiKeyMask() {
+            const input = document.getElementById('apiKey');
+            const button = document.getElementById('toggleApiKeyVisibility');
+            if (!input || !button) return;
+            const shouldShow = input.type === 'password';
+            input.type = shouldShow ? 'text' : 'password';
+            button.textContent = shouldShow ? 'Hide' : 'Show';
+            button.setAttribute('aria-pressed', String(shouldShow));
+        }
+
+        function blockInactiveInstall(event) {
+            if (hasInstallLink()) return true;
+            event?.preventDefault?.();
+            const copyStatus = document.getElementById('copyStatus');
+            if (copyStatus) copyStatus.textContent = 'Add your API key before installing or copying a link.';
+            return false;
+        }
+
+        function handleInstallAttempt(event) {
+            return blockInactiveInstall(event);
+        }
+
+        function handleInstallKeydown(event) {
+            if (event?.key !== 'Enter' && event?.key !== ' ') return true;
+            return blockInactiveInstall(event);
+        }
+
+        function toggleSettings() {
+            const settingsDiv = document.getElementById('advancedSettings');
+            const toggle = document.getElementById('settingsToggle');
+            const icon = document.getElementById('toggleIcon');
+            const isHidden = settingsDiv.classList.contains('hidden');
+            settingsDiv.classList.toggle('hidden', !isHidden);
+            toggle?.setAttribute('aria-expanded', String(isHidden));
+            icon.style.transform = isHidden ? 'rotate(-180deg)' : 'rotate(0deg)';
+        }
+
+        function applyProfile(profileKey, btnElement = document.getElementById(`btn-${profileKey}`)) {
             const profile = profiles[profileKey];
+            if (!profile) return;
+            applyingProfile = true;
             currentProfileKey = profileKey;
             document.getElementById('maxRes').value = profile.maxRes;
             document.getElementById('sort').value = profile.sort;
@@ -399,24 +519,16 @@
             hideCamsInput.dataset.userSet = 'false';
             document.getElementById('hide3D').checked = profile.hide3D;
             updateLink();
+            applyingProfile = false;
+        }
+
+        function resetToNetflixMode() {
+            applyProfile('netflix');
         }
 
         function mapUiLanguageToCode(language) {
-            const languageCodeMap = {
-                spanish: 'es',
-                french: 'fr',
-                italian: 'it',
-                german: 'de',
-                portuguese: 'pt',
-                hindi: 'hi'
-            };
+            const languageCodeMap = { spanish: 'es', french: 'fr', italian: 'it', german: 'de', portuguese: 'pt', hindi: 'hi' };
             return languageCodeMap[language] || null;
-        }
-
-        function getTorzLanguageFilter(language) {
-            const code = mapUiLanguageToCode(language);
-            if (!code) return null;
-            return `Languages @? \"${code}\"`;
         }
 
         function setControlSupported(capabilityKey, supported) {
@@ -424,26 +536,16 @@
             if (!binding) return;
             const input = document.getElementById(binding.inputId);
             if (!input) return;
-
-            const container = binding.containerId === binding.inputId
-                ? input.closest('label')
-                : document.getElementById(binding.containerId);
-
-            if (container) {
-                container.classList.toggle('hidden', !supported);
-            }
+            const container = binding.containerId === binding.inputId ? input.closest('label') : document.getElementById(binding.containerId);
+            if (container) container.classList.toggle('hidden', !supported);
         }
 
         function applySortOptions(addonChoice) {
             const sortSelect = document.getElementById('sort');
             if (!sortSelect) return;
-
             const options = sortOptionsByAddon[addonChoice] || sortOptionsByAddon.default;
             const currentValue = sortSelect.value;
-            sortSelect.innerHTML = options
-                .map(option => `<option value="${option.value}">${option.text}</option>`)
-                .join('');
-
+            sortSelect.innerHTML = options.map(option => `<option value="${option.value}">${option.text}</option>`).join('');
             const supportsCurrent = options.some(option => option.value === currentValue);
             sortSelect.value = supportsCurrent ? currentValue : options[0].value;
         }
@@ -466,72 +568,107 @@
                     hideCamsHelp.textContent = 'Filters out low-quality CAMs and Screeners.';
                 }
             }
-
-            if (sortLabel) {
-                sortLabel.textContent = addonChoice === 'hdhub' ? 'Sort Links By (HDHub)' : 'Sort Links By';
-            }
-
-            if (limitLabel) {
-                if (addonChoice === 'comet' || addonChoice === 'meteor') {
-                    limitLabel.textContent = 'Links Per Resolution';
-                } else {
-                    limitLabel.textContent = 'Links Per Quality';
-                }
-            }
+            if (sortLabel) sortLabel.textContent = addonChoice === 'hdhub' ? 'Sort Links By (HDHub)' : 'Sort Links By';
+            if (limitLabel) limitLabel.textContent = (addonChoice === 'comet' || addonChoice === 'meteor') ? 'Links Per Resolution' : 'Links Per Quality';
         }
 
         function applyAddonCapabilities(addonChoice) {
             const capabilities = addonCapabilities[addonChoice] || addonCapabilities.torrentio;
-            Object.keys(controlBindings).forEach((capabilityKey) => {
-                setControlSupported(capabilityKey, !!capabilities[capabilityKey]);
-            });
             applySortOptions(addonChoice);
+            Object.keys(controlBindings).forEach((capabilityKey) => setControlSupported(capabilityKey, !!capabilities[capabilityKey]));
             applyAddonLabels(addonChoice);
-            const cometAdvancedContainer = document.getElementById('cometAdvancedContainer');
-            if (cometAdvancedContainer) {
-                cometAdvancedContainer.classList.toggle('hidden', addonChoice !== 'comet');
-            }
-            const torzAdvancedContainer = document.getElementById('torzAdvancedContainer');
-            if (torzAdvancedContainer) {
-                torzAdvancedContainer.classList.toggle('hidden', addonChoice !== 'torz');
-            }
-            const hdhubAdvancedContainer = document.getElementById('hdhubAdvancedContainer');
-            if (hdhubAdvancedContainer) {
-                hdhubAdvancedContainer.classList.toggle('hidden', addonChoice !== 'hdhub');
-            }
-            const apiKey = document.getElementById('apiKey');
-            if (apiKey) apiKey.disabled = false;
+            document.getElementById('cometAdvancedContainer')?.classList.toggle('hidden', addonChoice !== 'comet');
+            document.getElementById('torzAdvancedContainer')?.classList.toggle('hidden', addonChoice !== 'torz');
             return capabilities;
+        }
+
+        function normalizeSettingsForAddon(capabilities) {
+            const currentProfile = profiles[currentProfileKey] || profiles.netflix;
+            Object.entries(controlBindings).forEach(([capabilityKey, binding]) => {
+                if (capabilities[capabilityKey]) return;
+                const input = document.getElementById(binding.inputId);
+                if (!input) return;
+                const fallbackValue = currentProfile[capabilityKey] ?? profiles.netflix[capabilityKey];
+                if (input.type === 'checkbox') input.checked = Boolean(fallbackValue);
+                else input.value = fallbackValue;
+            });
+        }
+
+        function getCurrentSettings() {
+            return {
+                maxRes: document.getElementById('maxRes').value,
+                sort: document.getElementById('sort').value,
+                limit: document.getElementById('limit').value,
+                maxSize: document.getElementById('maxSize').value,
+                language: document.getElementById('language').value,
+                cachedOnly: document.getElementById('cachedOnly').checked,
+                hideCams: document.getElementById('hideCams').checked,
+                hide3D: document.getElementById('hide3D').checked
+            };
+        }
+
+        function settingsMatchProfile(settings, profile) {
+            return Object.keys(profile).every((key) => settings[key] === profile[key]);
+        }
+
+        function inferProfileKey() {
+            const settings = getCurrentSettings();
+            return Object.keys(profiles).find((profileKey) => settingsMatchProfile(settings, profiles[profileKey])) || 'custom';
+        }
+
+        function markCustomIfManual() {
+            if (applyingProfile) return;
+            currentProfileKey = inferProfileKey();
+            updateLink();
+        }
+
+        function renderProfileState(capabilities, addonChoice) {
+            const profileNames = { netflix: 'Netflix Mode', datasaver: 'Data Saver', cinephile: 'High Quality', custom: 'Custom' };
+            const profileColors = { netflix: ['ring-sky-500', 'bg-sky-50'], datasaver: ['ring-emerald-500', 'bg-emerald-50'], cinephile: ['ring-purple-500', 'bg-purple-50'] };
+            document.querySelectorAll('.profile-btn').forEach(btn => {
+                const pressed = btn.id === `btn-${currentProfileKey}`;
+                btn.setAttribute('aria-pressed', String(pressed));
+                btn.classList.remove('ring-2', 'ring-sky-500', 'ring-emerald-500', 'ring-purple-500', 'bg-sky-50', 'bg-emerald-50', 'bg-purple-50', 'border-transparent');
+                btn.classList.toggle('border-slate-200', !pressed);
+                if (pressed) btn.classList.add('ring-2', ...(profileColors[currentProfileKey] || []), 'border-transparent');
+            });
+
+            const settings = getCurrentSettings();
+            const addonName = document.getElementById('addonChoice').selectedOptions[0]?.textContent || addonChoice;
+            const details = [];
+            if (capabilities.cachedOnly && settings.cachedOnly) details.push('instant-play only');
+            if (capabilities.maxRes) details.push(settings.maxRes === 'all' ? '4K allowed' : `${settings.maxRes} limit`);
+            if (capabilities.limit) details.push(settings.limit === 'all' ? 'all links' : `${settings.limit} link${settings.limit === '1' ? '' : 's'} per quality`);
+            if (capabilities.maxSize && settings.maxSize !== 'all') details.push(`${settings.maxSize} max size`);
+            if (capabilities.language && settings.language !== 'none') details.push(`${settings.language} priority`);
+            const summary = `${profileNames[currentProfileKey] || 'Custom'} · ${addonName} · ${details.join(' · ') || 'add-on defaults'}`;
+            const selectedProfileSummary = document.getElementById('selectedProfileSummary');
+            const installSummary = document.getElementById('installSummary');
+            if (selectedProfileSummary) selectedProfileSummary.textContent = `Selected profile: ${summary}`;
+            if (installSummary) installSummary.textContent = summary;
         }
 
         function updateLink() {
             const apiKey = document.getElementById('apiKey').value.trim();
             const addonChoice = document.getElementById('addonChoice').value;
+            const capabilities = applyAddonCapabilities(addonChoice);
+            normalizeSettingsForAddon(capabilities);
+            if (!applyingProfile) currentProfileKey = inferProfileKey();
             const installBtn = document.getElementById('installBtn');
             const copyBtn = document.getElementById('copyBtn');
             const maxRes = document.getElementById('maxRes').value;
             const sort = document.getElementById('sort').value;
             const limit = document.getElementById('limit').value;
             const language = document.getElementById('language').value;
-            const maxSizeSelect = document.getElementById('maxSize');
-            const maxSize = maxSizeSelect.value;
-            const cachedOnlyInput = document.getElementById('cachedOnly');
-            const hideCamsInput = document.getElementById('hideCams');
-            const cachedOnly = cachedOnlyInput.checked;
-            const hideCams = hideCamsInput.checked;
-            const userSelectedCachedOnly = cachedOnlyInput.dataset.userSet === 'true';
-            const userSelectedHideCams = hideCamsInput.dataset.userSet === 'true';
+            const maxSize = document.getElementById('maxSize').value;
+            const cachedOnly = document.getElementById('cachedOnly').checked;
+            const hideCams = document.getElementById('hideCams').checked;
             const hide3D = document.getElementById('hide3D').checked;
             const cometDeduplicateStreamsInput = document.getElementById('cometDeduplicateStreams');
             const cometScrapeDebridAccountTorrentsInput = document.getElementById('cometScrapeDebridAccountTorrents');
             const cometAllowEnglishInLanguagesInput = document.getElementById('cometAllowEnglishInLanguages');
             const cometRemoveUnknownLanguagesInput = document.getElementById('cometRemoveUnknownLanguages');
             const torzCustomFilter = document.getElementById('torzCustomFilter').value.trim();
-            const hdhubTorboxOnly = document.getElementById('hdhubTorboxOnly').checked;
-            const hdhubIncludeUsenet = document.getElementById('hdhubIncludeUsenet').checked;
-
-            const capabilities = applyAddonCapabilities(addonChoice);
-
             let manifestUrl = "";
 
             if (addonChoice === 'torrentio') {
@@ -545,12 +682,11 @@
                 if (capabilities.maxRes && maxRes === '1080p') excludedQualities.push('4k');
                 if (capabilities.maxRes && maxRes === '720p') excludedQualities.push('4k', '1080p');
                 if (excludedQualities.length > 0) configParts.push(`qualityfilter=${excludedQualities.join(',')}`);
-                let debridOpts = ['nocatalog']; 
+                let debridOpts = ['nocatalog'];
                 if (capabilities.cachedOnly && cachedOnly) debridOpts.push('nodownloadlinks');
                 configParts.push(`debridoptions=${debridOpts.join(',')}`);
                 if (apiKey) configParts.push(`torbox=${apiKey}`);
                 manifestUrl = `https://torrentio.strem.fun/${configParts.join('|')}/manifest.json`;
-
             } else if (addonChoice === 'comet') {
                 const allCometResolutions = ["r2160p", "r1440p", "r1080p", "r720p", "r576p", "r480p", "r360p", "r240p", "unknown"];
                 const enabledCometResolutions = {
@@ -559,16 +695,11 @@
                     '720p': ["r720p", "r576p", "r480p", "r360p", "r240p", "unknown"]
                 }[maxRes] || ["r1080p", "r720p", "r576p", "r480p", "r360p", "r240p", "unknown"];
                 const cometResolutions = allCometResolutions.reduce((disabled, resolution) => {
-                    if (!enabledCometResolutions.includes(resolution)) {
-                        disabled[resolution] = false;
-                    }
+                    if (!enabledCometResolutions.includes(resolution)) disabled[resolution] = false;
                     return disabled;
                 }, {});
-                const maxSizeBytes = maxSize === 'all' || maxSize === 'none'
-                    ? 0
-                    : Number(maxSize.replace('GB', '')) * 1024 * 1024 * 1024;
+                const maxSizeBytes = maxSize === 'all' || maxSize === 'none' ? 0 : Number(maxSize.replace('GB', '')) * 1024 * 1024 * 1024;
                 const preferredLanguageCode = mapUiLanguageToCode(language);
-
                 const cometConfig = {
                     "maxResultsPerResolution": capabilities.limit ? (limit === 'all' ? 0 : Number(limit)) : 0,
                     "maxSize": capabilities.maxSize ? maxSizeBytes : 0,
@@ -581,12 +712,7 @@
                     "deduplicateStreams": cometDeduplicateStreamsInput ? cometDeduplicateStreamsInput.checked : true,
                     "scrapeDebridAccountTorrents": cometScrapeDebridAccountTorrentsInput ? cometScrapeDebridAccountTorrentsInput.checked : false,
                     "debridStreamProxyPassword": "",
-                    "languages": {
-                        "required": [],
-                        "allowed": [],
-                        "exclude": [],
-                        "preferred": capabilities.language && preferredLanguageCode ? [preferredLanguageCode] : []
-                    },
+                    "languages": { "required": [], "allowed": [], "exclude": [], "preferred": capabilities.language && preferredLanguageCode ? [preferredLanguageCode] : [] },
                     "resolutions": capabilities.maxRes ? cometResolutions : {},
                     "options": {
                         "remove_ranks_under": -10000000000,
@@ -595,126 +721,95 @@
                     }
                 };
                 manifestUrl = `stremio://comet.elfhosted.com/${generateBase64(cometConfig)}/manifest.json`;
-
             } else if (addonChoice === 'torz') {
                 const torzSort = torzSortMap[sort] || torzSortMap.qualitysize;
-                const torzConfig = {
-                    "indexers": null,
-                    "stores": [{ "c": "tb", "t": apiKey || "" }],
-                    ...(capabilities.cachedOnly && cachedOnly ? { "cached": true } : {}),
-                    ...(capabilities.sort ? { "sort": torzSort } : {}),
-                    ...(torzCustomFilter ? { "filter": torzCustomFilter } : {})
-                };
+                const torzConfig = { "indexers": null, "stores": [{ "c": "tb", "t": apiKey || "" }], ...(capabilities.cachedOnly && cachedOnly ? { "cached": true } : {}), ...(capabilities.sort ? { "sort": torzSort } : {}), ...(torzCustomFilter ? { "filter": torzCustomFilter } : {}) };
                 manifestUrl = `https://stremthru.elfhosted.com/stremio/torz/${generateBase64(torzConfig)}/manifest.json`;
-
             } else if (addonChoice === 'meteor') {
-                const meteorResolutionIncludeMap = {
-                    all: [],
-                    '1080p': ['1080p', '720p', '480p'],
-                    '720p': ['720p', '480p']
-                };
-                const meteorSortMap = {
-                    quality: ['resolution'],
-                    size: ['-size'],
-                    qualitysize: ['resolution', 'size']
-                };
+                const meteorResolutionIncludeMap = { all: [], '1080p': ['1080p', '720p', '480p'], '720p': ['720p', '480p'] };
+                const meteorSortMap = { quality: ['resolution'], size: ['-size'], qualitysize: ['resolution', 'size'] };
                 const meteorLanguageCode = mapUiLanguageToCode(language);
                 const meteorLimit = capabilities.limit ? (limit === 'all' ? 0 : Number(limit)) : 0;
-                const meteorConfig = {
-                    "debridService": "torbox",
-                    "debridApiKey": apiKey || "",
-                    "cachedOnly": capabilities.cachedOnly ? cachedOnly : false,
-                    "maxResults": 0,
-                    "maxResultsPerRes": meteorLimit,
-                    "maxSize": capabilities.maxSize && maxSize !== 'all' ? Number(maxSize.replace('GB', '')) : 0,
-                    "resolutions": capabilities.maxRes ? (meteorResolutionIncludeMap[maxRes] || []) : [],
-                    "languages": {
-                        "required": [],
-                        "exclude": [],
-                        "preferred": capabilities.language && meteorLanguageCode ? [meteorLanguageCode] : []
-                    },
-                    "sortOrder": capabilities.sort ? (meteorSortMap[sort] || ['resolution', 'size']) : ['resolution', 'size'],
-                    "removeTrash": capabilities.hideCams ? hideCams : false,
-                    "exclude3D": capabilities.hide3D ? hide3D : false
-                };
+                const meteorConfig = { "debridService": "torbox", "debridApiKey": apiKey || "", "cachedOnly": capabilities.cachedOnly ? cachedOnly : false, "maxResults": 0, "maxResultsPerRes": meteorLimit, "maxSize": capabilities.maxSize && maxSize !== 'all' ? Number(maxSize.replace('GB', '')) : 0, "resolutions": capabilities.maxRes ? (meteorResolutionIncludeMap[maxRes] || []) : [], "languages": { "required": [], "exclude": [], "preferred": capabilities.language && meteorLanguageCode ? [meteorLanguageCode] : [] }, "sortOrder": capabilities.sort ? (meteorSortMap[sort] || ['resolution', 'size']) : ['resolution', 'size'], "removeTrash": capabilities.hideCams ? hideCams : false, "exclude3D": capabilities.hide3D ? hide3D : false };
                 manifestUrl = `https://meteorfortheweebs.midnightignite.me/${generateBase64Url(meteorConfig)}/manifest.json`;
-
             } else if (addonChoice === 'hdhub') {
-                const hdhubQualitiesMap = {
-                    all: ['4k', '2160p', '1440p', '1080p', '720p', '576p', '480p', '360p'],
-                    '1080p': ['1080p', '720p', '576p', '480p', '360p'],
-                    '720p': ['720p', '576p', '480p', '360p']
-                };
-
+                const hdhubQualitiesMap = { all: ['4k', '2160p', '1440p', '1080p', '720p', '576p', '480p', '360p'], '1080p': ['1080p', '720p', '576p', '480p', '360p'], '720p': ['720p', '576p', '480p', '360p'] };
                 const hdhubConfig = {};
                 if (apiKey) hdhubConfig.torbox = apiKey;
                 if (capabilities.maxRes) hdhubConfig.qualities = hdhubQualitiesMap[maxRes] || hdhubQualitiesMap.all;
-                if (capabilities.sort) {
-                    hdhubConfig.sort = sort === 'size' ? 'asc' : 'desc';
-                }
+                if (capabilities.sort) hdhubConfig.sort = sort === 'size' ? 'asc' : 'desc';
                 if (capabilities.limit && limit !== 'all') hdhubConfig.mq = Number(limit);
-
-                // UI-only toggles currently: no verified, in-code schema evidence for HDHub keys `tb_only` / `tb_usenet`.
-                // Intentionally not emitted until key contract is confirmed to avoid speculative config output.
-                void hdhubTorboxOnly;
-                void hdhubIncludeUsenet;
-
                 manifestUrl = `https://hdhub.thevolecitor.qzz.io/${generateBase64Url(hdhubConfig)}/manifest.json`;
             }
-            
+
             currentManifestUrl = manifestUrl;
             const stremioUrl = manifestUrl.replace(/^https?:\/\//i, 'stremio://');
-            if (apiKey.length > 10) {
-                installBtn.href = stremioUrl;
-                installBtn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
-                installBtn.classList.add('bg-[#29ABE0]', 'text-white', 'hover:opacity-90', 'shadow-md', 'transform', 'hover:-translate-y-0.5');
-                copyBtn.classList.remove('hidden');
+            currentInstallUrl = isApiKeyAcceptable(apiKey) ? stremioUrl : '';
+            const canInstall = Boolean(currentInstallUrl);
+            const installBtnText = document.getElementById('installBtnText');
+            const recoveryArea = document.getElementById('recoveryArea');
+            const copyStatus = document.getElementById('copyStatus');
+            const copyFallback = document.getElementById('copyFallback');
+            const manualInstallLink = document.getElementById('manualInstallLink');
+            if (canInstall) {
+                installBtn.href = currentInstallUrl;
+                installBtn.setAttribute('aria-disabled', 'false');
+                installBtn.classList.remove('bg-slate-300', 'text-slate-500', 'cursor-not-allowed');
+                installBtn.classList.add('bg-sky-600', 'text-white', 'hover:bg-sky-700', 'shadow-lg', 'shadow-sky-600/20');
+                copyBtn.disabled = false;
+                recoveryArea.classList.remove('hidden');
+                if (installBtnText) installBtnText.textContent = 'Install in Stremio';
             } else {
-                installBtn.href = "#";
-                installBtn.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
-                installBtn.classList.remove('bg-[#29ABE0]', 'text-white', 'hover:opacity-90', 'shadow-md', 'transform', 'hover:-translate-y-0.5');
-                copyBtn.classList.add('hidden');
+                installBtn.href = '#';
+                installBtn.setAttribute('aria-disabled', 'true');
+                installBtn.classList.add('bg-slate-300', 'text-slate-500', 'cursor-not-allowed');
+                installBtn.classList.remove('bg-sky-600', 'text-white', 'hover:bg-sky-700', 'shadow-lg', 'shadow-sky-600/20');
+                copyBtn.disabled = true;
+                recoveryArea.classList.add('hidden');
+                if (installBtnText) installBtnText.textContent = 'Add key to continue';
+                if (copyStatus) copyStatus.textContent = '';
+                if (copyFallback) copyFallback.classList.add('hidden');
+                if (manualInstallLink) manualInstallLink.value = '';
             }
 
             const installHint = document.getElementById('installHint');
-            if (installHint) {
-                installHint.textContent = apiKey.length > 10
-                    ? 'Make sure Stremio is installed before clicking.'
-                    : 'Paste a valid API key to enable Install to Stremio.';
+            if (installHint) installHint.textContent = canInstall ? 'Next: choose Install in Stremio, then review the add-on install prompt in Stremio.' : '';
+            renderProfileState(capabilities, addonChoice);
+        }
+
+        async function copyInstallLink() {
+            if (!hasInstallLink()) return blockInactiveInstall();
+            const btn = document.getElementById('copyBtn');
+            const copyStatus = document.getElementById('copyStatus');
+            const copyFallback = document.getElementById('copyFallback');
+            const manualInstallLink = document.getElementById('manualInstallLink');
+            if (copyStatus) copyStatus.textContent = '';
+            if (copyFallback) copyFallback.classList.add('hidden');
+            if (manualInstallLink) manualInstallLink.value = '';
+            try {
+                await navigator.clipboard.writeText(currentInstallUrl);
+                if (copyStatus) copyStatus.textContent = 'Copied. This link contains your API key.';
+                if (btn) btn.classList.add('text-emerald-700');
+                setTimeout(() => { btn?.classList.remove('text-emerald-700'); }, 3000);
+            } catch (error) {
+                if (copyStatus) copyStatus.textContent = 'Clipboard was blocked. Select and copy the sensitive link below.';
+                if (manualInstallLink) {
+                    manualInstallLink.value = currentInstallUrl;
+                    copyFallback?.classList.remove('hidden');
+                    manualInstallLink.focus?.();
+                    manualInstallLink.select?.();
+                }
             }
         }
 
-        function copyRawLink() {
-            navigator.clipboard.writeText(currentManifestUrl).then(() => {
-                const btn = document.getElementById('copyBtn');
-                const originalText = btn.innerText;
-                btn.innerText = "Link Copied! Paste it into Stremio search.";
-                btn.classList.add('text-green-600');
-                setTimeout(() => { btn.innerText = originalText; btn.classList.remove('text-green-600'); }, 3000);
+        window.addEventListener('load', () => {
+            ['maxRes', 'sort', 'limit', 'maxSize', 'language', 'cachedOnly', 'hideCams', 'hide3D', 'addonChoice', 'cometDeduplicateStreams', 'cometScrapeDebridAccountTorrents', 'cometAllowEnglishInLanguages', 'cometRemoveUnknownLanguages', 'torzCustomFilter'].forEach((inputId) => {
+                const input = document.getElementById(inputId);
+                if (!input) return;
+                input.addEventListener(input.tagName === 'TEXTAREA' ? 'input' : 'change', markCustomIfManual);
             });
-        }
-
-
-        function setSignupStatus(text, kind = 'info') {
-            if (window.ETB_SHARED?.setStatusById) {
-                window.ETB_SHARED.setStatusById('signupStatus', text, kind);
-                return;
-            }
-
-            const el = document.getElementById('signupStatus');
-            if (!el) return;
-            el.textContent = text;
-            el.classList.remove('text-gray-500', 'text-green-700', 'text-red-700', 'text-amber-700');
-            if (kind === 'success') el.classList.add('text-green-700');
-            else if (kind === 'error') el.classList.add('text-red-700');
-            else if (kind === 'warn') el.classList.add('text-amber-700');
-            else el.classList.add('text-gray-500');
-        }
-
-        window.onload = () => {
             applyProfile('netflix', document.getElementById('btn-netflix'));
-            applyAddonCapabilities(document.getElementById('addonChoice').value);
-        };
+        });
     </script>
 </body>
 </html>

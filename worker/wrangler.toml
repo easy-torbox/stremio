@@ -6,8 +6,7 @@ compatibility_date = "2026-05-16"
 # CORS allowlist for site origins (comma-separated)
 ALLOWED_ORIGINS = "https://easy-torbox.github.io,https://easytorbox.com,https://www.easytorbox.com,http://localhost:8787,http://127.0.0.1:8787"
 
-# Optional fallback URL used when pool has no eligible referral
-FALLBACK_TORBOX_URL = "https://torbox.app/subscription"
+# Signup requires an active community referral. Do not configure a non-referral fallback.
 
 # Optional preferred referral code to bias random selection (UUID, lowercase recommended)
 PREFERRED_REFERRAL_CODE = ""
@@ -21,11 +20,12 @@ INCLUDE_RANDOM_DIAGNOSTICS = "0"
 RANDOM_MAX_PER_MINUTE = "2"
 RANDOM_MAX_PER_HOUR = "10"
 RANDOM_MAX_PER_DAY = "10"
-RANDOM_MIN_INTERVAL_SECONDS = "60"
-RANDOM_BLOCK_MINUTES = "1440"
+RANDOM_MIN_INTERVAL_SECONDS = "30"
+RANDOM_BLOCK_MINUTES = "60"
 RANDOM_GLOBAL_MAX_PER_MINUTE = "60"
 RANDOM_GLOBAL_MAX_PER_HOUR = "500"
 RANDOM_REQUIRE_TURNSTILE = "1"
+TURNSTILE_ALLOWED_HOSTNAMES = "easy-torbox.github.io,easytorbox.com,www.easytorbox.com,localhost,127.0.0.1"
 
 [[d1_databases]]
 binding = "DB"

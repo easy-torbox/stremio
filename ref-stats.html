@@ -3,371 +3,172 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Referral Stats</title>
+  <title>Referral Click Stats</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .meta {
-      margin: 0 0 16px 0;
-      color: #555;
-    }
-    .summary {
-      margin: 12px 0 20px 0;
-      padding: 12px;
-      border: 1px solid #ddd;
-      background: #fafafa;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
-      vertical-align: top;
-      font-size: 14px;
-    }
-    th {
-      background: #f3f3f3;
-    }
-    th.sortable {
-      cursor: pointer;
-      user-select: none;
-      white-space: nowrap;
-    }
-    th.sortable .sort-indicator {
-      margin-left: 6px;
-      color: #888;
-      font-size: 12px;
-    }
-    th.sortable.sorted-asc .sort-indicator,
-    th.sortable.sorted-desc .sort-indicator {
-      color: #222;
-    }
-    .active {
-      color: #0a7a2f;
-      font-weight: bold;
-    }
-    .inactive {
-      color: #a33;
-      font-weight: bold;
-    }
-    .error {
-      color: #a33;
-      font-weight: bold;
-      margin-top: 12px;
-    }
-    .actions {
-      margin-top: 14px;
-    }
-    .filters .actions {
-      margin-top: 0;
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      align-self: end;
-      gap: 12px;
-      flex: 0 0 auto;
-    }
-    .filters .actions button,
-    .filters .actions a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-height: 44px;
-      padding: 0 14px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      border: 1px solid #d1d5db;
-      background: #f9fafb;
-      color: #1f2937;
-      cursor: pointer;
-      line-height: 1;
-    }
-    .filters .actions button svg {
-      width: 16px;
-      height: 16px;
-      flex: 0 0 auto;
-    }
-    .filters .actions button:hover,
-    .filters .actions a:hover {
-      background: #eef2ff;
-      border-color: #93c5fd;
-      color: #1d4ed8;
-    }
-    .filters .actions button:disabled {
-      opacity: 0.65;
-      cursor: wait;
-    }
-    .filters .actions button.is-loading svg {
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .filters {
-      margin-top: 14px;
-      display: flex;
-      align-items: flex-end;
-      gap: 10px;
-      flex-wrap: wrap;
-      padding: 12px;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      background: #fcfcfd;
-    }
-    .filters .search-field {
-      flex: 1 1 320px;
-      min-width: 240px;
-      max-width: 640px;
-    }
-    .filters label {
-      display: block;
-      width: 100%;
-      font-size: 13px;
-      font-weight: 600;
-      color: #374151;
-      margin-bottom: 6px;
-    }
-    .filters input {
-      padding: 12px 14px;
-      min-width: 0;
-      width: min(100%, 520px);
-      max-width: 100%;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
-      box-sizing: border-box;
-      font-size: 15px;
-      color: #111827;
-      background: #fff;
-    }
-    .filters input:focus {
-      outline: none;
-      border-color: #60a5fa;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-    }
-    .table-wrap {
-      width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      background: #fff;
-    }
-    .table-wrap table {
-      margin-top: 0;
-      min-width: 640px;
-    }
-    @media (max-width: 640px) {
-      .filters {
-        align-items: stretch;
-      }
-      .filters label {
-        width: 100%;
-      }
-      .filters .actions {
-        margin-left: 0;
-        width: 100%;
-        justify-content: flex-end;
-      }
-      .pagination {
-        justify-content: space-between;
-      }
-      .pagination .page-info {
-        width: 100%;
-        order: 3;
-      }
-    }
-    .pagination {
-      margin-top: 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .pagination button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 38px;
-      padding: 8px 14px;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      background: #f9fafb;
-      color: #1f2937;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .pagination button:hover:not(:disabled) {
-      background: #eef2ff;
-      border-color: #93c5fd;
-      color: #1d4ed8;
-    }
-    .pagination button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .pagination .page-info {
-      color: #4b5563;
-      font-size: 14px;
-      font-weight: 500;
-    }
-  </style>
+  <script src="assets/signup-shared.js?v=6"></script>
 </head>
-<body class="bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800 font-sans p-4 md:p-12 min-h-screen flex items-center justify-center">
-  <div class="max-w-5xl w-full bg-white p-4 md:p-10 rounded-2xl shadow-xl border border-gray-100">
-    <div class="mb-6 flex flex-wrap items-center justify-center gap-3" aria-label="Primary">
-      <img src="assets/easytorbox-logo-128.png?v=2" alt="EasyTorbox logo" class="h-11 w-auto" width="44" height="44" loading="eager" decoding="async">
-      <nav>
-        <div class="flex flex-wrap items-center justify-center gap-2 text-sm">
-          <a href="index.html" class="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-200 transition">Setup</a>
-          <a href="referrals.html" class="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-200 transition">Referral Pool</a>
-          <a href="ref-stats.html" class="px-3 py-1.5 rounded-full bg-blue-600 text-white font-semibold">Stats</a>
+<body class="bg-slate-950 text-slate-900 font-sans min-h-screen">
+  <div class="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(41,171,224,0.22),_transparent_34rem),linear-gradient(135deg,_#0f172a_0%,_#1e293b_45%,_#0f172a_100%)] px-4 py-6 md:py-12">
+    <main class="mx-auto max-w-6xl">
+      <header class="mb-6 flex flex-col gap-4 rounded-3xl border border-white/10 bg-white/95 p-5 shadow-2xl md:flex-row md:items-center md:justify-between">
+        <a href="index.html" class="flex items-center gap-4 text-slate-900">
+          <img src="assets/easytorbox-logo-128.png?v=2" alt="EasyTorbox logo" class="h-16 w-16 flex-none drop-shadow-sm" width="64" height="64" loading="eager" decoding="async">
+          <div>
+            <h1 class="text-xl font-black tracking-tight md:text-2xl">Referral stats</h1>
+          </div>
+        </a>
+        <nav aria-label="Primary navigation">
+          <div class="flex flex-wrap gap-1.5 text-sm">
+            <a href="index.html" class="rounded-full px-4 py-2 font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-800">Setup</a>
+            <a href="referrals.html" class="rounded-full px-4 py-2 font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-800">Share Link</a>
+            <a href="ref-stats.html" class="rounded-full bg-slate-900 px-4 py-2 font-semibold text-white shadow-sm" aria-current="page">Stats</a>
+          </div>
+        </nav>
+      </header>
+
+      <section class="mb-6 rounded-3xl bg-white p-6 shadow-2xl md:p-8">
+        <p class="mb-3 inline-flex rounded-full bg-sky-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-sky-700 ring-1 ring-sky-100">Community pool</p>
+        <h2 class="text-3xl font-black tracking-tight text-slate-950 md:text-4xl">Referral click stats</h2>
+        <p class="mt-3 text-base leading-7 text-slate-600">A click means EasyTorbox selected a community referral and started navigation to Torbox. It is not proof of registration, purchase, or bonus award.</p>
+        <p class="mt-2 text-sm text-slate-500" id="updatedAt" aria-live="polite">Last updated: not loaded yet</p>
+        <div class="mt-5 grid gap-3 md:grid-cols-3" id="summaryCards">
+          <div class="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200"><p class="text-xs font-bold uppercase tracking-wider text-slate-500">Pool-active links</p><p id="activeCount" class="mt-1 text-3xl font-black text-slate-950">–</p><p class="mt-1 text-xs leading-5 text-slate-500">Active in the EasyTorbox rotation. Torbox bonus eligibility is separate.</p></div>
+          <div class="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200"><p class="text-xs font-bold uppercase tracking-wider text-slate-500">Total submitted codes</p><p id="totalCount" class="mt-1 text-3xl font-black text-slate-950">–</p><p class="mt-1 text-xs leading-5 text-slate-500">All records returned by the stats API.</p></div>
+          <div class="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200"><p class="text-xs font-bold uppercase tracking-wider text-slate-500">Torbox referral clicks</p><p id="handoffCount" class="mt-1 text-3xl font-black text-slate-950">–</p><p class="mt-1 text-xs leading-5 text-slate-500">Total referral clicks returned by the stats API.</p></div>
         </div>
-      </nav>
-    </div>
+        <p id="summary" class="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-700" role="status" aria-live="polite" aria-atomic="true">Stats have not loaded yet.</p>
+      </section>
 
-    <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight text-center">Referral Stats</h1>
-    <p class="meta text-center">Shows current referral codes and total times clicked.</p>
-  <p class="meta text-center" id="updatedAt">Last updated: loading...</p>
+      <section class="rounded-3xl bg-white p-6 shadow-2xl md:p-8">
+        <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div class="w-full max-w-xl">
+            <label for="codeSearchInput" class="mb-2 block text-sm font-bold text-slate-800">Find my referral</label>
+            <input id="codeSearchInput" type="search" placeholder="Type a referral code…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-describedby="searchHelp" class="w-full rounded-2xl border border-slate-300 bg-white p-4 text-base shadow-sm outline-none transition focus:border-sky-500 focus:ring-4 focus:ring-sky-100" />
+            <p id="searchHelp" class="mt-2 text-sm leading-6 text-slate-500">Paste or follow a contributor success link to filter by referral code. Search stays on this page only.</p>
+          </div>
+          <button id="refreshBtn" type="button" class="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-4 text-sm font-black text-slate-800 transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-sky-100 disabled:cursor-wait disabled:opacity-60">
+            Refresh
+          </button>
+        </div>
 
-  <div class="summary rounded-xl" id="summary">Loading stats...</div>
-  <p class="meta"><strong>Metric guide:</strong> <span class="active">Active</span> = available for random sign-up, <span class="inactive">Inactive</span> = expired/removed, <strong>Clicks</strong> = times opened from the pool.</p>
+        <div class="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-700">
+          <strong>Important:</strong> pool-active means a code can be selected by EasyTorbox today. Bonus eligibility is controlled by Torbox and is not visible here.
+        </div>
 
-  <div class="filters">
-    <div class="search-field">
-      <label for="codeSearchInput">Search code</label>
-      <input id="codeSearchInput" type="search" placeholder="Type a referral code…" autocomplete="off" />
-    </div>
-    <div class="actions">
-      <button id="refreshBtn" type="button" aria-label="Refresh stats" title="Refresh stats">
-        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12a9 9 0 1 1-2.64-6.36" />
-          <polyline points="21 3 21 9 15 9" />
-        </svg>
-        <span>Refresh</span>
-      </button>
-    </div>
-  </div>
+        <div class="mt-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+          <table class="min-w-[860px] w-full border-collapse text-left text-sm">
+            <caption class="sr-only">Referral click statistics by code</caption>
+            <thead class="bg-slate-50 text-xs uppercase tracking-wider text-slate-600">
+              <tr>
+                <th class="p-2 font-black" scope="col"><button type="button" class="sort-button flex w-full items-center gap-2 rounded-xl p-2 text-left font-black hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-sky-100" data-sort-key="code" data-sort-type="string" aria-sort="none">Code <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                <th class="p-2 font-black" scope="col"><button type="button" class="sort-button flex w-full items-center gap-2 rounded-xl p-2 text-left font-black hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-sky-100" data-sort-key="handoffCount" data-sort-type="number" aria-sort="none">Torbox referral clicks <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                <th class="p-2 font-black" scope="col"><button type="button" class="sort-button flex w-full items-center gap-2 rounded-xl p-2 text-left font-black hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-sky-100" data-sort-key="isActive" data-sort-type="boolean" aria-sort="none">Pool status <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                <th class="p-2 font-black" scope="col"><button type="button" class="sort-button flex w-full items-center gap-2 rounded-xl p-2 text-left font-black hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-sky-100" data-sort-key="expiresAt" data-sort-type="number" aria-sort="none">Expiration <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                <th class="p-2 font-black" scope="col"><button type="button" class="sort-button flex w-full items-center gap-2 rounded-xl p-2 text-left font-black hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-sky-100" data-sort-key="lastHandedOffAt" data-sort-type="number" aria-sort="descending">Last click <span class="sort-indicator" aria-hidden="true">▼</span></button></th>
+              </tr>
+            </thead>
+            <tbody id="statsRows" class="divide-y divide-slate-100 text-slate-700">
+            </tbody>
+          </table>
+        </div>
 
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th class="sortable" data-sort-key="code" data-sort-type="string">Code <span class="sort-indicator">↕</span></th>
-          <th class="sortable" data-sort-key="clickCount" data-sort-type="number">Clicks <span class="sort-indicator">↕</span></th>
-          <th class="sortable" data-sort-key="isActive" data-sort-type="boolean">Status <span class="sort-indicator">↕</span></th>
-          <th class="sortable" data-sort-key="lastClickedAt" data-sort-type="number">Last Clicked <span class="sort-indicator">↕</span></th>
-        </tr>
-      </thead>
-      <tbody id="statsRows">
-        <tr>
-          <td colspan="4">Loading...</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+        <div id="statsCards" class="mt-6 grid gap-4 md:hidden" aria-label="Referral stats cards"></div>
 
-  <div class="pagination" id="pagination" style="display:none;">
-    <button id="prevPageBtn" type="button">Previous</button>
-    <button id="nextPageBtn" type="button">Next</button>
-    <span class="page-info" id="pageInfo"></span>
-  </div>
+        <div class="mt-5 hidden flex-wrap items-center gap-3" id="pagination" aria-label="Stats pagination">
+          <button id="prevPageBtn" type="button" class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-800 transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-sky-100 disabled:opacity-50">Previous</button>
+          <button id="nextPageBtn" type="button" class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-800 transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-sky-100 disabled:opacity-50">Next</button>
+          <span class="text-sm font-medium text-slate-500" id="pageInfo" aria-live="polite"></span>
+        </div>
 
-  <p class="error" id="errorMsg" style="display:none;"></p>
+        <p class="mt-4 hidden rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-bold text-red-700" id="errorMsg" role="alert"></p>
+      </section>
 
-  <div class="mt-8 text-center">
-    <p class="text-sm text-gray-700 mb-2">If this project helped you, consider supporting it for just $1.</p>
-    <a href="https://ko-fi.com/easytorbox" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-full bg-amber-500 text-white font-semibold hover:bg-amber-600 transition text-sm align-middle"><span aria-hidden="true">☕</span><span>Buy me a coffee</span></a>
+      <footer class="mt-6 rounded-3xl bg-white/95 p-6 text-center text-sm text-slate-600 shadow-2xl">
+        <p class="mb-3"><strong>Privacy:</strong> this stats page reads community pool totals only. External registration completion, purchases, and Torbox bonus awards are not visible to this site.</p>
+        <a href="index.html" class="font-bold text-sky-700 hover:underline">Back to beginner setup</a>
+      </footer>
+    </main>
   </div>
 
   <script>
     const API_BASE = window.ETB_SHARED?.API_BASE || 'https://easytorbox-referrals-api.etapps.workers.dev';
-
     const PAGE_SIZE = 25;
+    const UUID_REFERRAL_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
     let allItems = [];
     let filteredItems = [];
     let currentPage = 1;
-    let sortKey = 'lastClickedAt';
+    let sortKey = 'lastHandedOffAt';
     let sortDirection = 'desc';
+    let hasLoadedSuccessfully = false;
 
     function toDateTime(epochSeconds) {
-      if (!epochSeconds) return '-';
-      const d = new Date(Number(epochSeconds) * 1000);
+      const seconds = Number(epochSeconds || 0);
+      if (!Number.isFinite(seconds) || seconds <= 0) return '-';
+      const d = new Date(seconds * 1000);
       if (Number.isNaN(d.getTime())) return '-';
       return d.toLocaleString();
     }
 
-    function escapeHtml(str) {
-      return String(str)
-        .replaceAll('&', '&')
-        .replaceAll('<', '<')
-        .replaceAll('>', '>')
-        .replaceAll('"', '"');
+    function formatExpiration(epochSeconds) {
+      const value = Number(epochSeconds || 0);
+      return Number.isFinite(value) && value > 0 ? toDateTime(value) : '';
+    }
+
+    function setText(id, text) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = String(text);
+    }
+
+    function normalizeItem(item) {
+      const handoffCount = Number(item?.handoffCount ?? item?.clickCount ?? 0);
+      const lastHandedOffAt = Number(item?.lastHandedOffAt ?? item?.lastClickedAt ?? 0);
+      const expiresAt = Number(item?.expiresAt ?? 0);
+      return {
+        ...item,
+        code: String(item?.code || ''),
+        isActive: Boolean(item?.isActive),
+        handoffCount: Number.isFinite(handoffCount) ? handoffCount : 0,
+        clickCount: Number.isFinite(handoffCount) ? handoffCount : 0,
+        lastHandedOffAt: Number.isFinite(lastHandedOffAt) ? lastHandedOffAt : 0,
+        lastClickedAt: Number.isFinite(lastHandedOffAt) ? lastHandedOffAt : 0,
+        expiresAt: Number.isFinite(expiresAt) ? expiresAt : 0
+      };
     }
 
     function compareValues(a, b, type) {
-      if (type === 'number') {
-        const av = Number(a || 0);
-        const bv = Number(b || 0);
-        return av - bv;
-      }
-      if (type === 'boolean') {
-        const av = a ? 1 : 0;
-        const bv = b ? 1 : 0;
-        return av - bv;
-      }
-      const as = String(a || '').toLowerCase();
-      const bs = String(b || '').toLowerCase();
-      return as.localeCompare(bs);
+      if (type === 'number') return Number(a || 0) - Number(b || 0);
+      if (type === 'boolean') return (a ? 1 : 0) - (b ? 1 : 0);
+      return String(a || '').toLowerCase().localeCompare(String(b || '').toLowerCase());
+    }
+
+    function activeSortButton() {
+      return document.querySelector(`.sort-button[data-sort-key="${sortKey}"]`);
     }
 
     function applySort() {
-      const headerEl = document.querySelector(`th[data-sort-key="${sortKey}"]`);
-      const sortType = headerEl?.dataset?.sortType || 'string';
-
+      const button = activeSortButton();
+      const sortType = button?.dataset?.sortType || 'string';
       filteredItems.sort((a, b) => {
         const base = compareValues(a?.[sortKey], b?.[sortKey], sortType);
-        if (base === 0) {
-          return String(a?.code || '').localeCompare(String(b?.code || ''));
-        }
+        if (base === 0) return String(a?.code || '').localeCompare(String(b?.code || ''));
         return sortDirection === 'asc' ? base : -base;
       });
     }
 
     function updateSortIndicators() {
-      const headers = document.querySelectorAll('th.sortable');
-      headers.forEach((th) => {
-        th.classList.remove('sorted-asc', 'sorted-desc');
-        const indicator = th.querySelector('.sort-indicator');
-        if (!indicator) return;
-
-        const key = th.dataset.sortKey;
-        if (key === sortKey) {
-          if (sortDirection === 'asc') {
-            th.classList.add('sorted-asc');
-            indicator.textContent = '▲';
-          } else {
-            th.classList.add('sorted-desc');
-            indicator.textContent = '▼';
-          }
-        } else {
-          indicator.textContent = '↕';
-        }
+      document.querySelectorAll('.sort-button[data-sort-key]').forEach((button) => {
+        const indicator = button.querySelector('.sort-indicator');
+        const isActive = button.dataset.sortKey === sortKey;
+        const ariaSort = isActive ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none';
+        button.setAttribute('aria-sort', ariaSort);
+        button.setAttribute('aria-label', `Sort by ${button.textContent.replace(/[↕▲▼]/g, '').trim()} (${ariaSort})`);
+        if (indicator) indicator.textContent = isActive ? (sortDirection === 'asc' ? '▲' : '▼') : '↕';
       });
     }
 
     function setSort(nextSortKey) {
-      if (sortKey === nextSortKey) {
-        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-      } else {
+      if (sortKey === nextSortKey) sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+      else {
         sortKey = nextSortKey;
         sortDirection = 'asc';
       }
@@ -377,129 +178,233 @@
       renderPage();
     }
 
-    function renderPage() {
+    function createTableCell(text, className = 'p-4') {
+      const td = document.createElement('td');
+      td.className = className;
+      td.textContent = String(text);
+      return td;
+    }
+
+    function createEmptyRow(message) {
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.className = 'p-4 text-slate-600';
+      td.colSpan = 5;
+      td.textContent = message;
+      tr.appendChild(td);
+      return tr;
+    }
+
+    function createField(label, value, valueClass = 'font-bold text-slate-950') {
+      const wrapper = document.createElement('div');
+      const labelEl = document.createElement('p');
+      labelEl.className = 'text-xs font-bold uppercase tracking-wider text-slate-500';
+      labelEl.textContent = label;
+      const valueEl = document.createElement('p');
+      valueEl.className = `mt-1 ${valueClass}`;
+      valueEl.textContent = value;
+      wrapper.append(labelEl, valueEl);
+      return wrapper;
+    }
+
+    function itemViewModel(item) {
+      const statusLabel = item.isActive ? 'Pool-active' : 'Not pool-active';
+      const statusClass = item.isActive ? 'font-bold text-emerald-700' : 'font-bold text-red-700';
+      const expiration = formatExpiration(item.expiresAt);
+      return {
+        code: item.code || '',
+        handoffCount: Number(item.handoffCount ?? item.clickCount ?? 0),
+        statusLabel,
+        statusClass,
+        expirationLabel: expiration || '—',
+        lastHandedOffLabel: toDateTime(item.lastHandedOffAt ?? item.lastClickedAt)
+      };
+    }
+
+    function renderDesktopRows(pageItems) {
       const rowsEl = document.getElementById('statsRows');
+      const fragment = document.createDocumentFragment();
+      pageItems.forEach((item) => {
+        const view = itemViewModel(item);
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50';
+
+        const codeTd = document.createElement('td');
+        codeTd.className = 'p-4';
+        const codeEl = document.createElement('code');
+        codeEl.className = 'rounded-lg bg-slate-100 px-2 py-1 text-xs break-all';
+        codeEl.textContent = view.code;
+        codeTd.appendChild(codeEl);
+
+        tr.append(
+          codeTd,
+          createTableCell(view.handoffCount, 'p-4 font-bold text-slate-950'),
+          createTableCell(view.statusLabel, `p-4 ${view.statusClass}`),
+          createTableCell(view.expirationLabel),
+          createTableCell(view.lastHandedOffLabel)
+        );
+        fragment.appendChild(tr);
+      });
+      rowsEl.replaceChildren(fragment);
+    }
+
+    function renderMobileCards(pageItems) {
+      const cardsEl = document.getElementById('statsCards');
+      const fragment = document.createDocumentFragment();
+      pageItems.forEach((item) => {
+        const view = itemViewModel(item);
+        const card = document.createElement('article');
+        card.className = 'rounded-2xl border border-slate-200 bg-white p-4 shadow-sm';
+        const code = document.createElement('code');
+        code.className = 'block break-all rounded-xl bg-slate-100 p-3 text-xs text-slate-800';
+        code.textContent = view.code;
+        const grid = document.createElement('div');
+        grid.className = 'mt-4 grid grid-cols-2 gap-3 text-sm';
+        grid.append(
+          createField('Torbox referral clicks', String(view.handoffCount)),
+          createField('Pool status', view.statusLabel, view.statusClass),
+          createField('Expiration', view.expirationLabel),
+          createField('Last click', view.lastHandedOffLabel)
+        );
+        card.append(code, grid);
+        fragment.appendChild(card);
+      });
+      cardsEl.replaceChildren(fragment);
+    }
+
+    function setRowsMessage(message) {
+      document.getElementById('statsRows').replaceChildren(createEmptyRow(message));
+      const cardsEl = document.getElementById('statsCards');
+      const p = document.createElement('p');
+      p.className = 'rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600';
+      p.textContent = message;
+      cardsEl.replaceChildren(p);
+    }
+
+    function setSummaryCounts(active = '–', total = '–', handoffs = '–') {
+      setText('activeCount', active);
+      setText('totalCount', total);
+      setText('handoffCount', handoffs);
+    }
+
+    function renderPage() {
       const paginationEl = document.getElementById('pagination');
       const prevBtn = document.getElementById('prevPageBtn');
       const nextBtn = document.getElementById('nextPageBtn');
       const pageInfoEl = document.getElementById('pageInfo');
 
       if (!allItems.length) {
-        rowsEl.innerHTML = '<tr><td colspan="4">No referral records found.</td></tr>';
-        paginationEl.style.display = 'none';
+        setRowsMessage(hasLoadedSuccessfully ? 'No referral records found.' : 'Stats have not loaded yet.');
+        paginationEl.classList.add('hidden');
+        paginationEl.classList.remove('flex');
+        pageInfoEl.textContent = '';
         return;
       }
 
       if (!filteredItems.length) {
-        rowsEl.innerHTML = '<tr><td colspan="4">No matching referral codes.</td></tr>';
-        paginationEl.style.display = 'none';
+        setRowsMessage('No matching referral codes.');
+        paginationEl.classList.add('hidden');
+        paginationEl.classList.remove('flex');
+        pageInfoEl.textContent = '';
         return;
       }
 
       const totalPages = Math.ceil(filteredItems.length / PAGE_SIZE);
       if (currentPage > totalPages) currentPage = totalPages;
       if (currentPage < 1) currentPage = 1;
-
       const start = (currentPage - 1) * PAGE_SIZE;
       const pageItems = filteredItems.slice(start, start + PAGE_SIZE);
 
-      rowsEl.innerHTML = pageItems.map((item) => {
-        const statusClass = item.isActive ? 'active' : 'inactive';
-        const statusLabel = item.isActive ? 'Active' : 'Inactive';
-        return `
-          <tr>
-            <td><code>${escapeHtml(item.code || '')}</code></td>
-            <td>${Number(item.clickCount || 0)}</td>
-            <td class="${statusClass}">${statusLabel}</td>
-            <td>${toDateTime(item.lastClickedAt)}</td>
-          </tr>
-        `;
-      }).join('');
+      renderDesktopRows(pageItems);
+      renderMobileCards(pageItems);
 
-      paginationEl.style.display = totalPages > 1 ? 'flex' : 'none';
+      paginationEl.classList.toggle('hidden', totalPages <= 1);
+      paginationEl.classList.toggle('flex', totalPages > 1);
       prevBtn.disabled = currentPage <= 1;
       nextBtn.disabled = currentPage >= totalPages;
       pageInfoEl.textContent = `Page ${currentPage} of ${totalPages} | Showing ${start + 1}-${start + pageItems.length} of ${filteredItems.length} matches`;
     }
 
     function applyFilter() {
-      const inputEl = document.getElementById('codeSearchInput');
-      const q = (inputEl.value || '').trim().toLowerCase();
-
-      filteredItems = allItems.filter((item) => {
-        const code = String(item?.code || '').toLowerCase();
-        return !q || code.includes(q);
-      });
-
+      const q = (document.getElementById('codeSearchInput').value || '').trim().toLowerCase();
+      filteredItems = allItems.filter((item) => !q || String(item?.code || '').toLowerCase().includes(q));
       applySort();
       currentPage = 1;
       updateSortIndicators();
       renderPage();
     }
 
+    function queryCodePrefill() {
+      try {
+        const code = new URLSearchParams(window.location.search || '').get('code') || '';
+        return UUID_REFERRAL_REGEX.test(code) ? code.toLowerCase() : '';
+      } catch {
+        return '';
+      }
+    }
+
+    function initializeSearchFromQuery() {
+      const input = document.getElementById('codeSearchInput');
+      const prefill = queryCodePrefill();
+      if (prefill) input.value = prefill;
+      input.focus();
+      if (prefill && input.select) input.select();
+    }
+
     async function loadStats() {
       const summaryEl = document.getElementById('summary');
-      const rowsEl = document.getElementById('statsRows');
       const errorEl = document.getElementById('errorMsg');
       const refreshBtn = document.getElementById('refreshBtn');
 
       refreshBtn.disabled = true;
-      refreshBtn.classList.add('is-loading');
-      errorEl.style.display = 'none';
-      summaryEl.textContent = 'Loading stats...';
-      rowsEl.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
-      allItems = [];
-      currentPage = 1;
-      filteredItems = [];
+      errorEl.classList.add('hidden');
+      errorEl.textContent = '';
+      summaryEl.textContent = hasLoadedSuccessfully ? 'Refreshing stats…' : 'Loading stats…';
+      setRowsMessage(hasLoadedSuccessfully ? 'Refreshing rows…' : 'Loading rows…');
 
       try {
         const res = await fetch(`${API_BASE}/referrals/stats`);
         const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data?.message || 'Failed to load stats.');
 
-        if (!res.ok) {
-          throw new Error(data?.message || 'Failed to load stats.');
-        }
-
+        const rawItems = Array.isArray(data.items) ? data.items : [];
+        allItems = rawItems.map(normalizeItem);
         const active = Number(data.activeCodes || 0);
-        const total = Number(data.totalCodes || 0);
-        const totalClicks = Number(data.totalClicks || 0);
-        const health = active > 0 ? `Pool healthy: ${active} active link${active === 1 ? '' : 's'} available.` : 'Pool needs links: no active referral links right now.';
-        summaryEl.textContent = `${health} Total Codes: ${total} | Active Codes: ${active} | Total Clicks: ${totalClicks}`;
-        const updatedAtEl = document.getElementById('updatedAt');
-        if (updatedAtEl) updatedAtEl.textContent = `Last updated: ${toDateTime(data.generatedAt)}`;
+        const total = Number(data.totalCodes ?? allItems.length ?? 0);
+        const handoffs = Number(data.totalHandoffs ?? data.totalClicks ?? allItems.reduce((sum, item) => sum + item.handoffCount, 0));
+        const activeText = active > 0 ? `${active} pool-active referral link${active === 1 ? '' : 's'} available.` : 'No pool-active referral links are available right now.';
+        hasLoadedSuccessfully = true;
 
-        allItems = Array.isArray(data.items) ? data.items : [];
+        summaryEl.textContent = `${activeText} Pool-active status only describes EasyTorbox rotation availability; Torbox bonus eligibility is separate and not visible here.`;
+        setSummaryCounts(active, total, handoffs);
+        setText('updatedAt', `Last updated: ${toDateTime(data.generatedAt)}`);
         applyFilter();
       } catch (err) {
-        summaryEl.textContent = 'Could not load stats.';
-        rowsEl.innerHTML = '<tr><td colspan="4">Error loading rows.</td></tr>';
+        if (!hasLoadedSuccessfully) {
+          allItems = [];
+          filteredItems = [];
+          setSummaryCounts();
+          setText('updatedAt', 'Last updated: not loaded yet');
+        }
+        summaryEl.textContent = hasLoadedSuccessfully ? 'Refresh failed. Previously loaded rows are still shown below.' : 'Could not load stats.';
         errorEl.textContent = err?.message || 'Unknown error';
-        errorEl.style.display = 'block';
+        errorEl.classList.remove('hidden');
+        if (hasLoadedSuccessfully) renderPage();
+        else setRowsMessage('Error loading referral rows.');
       } finally {
         refreshBtn.disabled = false;
-        refreshBtn.classList.remove('is-loading');
       }
     }
 
     document.getElementById('refreshBtn').addEventListener('click', loadStats);
-    document.getElementById('prevPageBtn').addEventListener('click', () => {
-      currentPage -= 1;
-      renderPage();
-    });
-    document.getElementById('nextPageBtn').addEventListener('click', () => {
-      currentPage += 1;
-      renderPage();
-    });
-
+    document.getElementById('prevPageBtn').addEventListener('click', () => { currentPage -= 1; renderPage(); });
+    document.getElementById('nextPageBtn').addEventListener('click', () => { currentPage += 1; renderPage(); });
     document.getElementById('codeSearchInput').addEventListener('input', applyFilter);
+    document.querySelectorAll('.sort-button[data-sort-key]').forEach((button) => button.addEventListener('click', () => setSort(button.dataset.sortKey)));
 
-    document.querySelectorAll('th.sortable').forEach((th) => {
-      th.addEventListener('click', () => setSort(th.dataset.sortKey));
-    });
-
+    initializeSearchFromQuery();
     updateSortIndicators();
     loadStats();
   </script>
-  </div>
 </body>
 </html>

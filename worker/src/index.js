@@ -112,7 +112,14 @@ async function verifyReferralUpstream(referralUrl) {
   }
 }
 
-async function verifyTurnstile(token, env, ip) {
+function parseAllowedHostnames(env) {
+  return String(env.TURNSTILE_ALLOWED_HOSTNAMES || '')
+    .split(',')
+    .map((hostname) => hostname.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+async function verifyTurnstile(token, env, ip, options = {}) {
   const secret = env.TURNSTILE_SECRET_KEY;
   if (!secret) return { ok: false, message: 'Server misconfiguration: missing Turnstile secret.' };
   if (!token) return { ok: false, message: 'Turnstile token is required.' };
@@ -131,6 +138,18 @@ async function verifyTurnstile(token, env, ip) {
 
   const data = await resp.json();
   if (!data.success) return { ok: false, message: 'Turnstile challenge not valid.' };
+
+  const allowedHostnames = parseAllowedHostnames(env);
+  const responseHostname = String(data.hostname || '').trim().toLowerCase();
+  if (allowedHostnames.length && (!responseHostname || !allowedHostnames.includes(responseHostname))) {
+    return { ok: false, message: 'Turnstile hostname not allowed.' };
+  }
+
+  const expectedAction = String(options.expectedAction || '').trim();
+  if (expectedAction && data.action !== expectedAction) {
+    return { ok: false, message: 'Turnstile action not valid.' };
+  }
+
   return { ok: true };
 }
 
@@ -453,7 +472,7 @@ async function handleRandom(request, env, origin) {
       return json({ message: 'Spam check expired. Please retry challenge.' }, 409, origin);
     }
 
-    const turnstile = await verifyTurnstile(randomTurnstileToken, env, ip);
+    const turnstile = await verifyTurnstile(randomTurnstileToken, env, ip, { expectedAction: 'signup' });
     if (!turnstile.ok) {
       await recordRandomEvent(env, ipHash, now, false, 'turnstile_failed_random');
       return json({ message: 'Complete the spam check before opening a referral link.' }, 403, origin);
@@ -476,6 +495,18 @@ async function handleRandom(request, env, origin) {
     }
 
     return json({ message: 'Please wait a moment before trying again.', retryAfter: randomRateCheck.retryAfter || 1 }, 429, origin);
+  }
+
+  const recentAllowedRow = await env.DB.prepare(
+    'SELECT created_at FROM random_events WHERE ip_hash = ? AND allowed = 1 ORDER BY created_at DESC LIMIT 1'
+  ).bind(ipHash).first();
+  const secondsSinceLastAllowed = recentAllowedRow?.created_at ? now - Number(recentAllowedRow.created_at) : Infinity;
+  if (secondsSinceLastAllowed < limits.randomMinIntervalSeconds) {
+    await recordRandomEvent(env, ipHash, now, false, 'min_interval');
+    return json({
+      message: 'Please wait a moment before trying again.',
+      retryAfter: Math.max(1, limits.randomMinIntervalSeconds - secondsSinceLastAllowed)
+    }, 429, origin);
   }
 
   const preferredCode = String(env.PREFERRED_REFERRAL_CODE || '').trim().toLowerCase();
@@ -520,28 +551,9 @@ async function handleRandom(request, env, origin) {
   ).bind(now, preferredCode, now, randomPoolLimit).first();
 
   if (!row) {
-    const fallbackUrl = String(env.FALLBACK_TORBOX_URL || '').trim();
-    if (fallbackUrl) {
-      await recordRandomEvent(env, ipHash, now, true, 'fallback');
-      return json({
-        url: fallbackUrl,
-        source: 'fallback',
-        reason: 'no_eligible_pool_row',
-        ...(includeDiagnostics ? {
-          diagnostics: {
-            eligibleCount,
-            randomPoolLimit,
-            preferredCode: preferredCode || null,
-            now
-          }
-        } : {}),
-        message: 'No active community referral found. Using fallback.'
-      }, 200, origin);
-    }
-
-    await recordRandomEvent(env, ipHash, now, true, 'empty_pool');
+    await recordRandomEvent(env, ipHash, now, false, 'empty_pool');
     return json({
-      message: 'No active referrals are available right now.',
+      message: 'No active community referral is available right now. Please try again later; we will not send you to Torbox without a referral.',
       ...(includeDiagnostics ? {
         diagnostics: {
           eligibleCount,
@@ -586,10 +598,10 @@ async function handleStats(env, origin) {
        status,
        created_at,
        expires_at,
-       COALESCE(selection_count, 0) AS click_count,
+       COALESCE(selection_count, 0) AS handoff_count,
        COALESCE(last_selected_at, 0) AS last_selected_at
      FROM referrals
-     ORDER BY click_count DESC, created_at DESC`
+     ORDER BY handoff_count DESC, created_at DESC`
   ).all();
 
   const items = (rows?.results || []).map((row) => ({
@@ -597,20 +609,23 @@ async function handleStats(env, origin) {
     referralUrl: row.referral_url,
     status: row.status,
     isActive: row.status === 'active' && Number(row.expires_at) > now,
-    clickCount: Number(row.click_count || 0),
+    handoffCount: Number(row.handoff_count || 0),
+    clickCount: Number(row.handoff_count || 0),
     createdAt: Number(row.created_at || 0),
     expiresAt: Number(row.expires_at || 0),
-    lastClickedAt: Number(row.last_selected_at || 0)
+    lastClickedAt: Number(row.last_selected_at || 0),
+    lastHandedOffAt: Number(row.last_selected_at || 0)
   }));
 
-  const totalClicks = items.reduce((sum, item) => sum + item.clickCount, 0);
+  const totalHandoffs = items.reduce((sum, item) => sum + item.handoffCount, 0);
   const activeCount = items.filter((item) => item.isActive).length;
 
   return json({
     generatedAt: now,
     totalCodes: items.length,
     activeCodes: activeCount,
-    totalClicks,
+    totalHandoffs,
+    totalClicks: totalHandoffs,
     items
   }, 200, origin);
 }
