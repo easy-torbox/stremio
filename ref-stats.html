@@ -34,7 +34,7 @@
         <div class="mt-5 grid gap-3 md:grid-cols-3" id="summaryCards">
           <div class="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200"><p class="text-xs font-bold uppercase tracking-wider text-slate-500">Pool-active links</p><p id="activeCount" class="mt-1 text-3xl font-black text-slate-950">–</p><p class="mt-1 text-xs leading-5 text-slate-500">Active in the EasyTorbox rotation. Torbox bonus eligibility is separate.</p></div>
           <div class="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200"><p class="text-xs font-bold uppercase tracking-wider text-slate-500">Total submitted codes</p><p id="totalCount" class="mt-1 text-3xl font-black text-slate-950">–</p><p class="mt-1 text-xs leading-5 text-slate-500">All records returned by the stats API.</p></div>
-          <div class="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200"><p class="text-xs font-bold uppercase tracking-wider text-slate-500">Torbox referral clicks</p><p id="handoffCount" class="mt-1 text-3xl font-black text-slate-950">–</p><p class="mt-1 text-xs leading-5 text-slate-500">Total referral clicks returned by the stats API.</p></div>
+          <div class="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200"><p class="text-xs font-bold uppercase tracking-wider text-slate-500">Referral clicks</p><p id="handoffCount" class="mt-1 text-3xl font-black text-slate-950">–</p><p class="mt-1 text-xs leading-5 text-slate-500">Total referral clicks returned by the stats API.</p></div>
         </div>
         <p id="summary" class="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-700" role="status" aria-live="polite" aria-atomic="true">Stats have not loaded yet.</p>
       </section>
@@ -61,7 +61,7 @@
             <thead class="bg-slate-50 text-xs uppercase tracking-wider text-slate-600">
               <tr>
                 <th class="p-2 font-black" scope="col"><button type="button" class="sort-button flex w-full items-center gap-2 rounded-xl p-2 text-left font-black hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-sky-100" data-sort-key="code" data-sort-type="string" aria-sort="none">Code <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
-                <th class="p-2 font-black" scope="col"><button type="button" class="sort-button flex w-full items-center gap-2 rounded-xl p-2 text-left font-black hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-sky-100" data-sort-key="handoffCount" data-sort-type="number" aria-sort="none">Torbox referral clicks <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                <th class="p-2 font-black" scope="col"><button type="button" class="sort-button flex w-full items-center gap-2 rounded-xl p-2 text-left font-black hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-sky-100" data-sort-key="handoffCount" data-sort-type="number" aria-sort="none">Referral clicks <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
                 <th class="p-2 font-black" scope="col"><button type="button" class="sort-button flex w-full items-center gap-2 rounded-xl p-2 text-left font-black hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-sky-100" data-sort-key="isActive" data-sort-type="boolean" aria-sort="none">Pool status <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
                 <th class="p-2 font-black" scope="col"><button type="button" class="sort-button flex w-full items-center gap-2 rounded-xl p-2 text-left font-black hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-sky-100" data-sort-key="expiresAt" data-sort-type="number" aria-sort="none">Expiration <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
                 <th class="p-2 font-black" scope="col"><button type="button" class="sort-button flex w-full items-center gap-2 rounded-xl p-2 text-left font-black hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-sky-100" data-sort-key="lastHandedOffAt" data-sort-type="number" aria-sort="descending">Last click <span class="sort-indicator" aria-hidden="true">▼</span></button></th>
@@ -261,7 +261,7 @@
         const grid = document.createElement('div');
         grid.className = 'mt-4 grid grid-cols-2 gap-3 text-sm';
         grid.append(
-          createField('Torbox referral clicks', String(view.handoffCount)),
+          createField('Referral clicks', String(view.handoffCount)),
           createField('Pool status', view.statusLabel, view.statusClass),
           createField('Expiration', view.expirationLabel),
           createField('Last click', view.lastHandedOffLabel)
