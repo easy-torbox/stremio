@@ -19,9 +19,18 @@
         </a>
         <nav aria-label="Primary navigation">
           <div class="flex flex-wrap gap-1.5 text-sm">
-            <a href="index.html" class="rounded-full px-4 py-2 font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-800">Setup</a>
-            <a href="referrals.html" class="rounded-full px-4 py-2 font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-800">Share Link</a>
-            <a href="ref-stats.html" class="rounded-full bg-slate-900 px-4 py-2 font-semibold text-white shadow-sm" aria-current="page">Stats</a>
+            <a href="index.html" class="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-4 py-2 font-semibold text-slate-500 transition hover:border-slate-300 hover:bg-slate-100 hover:text-slate-800">
+              <svg aria-hidden="true" class="h-3.5 w-3.5 flex-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"/></svg>
+              Setup
+            </a>
+            <a href="referrals.html" class="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-4 py-2 font-semibold text-slate-500 transition hover:border-slate-300 hover:bg-slate-100 hover:text-slate-800">
+              <svg aria-hidden="true" class="h-3.5 w-3.5 flex-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"/></svg>
+              Share Link
+            </a>
+            <a href="ref-stats.html" class="inline-flex items-center gap-1.5 rounded-full bg-sky-600 px-4 py-2 font-semibold text-white shadow-sm" aria-current="page">
+              <svg aria-hidden="true" class="h-3.5 w-3.5 flex-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75Zm6.75-9.75A1.125 1.125 0 0 1 10.875 2.25h2.25c.621 0 1.125.504 1.125 1.125v16.5c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0 1 9.75 19.875V3.375Zm6.75 4.5c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v12c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0 1 16.5 19.875v-12Z"/></svg>
+              Stats
+            </a>
           </div>
         </nav>
       </header>
@@ -84,8 +93,11 @@
       </section>
 
       <footer class="mt-6 rounded-3xl bg-white/95 p-6 text-center text-sm text-slate-600 shadow-2xl">
-        <p class="mb-3"><strong>Privacy:</strong> this stats page reads community pool totals only. External registration completion, purchases, and Torbox bonus awards are not visible to this site.</p>
-        <a href="index.html" class="font-bold text-sky-700 hover:underline">Back to beginner setup</a>
+        <div class="mb-3 flex items-start gap-2 rounded-xl border border-slate-100 bg-slate-50 px-3 py-2 text-left text-xs text-slate-500">
+          <svg aria-hidden="true" class="mt-0.5 h-4 w-4 flex-none text-slate-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3 5 6v5c0 4.5 3 8.5 7 10 4-1.5 7-5.5 7-10V6l-7-3Z"/></svg>
+          <p><span class="font-semibold text-slate-600">Your privacy:</span> This page only reads anonymised community pool totals — referral hand-off counts and timing. It cannot see registration completions, purchases, or any Torbox account details.</p>
+        </div>
+        <a href="https://ko-fi.com/easytorbox" target="_blank" rel="noopener noreferrer" class="font-bold text-sky-600 hover:underline">☕ Support us from $1 on Ko-fi</a>
       </footer>
     </main>
   </div>
