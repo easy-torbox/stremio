@@ -41,7 +41,7 @@
         <p class="mt-3 text-base leading-7 text-slate-600">A click means EasyTorbox selected a community referral and started navigation to Torbox. It is not proof of registration, purchase, or bonus award.</p>
         <p class="mt-2 text-sm text-slate-500" id="updatedAt" aria-live="polite">Last updated: not loaded yet</p>
         <div class="mt-5 grid gap-3 md:grid-cols-3" id="summaryCards">
-          <div class="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200"><p class="text-xs font-bold uppercase tracking-wider text-slate-500">Pool-active links</p><p id="activeCount" class="mt-1 text-3xl font-black text-slate-950">–</p><p class="mt-1 text-xs leading-5 text-slate-500">Active in the EasyTorbox rotation. Torbox bonus eligibility is separate.</p></div>
+          <div class="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200"><p class="text-xs font-bold uppercase tracking-wider text-slate-500">Active links</p><p id="activeCount" class="mt-1 text-3xl font-black text-slate-950">–</p><p class="mt-1 text-xs leading-5 text-slate-500">Active in the EasyTorbox rotation. Torbox bonus eligibility is separate.</p></div>
           <div class="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200"><p class="text-xs font-bold uppercase tracking-wider text-slate-500">Total submitted codes</p><p id="totalCount" class="mt-1 text-3xl font-black text-slate-950">–</p><p class="mt-1 text-xs leading-5 text-slate-500">All records returned by the stats API.</p></div>
           <div class="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200"><p class="text-xs font-bold uppercase tracking-wider text-slate-500">Referral clicks</p><p id="handoffCount" class="mt-1 text-3xl font-black text-slate-950">–</p><p class="mt-1 text-xs leading-5 text-slate-500">Total referral clicks returned by the stats API.</p></div>
         </div>
@@ -61,7 +61,7 @@
         </div>
 
         <div class="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-700">
-          <strong>Important:</strong> pool-active means a code can be selected by EasyTorbox today. Bonus eligibility is controlled by Torbox and is not visible here.
+          <strong>Important:</strong> Active means a code can be selected by EasyTorbox today. Bonus eligibility is controlled by Torbox and is not visible here.
         </div>
 
         <div class="mt-6 hidden overflow-x-auto rounded-2xl border border-slate-200 bg-white md:block">
@@ -220,7 +220,7 @@
     }
 
     function itemViewModel(item) {
-      const statusLabel = item.isActive ? 'Pool-active' : 'Not pool-active';
+      const statusLabel = item.isActive ? 'Active' : 'Inactive';
       const statusClass = item.isActive ? 'font-bold text-emerald-700' : 'font-bold text-red-700';
       const expiration = formatExpiration(item.expiresAt);
       return {
@@ -384,10 +384,10 @@
         const active = Number(data.activeCodes || 0);
         const total = Number(data.totalCodes ?? allItems.length ?? 0);
         const handoffs = Number(data.totalHandoffs ?? data.totalClicks ?? allItems.reduce((sum, item) => sum + item.handoffCount, 0));
-        const activeText = active > 0 ? `${active} pool-active referral link${active === 1 ? '' : 's'} available.` : 'No pool-active referral links are available right now.';
+        const activeText = active > 0 ? `${active} active referral link${active === 1 ? '' : 's'} available.` : 'No active referral links are available right now.';
         hasLoadedSuccessfully = true;
 
-        summaryEl.textContent = `${activeText} Pool-active status only describes EasyTorbox rotation availability; Torbox bonus eligibility is separate and not visible here.`;
+        summaryEl.textContent = `${activeText} Active status only describes EasyTorbox rotation availability; Torbox bonus eligibility is separate and not visible here.`;
         setSummaryCounts(active, total, handoffs);
         setText('updatedAt', `Last updated: ${toDateTime(data.generatedAt)}`);
         applyFilter();
